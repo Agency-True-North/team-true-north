@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Ads Setup Guide / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .step, .callout, .code-block, .phase { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover { padding: 24px 0 16px; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover h1 { font-size: 36px; letter-spacing: 0.5px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .version { font-size: 9px; letter-spacing: 2.5px; margin-bottom: 18px; }
+    .cover .byline { font-size: 10px; letter-spacing: 2px; margin-bottom: 16px; }
+    .cover .subtitle { font-size: 17px; margin-bottom: 18px; line-height: 1.45; }
+    .toc { padding: 22px 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    h3 { font-size: 22px; margin: 22px 0 8px; }
+    .step { gap: 12px; margin-bottom: 16px; }
+    .step-num { width: 32px; height: 32px; font-size: 13px; }
+    .callout { padding: 14px 16px; margin: 16px 0; }
+    .code-block { padding: 14px 16px; font-size: 11px; }
+    table { font-size: 14px; }
+    th { padding: 10px 12px; }
+    td { padding: 11px 12px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* DEVICE NOTE */
+  .device-note {
+    background: var(--honey-light);
+    border: 1px solid var(--honey);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 0 0 28px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .device-note-icon {
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .device-note-body strong {
+    display: block;
+    font-family: 'Forum', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+  }
+  .device-note-body p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--cacao-soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    background: var(--pearl-deep);
+    padding: 2px 8px;
+    border-radius: 3px;
+    color: var(--honey-deep);
+    font-weight: 500;
+  }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* STEPS */
+  .steps { margin: 18px 0; }
+  .step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .step-num.sky { background: var(--sky-deep); }
+  .step-num.honey { background: var(--honey); color: var(--cacao); }
+  .step-body { flex: 1; }
+  .step-body h4 { margin-top: 0; margin-bottom: 6px; }
+  .step-body p { margin-bottom: 8px; font-size: 15px; }
+  .step-body .action {
+    background: var(--sky-light);
+    border-left: 2px solid var(--sky-deep);
+    padding: 12px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12.5px;
+    color: var(--cacao-soft);
+    border-radius: 0 4px 4px 0;
+    margin-top: 10px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .step-body .action strong {
+    display: block;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .callout p + p { margin-top: 10px; }
+
+  /* PHASE BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase ul { margin: 0; }
+  .phase li { font-size: 15px; }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--espresso);
+    color: #ECE4D4;
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 11.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .code-block .label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: var(--honey);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .code-block .comment { color: #8B7E70; font-style: italic; }
+  .code-block .highlight { color: var(--sky); }
+  .code-block.compact { font-size: 12px; padding: 14px 20px; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 22px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+  }
+  th {
+    background: var(--cacao);
+    color: var(--pearl);
+    padding: 13px 18px;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.6;
+    background: #FFFFFF;
+  }
+  tr:nth-child(even) td { background: var(--pearl-deep); }
+  td code {
+    font-size: 11.5px;
+    background: var(--espresso);
+    color: var(--sky);
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--pearl);
+  }
+
+  /* DIVIDER */
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 36px 0;
+  }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* NEXT-STEP CARD */
+  .next-step {
+    background: var(--espresso);
+    color: var(--pearl);
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin: 36px 0;
+  }
+  .next-step .label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .next-step h3 {
+    font-family: 'Forum', serif;
+    color: var(--pearl);
+    font-size: 34px;
+    margin: 0 0 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+  }
+  .next-step p {
+    color: #DDD2BF;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 14px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .next-step ul { padding-left: 24px; }
+  .next-step li {
+    color: #DDD2BF;
+    font-size: 15px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .next-step strong { color: var(--pearl); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Meta Ads<br>Setup Guide</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">Step-by-step instructions for opening your Meta Ads account, installing your pixel, and getting your funnel tracking set up correctly from day one.</div>
+  <div class="pills">
+    <span class="pill sky">Meta Ads</span>
+    <span class="pill honey">GHL Funnel</span>
+    <span class="pill">Meta Pixel</span>
+  </div>
+</div>
+
+<!-- DEVICE NOTE -->
+<div class="device-note">
+  <div class="device-note-icon">&#x1F4BB;</div>
+  <div class="device-note-body">
+    <strong>Do this on your computer, not your phone.</strong>
+    <p>Every step in this guide happens inside Meta Business Manager and GoHighLevel. Both require a desktop or laptop. Give yourself 60 to 90 minutes, a good wifi connection, and no interruptions.</p>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Read this first</strong>
+  <p>This guide does one thing: walks you through setting up your Meta advertising infrastructure correctly, including the tracking tool (called a pixel) that tells Facebook exactly who to show your ads to.</p>
+  <p>If you skip steps or rush the setup, your ads will either not work or burn money showing up in front of the wrong people. Do it right once and you never have to touch this again.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>What's Inside</h3>
+  <ol>
+    <li><span class="num">01</span> What you need before you start</li>
+    <li><span class="num">02</span> Create your Meta Business Portfolio</li>
+    <li><span class="num">03</span> Set up your Ad Account</li>
+    <li><span class="num">04</span> Add your payment method</li>
+    <li><span class="num">05</span> Create your Meta Pixel</li>
+    <li><span class="num">06</span> Install the pixel in your GHL funnel</li>
+    <li><span class="num">07</span> Verify it's working</li>
+    <li><span class="num">08</span> Connect pixel to your ad account</li>
+    <li><span class="num">09</span> Quick reference checklist</li>
+    <li><span class="num">10</span> Common mistakes that kill results</li>
+  </ol>
+</div>
+
+
+<!-- 01 -->
+<h2>01 / What You Need Before You Start</h2>
+
+<p class="lead">Before you open a single tab, make sure all of this is ready. Starting without it means stopping halfway through, which is the fastest way to mess something up.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Required</span>
+    <span class="phase-title">Have these ready before you begin</span>
+  </div>
+  <ul>
+    <li><strong>A personal Facebook account.</strong> Meta ties everything to a personal profile. You need this to get in. Your personal profile won't be visible on your ads — it's just identity verification.</li>
+    <li><strong>Your GHL funnel, built and live.</strong> Each page needs a real URL before you can set up tracking. If your funnel isn't built yet, stop here, build it, then come back.</li>
+    <li><strong>A credit or debit card.</strong> You'll add this as your payment method. Meta charges it when your ads run. You control spend through your daily budget settings.</li>
+    <li><strong>A desktop or laptop computer.</strong> Not your phone. This is non-negotiable.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <strong>On funnel URLs</strong>
+  <p>You need the exact URL for each page in your funnel: your opt-in page, your thank you page, your masterclass or video page, and your Discovery Process booking page. Open GHL and have those URLs written down or in a notes doc before you start.</p>
+</div>
+
+
+<!-- 02 -->
+<h2>02 / Create Your Meta Business Portfolio</h2>
+
+<p class="lead">Think of this as setting up the office building where everything lives. Your ads, your pixel, your payment — all of it goes inside this one account. You build the building first.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>Go to business.facebook.com</h4>
+      <p>Open a new browser tab and type <code>business.facebook.com</code> into the address bar. Hit enter.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>Click "Create an account" or "Get Started"</h4>
+      <p>You'll see a blue button at the top of the page. Click it.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>Log in with your personal Facebook account</h4>
+      <p>Meta will ask you to log in. Use your regular personal Facebook login. This is normal. Your personal profile won't be public-facing on your ads — it just verifies who you are.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h4>Fill in your business details</h4>
+      <p>You'll be asked for three things:</p>
+      <ul>
+        <li><strong>Business name.</strong> Use your actual business name, or your full name if you don't have one yet. Keep it professional.</li>
+        <li><strong>Your name.</strong> Exactly as it appears on your ID.</li>
+        <li><strong>Business email address.</strong> Use a professional email you actually check — not a Gmail you forgot the password to.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h4>Click Submit, then verify your email</h4>
+      <p>After you submit, Meta will send a confirmation email. Check your inbox, find the email from Meta, and click the verification link inside it.</p>
+      <div class="action">
+        <strong>Watch for this</strong>
+        Check your spam folder if the email doesn't show up within a few minutes. It comes from a Facebook or Meta domain.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p>Your Meta Business Portfolio is now set up.</p>
+
+
+<!-- 03 -->
+<h2>03 / Set Up Your Ad Account</h2>
+
+<p class="lead">Your Business Portfolio is the building. Your Ad Account is the room where the ads actually live. This is where your budget, campaigns, and payment info will go.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num sky">1</div>
+    <div class="step-body">
+      <h4>Open Business Settings</h4>
+      <p>You should now be inside Meta Business Manager. Look for the left-hand menu and click <strong>Settings</strong> — or look for a gear icon. On some versions of the interface it's labeled <strong>Business Settings</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">2</div>
+    <div class="step-body">
+      <h4>Find "Ad Accounts" in the left menu</h4>
+      <p>Inside Settings, look at the left sidebar and click <strong>Ad Accounts</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">3</div>
+    <div class="step-body">
+      <h4>Click "Add" then "Create a new ad account"</h4>
+      <p>You'll see a blue <strong>Add</strong> button. Click it, then from the dropdown choose <strong>Create a new ad account</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">4</div>
+    <div class="step-body">
+      <h4>Fill in your ad account details</h4>
+      <ul>
+        <li><strong>Ad account name.</strong> Something you'll recognize — your name or business name followed by "Ads" works fine.</li>
+        <li><strong>Time zone.</strong> Set it to your actual time zone. This affects how your ad performance data is reported. Wrong time zone = misleading data.</li>
+        <li><strong>Currency.</strong> USD, or your local currency.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">5</div>
+    <div class="step-body">
+      <h4>Click "Create ad account"</h4>
+      <p>When it asks who this ad account is for, select <strong>My business</strong>.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="callout">
+  <strong>You now have an ad account</strong>
+  <p>Before you can run any ads, you'll need to add a payment method. That's the next step.</p>
+</div>
+
+
+<!-- 04 -->
+<h2>04 / Add Your Payment Method</h2>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num honey">1</div>
+    <div class="step-body">
+      <h4>Go to Payment Methods in Business Settings</h4>
+      <p>Still inside Business Settings. Look in the left menu for <strong>Payment Methods</strong> and click it.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num honey">2</div>
+    <div class="step-body">
+      <h4>Click "Add payment method"</h4>
+      <p>Select credit or debit card and enter your card information.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num honey">3</div>
+    <div class="step-body">
+      <h4>Click Save</h4>
+      <p>That's it. Meta will charge this card when your ads run. You control how much you spend by setting a daily budget inside each campaign — Meta will never charge more than what you set.</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- 05 -->
+<h2>05 / Create Your Meta Pixel</h2>
+
+<p class="lead">A pixel is a tiny invisible piece of code that lives on your funnel pages and reports back to Facebook: who visited, who signed up, who booked a call. It's how Facebook learns who your people are — so it can go find more of them.</p>
+
+<div class="callout honey">
+  <strong>Why this matters</strong>
+  <p>No pixel means Facebook is flying blind. Your ads will cost more, reach the wrong people, and never get smarter over time. The pixel is what makes your ad strategy compound. Do not skip this.</p>
+</div>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>Open Events Manager</h4>
+      <p>From the main menu in Business Manager, look for <strong>Events Manager</strong> and click it. If you can't find it in the left sidebar, click the grid of dots icon at the top left — Events Manager will be in the list of tools that appears.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>Click "Connect Data Sources"</h4>
+      <p>You'll see a green button that says this. Click it.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>Select "Web" then "Meta Pixel"</h4>
+      <p>It will ask what kind of data source. Choose <strong>Web</strong>. On the next screen, choose <strong>Meta Pixel</strong>. Then click <strong>Connect</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h4>Name your pixel</h4>
+      <p>Use something clear — your business name or your name followed by "Pixel" is fine. You only need one pixel, so name it something you'll recognize a year from now.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h4>Enter your website URL and continue</h4>
+      <p>Type in your main funnel URL. This is just for Meta's reference — it doesn't lock you in to any specific pages.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <h4>Choose "Install code manually"</h4>
+      <p>On the next screen it will ask how you want to install the pixel. Select <strong>Install code manually</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">7</div>
+    <div class="step-body">
+      <h4>Copy the pixel code and save your Pixel ID</h4>
+      <p>A block of code will appear. Click <strong>Copy Code</strong> to copy all of it. Before you leave this screen, also find your <strong>Pixel ID</strong> — a long number that looks like <code>123456789012345</code>. Write it down. You'll need it.</p>
+      <div class="action">
+        <strong>Important</strong>
+        Do not close this tab until you have both the code copied and the Pixel ID written down. Open a notes document and paste both there before moving on.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- 06 -->
+<h2>06 / Install the Pixel in Your GHL Funnel</h2>
+
+<p class="lead">There are two types of code you'll be working with. Understanding the difference is the most important thing in this entire guide.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Type 1</span>
+    <span class="phase-title">Base Pixel Code</span>
+  </div>
+  <p>This is the full block of code you just copied from Events Manager. It goes on <strong>every page</strong> of your funnel. You paste it once at the funnel level and it applies everywhere automatically. It tells Facebook "someone visited a page."</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge honey">Type 2</span>
+    <span class="phase-title">Event Codes</span>
+  </div>
+  <p>These are short, one-line snippets that go on <strong>specific pages</strong> only. They tell Facebook exactly what happened on that page: "someone signed up," "someone booked a call." Each event code goes on the single page it belongs on.</p>
+</div>
+
+<hr>
+
+<h3>Step A: Paste the Base Pixel Code at the Funnel Level</h3>
+
+<p>This applies the tracking to every page at once. You only do this once per funnel.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>Open GHL and go to your funnel</h4>
+      <p>Log in to GoHighLevel. In the left sidebar, click <strong>Sites</strong>, then click <strong>Funnels</strong>. Find your funnel and click on it.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>Open the funnel Settings</h4>
+      <p>Look at the top of the screen for a <strong>gear icon</strong> or a tab labeled <strong>Settings</strong>. Click it. This opens the settings for the entire funnel — not a single page.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>Find the "Header Tracking Code" field</h4>
+      <p>Scroll through the Settings panel until you see a section called <strong>Tracking Code</strong> or a text field labeled <strong>Header Tracking Code</strong>. Click into that box.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h4>Paste your base pixel code</h4>
+      <p>Paste the full code you copied from Meta. It will look like this (your Pixel ID number will already be filled in if you copied it directly from Meta):</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="code-block"><span class="label">Base Pixel Code — Paste this into funnel-level Header Tracking Code</span><span class="comment">&lt;!-- Meta Pixel Code --&gt;</span>
+&lt;script&gt;
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '<span class="highlight">YOUR_PIXEL_ID_HERE</span>');
+fbq('track', 'PageView');
+&lt;/script&gt;
+&lt;noscript&gt;&lt;img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=<span class="highlight">YOUR_PIXEL_ID_HERE</span>&ev=PageView&noscript=1"
+/&gt;&lt;/noscript&gt;
+<span class="comment">&lt;!-- End Meta Pixel Code --&gt;</span></div>
+
+<div class="callout">
+  <strong>Check your Pixel ID</strong>
+  <p>If you copied the code directly from Meta's Events Manager, your actual Pixel ID number is already in the code — you won't see "YOUR_PIXEL_ID_HERE." If you're pasting from notes, replace that placeholder with your real Pixel ID number before saving.</p>
+</div>
+
+<div class="steps" style="margin-top: 16px;">
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h4>Click Save</h4>
+      <p>The base code is now on every page of your funnel. Every visitor will be tracked.</p>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<h3>Step B: Add Event Codes to Specific Pages</h3>
+
+<p>Now you'll add individual event codes to specific pages. These go in the <strong>page-level</strong> code settings, not the funnel-level settings you just used.</p>
+
+<p>To get to a page's individual code settings in GHL:</p>
+
+<ol>
+  <li>Inside your funnel, click <strong>Edit</strong> on the specific step or page you want to update. This opens the page builder.</li>
+  <li>Look at the <strong>top left</strong> of the page builder. You'll see a small icon that looks like this: <code>&lt;/&gt;</code>. It's labeled <strong>Tracking Code</strong>. Click it.</li>
+  <li>A panel will open where you can paste your event code.</li>
+  <li>Paste the event code for that page (from the table below).</li>
+  <li>Click Save. Then go back to your funnel, click Edit on the next page, and repeat.</li>
+</ol>
+
+<h4>Which Code Goes on Which Page</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Funnel Page</th>
+      <th>What It Is</th>
+      <th>Event Code to Paste</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Thank You Page</strong><br><em style="font-size:13px; color: var(--cacao-muted);">After opt-in</em></td>
+      <td>The page they land on right after submitting their email address</td>
+      <td><code>&lt;script&gt;fbq('track', 'CompleteRegistration');&lt;/script&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Masterclass / Video Page</strong></td>
+      <td>Where they watch your content</td>
+      <td><code>&lt;script&gt;fbq('track', 'ViewContent');&lt;/script&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Discovery Process Booking Page</strong></td>
+      <td>Where they schedule their call with you</td>
+      <td><code>&lt;script&gt;fbq('track', 'InitiateCheckout');&lt;/script&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Booking Confirmation Page</strong></td>
+      <td>The confirmation page after they successfully book</td>
+      <td><code>&lt;script&gt;fbq('track', 'Lead');&lt;/script&gt;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout honey">
+  <strong>Why Lead fires on the confirmation page, not the opt-in page</strong>
+  <p>The Lead event is most valuable when it fires <em>after</em> someone actually completes the action — not when they just land on a page. Putting Lead on the opt-in page would fire it every time someone visits, even if they immediately leave without doing anything. On the confirmation page, it fires only when a real action happened. Facebook uses this signal to find people like your actual leads, not just your traffic.</p>
+</div>
+
+<p>If you have a purchase confirmation page, use this code:</p>
+
+<div class="code-block compact"><span class="label">Purchase Event — Only on purchase confirmation pages</span>&lt;script&gt;
+fbq('track', 'Purchase', {value: <span class="highlight">0.00</span>, currency: 'USD'});
+&lt;/script&gt;</div>
+
+<p>Replace <code>0.00</code> with the actual dollar amount of the purchase.</p>
+
+
+<!-- 07 -->
+<h2>07 / Verify It's Working</h2>
+
+<p class="lead">Before you spend a single dollar on ads, confirm the pixel is actually firing. Five minutes of verification here saves hundreds of dollars later.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>Open Chrome on your computer</h4>
+      <p>This verification tool only works in the Chrome browser. If you don't have Chrome, download it first (it's free at google.com/chrome).</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>Install the Meta Pixel Helper extension</h4>
+      <p>In Chrome, go to the Chrome Web Store and search for <strong>Meta Pixel Helper</strong>. It's a free browser extension made by Meta. Click <strong>Add to Chrome</strong> to install it. You'll see a small blue Facebook icon appear in your browser toolbar after installation.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>Open your funnel's landing page</h4>
+      <p>In the same Chrome window, open the first page of your funnel. Look at the Meta Pixel Helper icon in your toolbar.</p>
+      <div class="action">
+        <strong>What you want to see</strong>
+        The icon should turn green and show a number (like "1" or "2"). If it's green, your pixel is firing. Click the icon to see exactly which events are detected on that page.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h4>Click through every page in your funnel</h4>
+      <p>Visit each page one by one. On each page, click the Pixel Helper icon and confirm the correct event is firing. Cross-reference with the table in Section 06.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="callout cacao">
+  <strong>If the icon stays gray or shows an error</strong>
+  <p>The pixel code wasn't saved correctly. Go back into GHL, find the Header Tracking Code field in your funnel settings, confirm the code is there and complete, and click Save again. Then reload the page and check again.</p>
+</div>
+
+
+<!-- 08 -->
+<h2>08 / Connect Your Pixel to Your Ad Account</h2>
+
+<p>One last step. Your pixel needs to be officially connected to your ad account before you can use it when building campaigns.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num sky">1</div>
+    <div class="step-body">
+      <h4>Go to Business Settings &gt; Data Sources &gt; Pixels</h4>
+      <p>In Meta Business Manager, open <strong>Business Settings</strong>. In the left menu, look for <strong>Data Sources</strong>, then click <strong>Pixels</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">2</div>
+    <div class="step-body">
+      <h4>Click on your pixel</h4>
+      <p>You'll see the pixel you created. Click on its name.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">3</div>
+    <div class="step-body">
+      <h4>Click "Add Assets" and select your Ad Account</h4>
+      <p>Click the <strong>Add Assets</strong> button. From the list that appears, select your Ad Account.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">4</div>
+    <div class="step-body">
+      <h4>Click Save Changes</h4>
+      <p>Your pixel is now connected to your ad account. When you build your first campaign, you'll select this pixel as your tracking source.</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- 09 -->
+<h2>09 / Quick Reference Checklist</h2>
+
+<p>Go through this before you launch any ads. Every box needs to be checked.</p>
+
+<ul class="checklist">
+  <li><span class="box"></span> Meta Business Portfolio created and email confirmed</li>
+  <li><span class="box"></span> Ad Account created inside Business Manager</li>
+  <li><span class="box"></span> Time zone and currency set correctly on Ad Account</li>
+  <li><span class="box"></span> Payment method added to Ad Account</li>
+  <li><span class="box"></span> Meta Pixel created in Events Manager</li>
+  <li><span class="box"></span> Pixel ID written down and saved somewhere safe</li>
+  <li><span class="box"></span> Base pixel code pasted into GHL funnel Header Tracking Code (all pages)</li>
+  <li><span class="box"></span> CompleteRegistration event code on Thank You page (after opt-in)</li>
+  <li><span class="box"></span> ViewContent event code on Masterclass / Video page</li>
+  <li><span class="box"></span> InitiateCheckout event code on Discovery Process booking page</li>
+  <li><span class="box"></span> Lead event code on booking Confirmation page</li>
+  <li><span class="box"></span> Pixel verified using Meta Pixel Helper Chrome extension on every page</li>
+  <li><span class="box"></span> Pixel connected to Ad Account in Business Settings &gt; Data Sources</li>
+</ul>
+
+
+<!-- 10 -->
+<h2>10 / Common Mistakes That Kill Results</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge cacao">Mistake 1</span>
+    <span class="phase-title">Skipping the pixel</span>
+  </div>
+  <p>Running ads without a pixel is advertising blindfolded. Facebook can't learn who to target. Your cost per lead will be high and your quality will be low. The pixel is what makes your ad spend compound over time — every conversion teaches Facebook who your buyers are. Do not run a single dollar without confirming the pixel fires correctly.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge cacao">Mistake 2</span>
+    <span class="phase-title">Running ads from your personal Facebook profile</span>
+  </div>
+  <p>Always run ads through a Business Manager account, never through your personal profile. Personal profiles can be restricted without warning, can't be scaled, and don't have the full ad toolset available. If you set up Business Manager in Section 02, you're already doing this right.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge cacao">Mistake 3</span>
+    <span class="phase-title">Wrong time zone on the ad account</span>
+  </div>
+  <p>If your time zone is set incorrectly, your performance data won't match your real business hours. You'll see your best-converting times as off-peak and your off-peak as peak. Make decisions based on bad data, get bad results. Double-check your time zone in Ad Account settings before you launch.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge cacao">Mistake 4</span>
+    <span class="phase-title">Pasting the event code in the wrong place</span>
+  </div>
+  <p>The base pixel code goes at the funnel level — in funnel Settings, Header Tracking Code. Event codes go at the individual page level — in the page's own settings. Mixing these up either fires every event on every page (which corrupts your data) or fires nothing at all.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge cacao">Mistake 5</span>
+    <span class="phase-title">Not verifying before launching</span>
+  </div>
+  <p>The Meta Pixel Helper takes five minutes. Not checking it before you turn on ads means you might run a full campaign with broken tracking and never know it. By the time you catch it, your ad data is worthless. Verify every time, before every launch.</p>
+</div>
+
+<div class="callout honey">
+  <strong>If something looks different on your screen</strong>
+  <p>Meta updates its interface regularly. If a button is in a slightly different spot than described here, don't panic. The names of things stay mostly consistent — look for the same words even if the layout has shifted. If you're stuck, reach out to your upline before clicking around and accidentally breaking something.</p>
+</div>
+
+<div class="ornament">· · ·</div>
+
+<div class="next-step">
+  <div class="label">You're set up. Here's what's next.</div>
+  <h3>Now You Build the Campaign</h3>
+  <p>Your infrastructure is live. The pixel is firing. Your ad account is connected to your funnel. That means when you're ready to launch, Facebook can immediately start learning who your people are.</p>
+  <p>The next step is building your first campaign inside Ads Manager — choosing your objective, defining your audience, uploading your creative, setting your budget, and going live. That's a separate guide.</p>
+  <p>What to have ready for that step:</p>
+  <ul>
+    <li>Your ad creative (video or image, already filmed or designed)</li>
+    <li>Your ad copy (primary text, headline, and description)</li>
+    <li>Your daily budget (start with $15–$30/day while you're learning)</li>
+    <li>Your target audience details (location, age, interests)</li>
+  </ul>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Meta Ads Setup Guide</strong> &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; May 2026</div>
+</div>
+
+</body>
+</html>
