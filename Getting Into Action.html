@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Into Action / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .step, .callout, .phase { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover { padding: 24px 0 16px; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover h1 { font-size: 36px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .subtitle { font-size: 17px; margin-bottom: 18px; line-height: 1.45; }
+    .toc { padding: 22px 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    h3 { font-size: 22px; margin: 22px 0 8px; }
+    .step { gap: 12px; margin-bottom: 16px; }
+    .step-num { width: 32px; height: 32px; font-size: 13px; }
+    .callout { padding: 14px 16px; margin: 16px 0; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+  a { color: var(--sky-deep); text-decoration: underline; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* STEPS */
+  .steps { margin: 18px 0; }
+  .step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .step-num.sky { background: var(--sky-deep); }
+  .step-num.honey { background: var(--honey); color: var(--cacao); }
+  .step-body { flex: 1; }
+  .step-body h4 { margin-top: 0; margin-bottom: 6px; }
+  .step-body p { margin-bottom: 8px; font-size: 15px; }
+  .step-body .note {
+    background: var(--honey-light);
+    border-left: 2px solid var(--honey-deep);
+    padding: 12px 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: var(--cacao-soft);
+    border-radius: 0 4px 4px 0;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  .step-body .note strong {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .callout p + p { margin-top: 10px; }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: var(--pearl);
+  }
+  .checklist li .item-body { flex: 1; }
+  .checklist li .item-body em {
+    display: block;
+    font-size: 13px;
+    margin-top: 4px;
+    color: var(--cacao-muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* CHECKLIST LABEL */
+  .checklist-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 28px 0 8px;
+  }
+
+  /* OPTIONAL TAG */
+  .optional {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    border: 1px solid var(--rule);
+    padding: 2px 9px;
+    border-radius: 100px;
+    font-weight: 500;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* DIVIDER */
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 36px 0;
+  }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* CLOSING CARD */
+  .closing-card {
+    background: var(--espresso);
+    color: var(--pearl);
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin: 36px 0;
+  }
+  .closing-card .label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .closing-card h3 {
+    font-family: 'Forum', serif;
+    color: var(--pearl);
+    font-size: 34px;
+    margin: 0 0 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+  }
+  .closing-card p {
+    color: #DDD2BF;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Getting Into<br>Action</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">Your guide to the days before mentorship begins — so that when day one arrives, you're already in motion.</div>
+  <div class="pills">
+    <span class="pill sky">New Members</span>
+    <span class="pill honey">Pre-Mentorship</span>
+    <span class="pill">Getting Started</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Read this first</strong>
+  <p>Mentorship starts on the 1st of each month. Use this guide to make the most of the time between now and then. You don't have to wait to get moving — the people who hit the ground running on day one started before day one.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>The Three Phases</h3>
+  <ol>
+    <li><span class="num">01</span> Day 1 — Get set up</li>
+    <li><span class="num">02</span> First week — You</li>
+    <li><span class="num">03</span> When your machine arrives</li>
+  </ol>
+</div>
+
+
+<!-- PHASE 1 -->
+<h2>Phase 01 / Day 1 &mdash; Get Set Up</h2>
+
+<p class="lead">Do these today. They take less than 30 minutes and you'll thank yourself later.</p>
+
+<div class="checklist-label">Admin Essentials</div>
+<ul class="checklist">
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      Log in to your <strong>DSP (Distributor Support Portal)</strong> and confirm you can access your account.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      Save your <strong>local Enagic Office</strong> as a contact in your phone. Go to <a href="http://enagic.com/en/contact" target="_blank">enagic.com/en/contact</a>, enter your location, and save the number.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      Create a contact in your phone named <strong>ENAGIC</strong>. In the notes field, save all of your distributor IDs so they're always one tap away.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Block every mentorship call in your calendar right now.</strong> Treat them like non-negotiable appointments — because they are. Mentorship starts the 1st of next month. Don't let anything get scheduled over these.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Introduce yourself in the community group</strong> — your name, where you're from, and one word for how you're feeling right now.
+    </div>
+  </li>
+
+</ul>
+
+
+<!-- PHASE 2 -->
+<h2>Phase 02 / First Week &mdash; You</h2>
+
+<p class="lead">Before you learn how to talk to others, get clear on who you are, what you want, and why this matters to you. This is the work the masterclass can't do for you.</p>
+
+<div class="checklist-label">Your Why &amp; Your Goal</div>
+<ul class="checklist">
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Write your WHY.</strong> Not what you want to earn — what you're ultimately building toward, and for whom. Be honest. Be specific. This is for you, not for social media.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Set a written 90-day goal</strong> — a specific, honest number or outcome. Not a vague intention. Put it somewhere you will see it every single day.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Find your accountability buddy.</strong> Someone who will hold you to your word, inside or outside the community. <span class="optional">Optional</span>
+      <em>Highly recommended if this is your first time working for yourself.</em>
+    </div>
+  </li>
+
+</ul>
+
+<div class="checklist-label">Your Origin Story</div>
+
+<div class="callout honey">
+  <strong>Don't post these yet</strong>
+  <p>These videos don't go live until mentorship starts. Save them. They become your most powerful launch content — and they're impossible to recreate once the moment has passed.</p>
+</div>
+
+<ul class="checklist">
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Record a raw, honest, to-camera video about why you decided to join.</strong> Don't script it. Don't perform it. Just speak the truth — what made you say yes, what you were feeling, what you're stepping away from or stepping toward.
+      <em>This is the most powerful piece of content you will ever create. It doesn't need to be perfect — it needs to be real.</em>
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Cast your vision on camera</strong> — where are you going? What does your life look like in 12 months if this works? Be bold. Be specific. Let people see the person you're becoming.
+      <em>This can be a second take of the same video, or a separate recording. Save it — don't post it yet.</em>
+    </div>
+  </li>
+
+</ul>
+
+<div class="checklist-label">Social Media Teasing</div>
+
+<div class="callout">
+  <strong>The goal of these posts</strong>
+  <p>Your audience doesn't know anything is coming yet. These aren't about the product — they're about building curiosity before your official launch post drops when mentorship starts. No product name. No details. Just enough to make people curious.</p>
+</div>
+
+<ul class="checklist">
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Post your first tease.</strong> Something like: <em>"I did a thing and I can't stop thinking about it. More soon."</em> No product name, no details. Just enough to make people curious.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Respond to every comment and DM</strong> that comes from your tease. Nurture the curiosity — don't reveal too much, just keep the conversation warm.
+    </div>
+  </li>
+
+</ul>
+
+
+<!-- PHASE 3 -->
+<h2>Phase 03 / When Your Machine Arrives</h2>
+
+<p class="lead">Your machine typically arrives within the first one to two weeks. When it does, this is your moment — document everything.</p>
+
+<div class="checklist-label">Unboxing &amp; Set-Up</div>
+<ul class="checklist">
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Film or photograph the unboxing</strong> — the moment the box arrives, the packaging, the machine coming out. Your audience will feel the excitement with you.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Set up your machine</strong> following the setup guide. Take photos or short clips as you go — this becomes future content and helps you explain the process to customers later.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Use the machine for the very first time and capture your genuine reaction</strong> — a video, a voice note, a photo. Raw and real is the goal. This is content gold.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Go through the 68 uses doc</strong> and get familiar with everything your machine can do.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Start your daily hydrogen water selfie series.</strong> <span class="optional">Content Idea</span>
+      <em>Every morning when you drink your hydrogen water, grab a quick selfie video. Say "Day 1, Day 2," etc. By the end of the first month, you have a reel.</em>
+    </div>
+  </li>
+
+</ul>
+
+<div class="checklist-label">Keep the Tease Going</div>
+<ul class="checklist">
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Post a tease using your unboxing or set-up content</strong> — a close-up, an "it's here!" story, or a behind-the-scenes moment. Still no full reveal yet.
+    </div>
+  </li>
+
+  <li>
+    <span class="box"></span>
+    <div class="item-body">
+      <strong>Write your business launch post this week</strong> — your story, what you've joined, why you chose it, and a clear invite for people to reach out. Write it from the heart, not from a template.
+      <em>Don't post it yet. Share it with your mentor or accountability buddy for feedback first.</em>
+    </div>
+  </li>
+
+</ul>
+
+
+<!-- CLOSING -->
+<div class="ornament">&#9671; &nbsp; &#9671; &nbsp; &#9671;</div>
+
+<div class="closing-card">
+  <div class="label">Remember This</div>
+  <h3>Motion before<br>mentorship starts.</h3>
+  <p>The people who get the most out of this program are the ones who show up to day one already in motion. You don't need permission to begin. You just began.</p>
+  <p>See you on the 1st.</p>
+</div>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;&bull;&nbsp; <strong>Getting Into Action</strong> &nbsp;&bull;&nbsp; Version 1.0 &nbsp;&bull;&nbsp; June 2026</div>
+</div>
+
+</body>
+</html>
