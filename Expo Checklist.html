@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expo Checklist / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .step, .callout, .phase { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover { padding: 24px 0 16px; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover h1 { font-size: 36px; letter-spacing: 0.5px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .version { font-size: 9px; letter-spacing: 2.5px; margin-bottom: 18px; }
+    .cover .byline { font-size: 10px; letter-spacing: 2px; margin-bottom: 16px; }
+    .cover .subtitle { font-size: 17px; margin-bottom: 18px; line-height: 1.45; }
+    .toc { padding: 22px 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    h3 { font-size: 22px; margin: 22px 0 8px; }
+    .step { gap: 12px; margin-bottom: 16px; }
+    .step-num { width: 32px; height: 32px; font-size: 13px; }
+    .callout { padding: 14px 16px; margin: 16px 0; }
+    table { font-size: 14px; }
+    th { padding: 10px 12px; }
+    td { padding: 11px 12px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* STEPS */
+  .steps { margin: 18px 0; }
+  .step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .step-num.sky { background: var(--sky-deep); }
+  .step-num.honey { background: var(--honey); color: var(--cacao); }
+  .step-body { flex: 1; }
+  .step-body h4 { margin-top: 0; margin-bottom: 6px; }
+  .step-body p { margin-bottom: 8px; font-size: 15px; }
+  .step-body .action {
+    background: var(--sky-light);
+    border-left: 2px solid var(--sky-deep);
+    padding: 12px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12.5px;
+    color: var(--cacao-soft);
+    border-radius: 0 4px 4px 0;
+    margin-top: 10px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .step-body .action strong {
+    display: block;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .callout p + p { margin-top: 10px; }
+
+  /* PHASE BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase ul { margin: 0; }
+  .phase li { font-size: 15px; }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--pearl);
+  }
+
+  /* CHECKLIST SECTION LABEL */
+  .checklist-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 28px 0 8px;
+  }
+
+  /* DIVIDER */
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 36px 0;
+  }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* CLOSING CARD */
+  .closing-card {
+    background: var(--espresso);
+    color: var(--pearl);
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin: 36px 0;
+  }
+  .closing-card .label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .closing-card h3 {
+    font-family: 'Forum', serif;
+    color: var(--pearl);
+    font-size: 34px;
+    margin: 0 0 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+  }
+  .closing-card p {
+    color: #DDD2BF;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 14px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* MISTAKES */
+  .mistake {
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 0;
+  }
+  .mistake:first-of-type { padding-top: 0; }
+  .mistake:last-of-type { border-bottom: none; }
+  .mistake h4 { margin: 0 0 6px; color: var(--cacao); }
+  .mistake p { margin: 0; font-size: 15px; color: var(--cacao-soft); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Expo<br>Checklist</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">How to show up, stand out, and make the most of every health and wellness expo — from registration through follow up.</div>
+  <div class="pills">
+    <span class="pill sky">Health &amp; Wellness</span>
+    <span class="pill honey">Offline Marketing</span>
+    <span class="pill">Lead Generation</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Read this first</strong>
+  <p>We're not talking comic-con or bridal fairs. Health and wellness expos are your people. They're already curious. They're already invested in their health. You're not convincing anyone of anything — you're starting a conversation with someone who is already looking for what you have.</p>
+  <p>There are five stages to a successful expo. Learn these and every event gets easier — and more profitable.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>The Five Stages</h3>
+  <ol>
+    <li><span class="num">01</span> Registration</li>
+    <li><span class="num">02</span> Preparation</li>
+    <li><span class="num">03</span> Set Up</li>
+    <li><span class="num">04</span> Execution</li>
+    <li><span class="num">05</span> Follow Up</li>
+    <li><span class="num">06</span> Quick Reference Checklist</li>
+    <li><span class="num">07</span> Common Mistakes</li>
+  </ol>
+</div>
+
+
+<!-- 01 REGISTRATION -->
+<h2>Stage 01 / Registration</h2>
+
+<p class="lead">Your first step is simple: commit. Everything else flows from here.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>Find your expo</h4>
+      <p>Search local health and wellness expos in your area. Google "[your city] health and wellness expo 2026" or check local event boards and Facebook events.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>Lock in your spot early</h4>
+      <p>Popular events fill up fast and late registrations often come with fewer perks. Don't wait until you feel ready. Register first, prepare second.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>Ask what's included</h4>
+      <p>Before you confirm, ask the organizer:</p>
+      <ul>
+        <li>Table and chairs — included, or bring your own?</li>
+        <li>Power outlet access (you'll want this for a TV or laptop)</li>
+        <li>Wi-Fi availability</li>
+      </ul>
+      <p>Know what you're working with before you show up.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h4>Put it in your calendar</h4>
+      <p>Date, location, setup time, and event hours. Treat it like a non-negotiable. You're doing this.</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- 02 PREPARATION -->
+<h2>Stage 02 / Preparation</h2>
+
+<p class="lead">This is where most people either shine or spiral. The difference is just being prepared. Cover these four areas before the day of the event.</p>
+
+<h3>Part A: Business Supplies</h3>
+<p>Think of your table as a storefront. It should look intentional before anyone walks in the door. Make it inviting. Make it pop.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Pack List</span>
+    <span class="phase-title">Your table setup</span>
+  </div>
+  <ul>
+    <li><strong>Banner or poster</strong> with your logo</li>
+    <li><strong>Business cards</strong></li>
+    <li><strong>Flyers</strong></li>
+    <li><strong>QR codes</strong> linking to your demo booking, class, or landing page</li>
+    <li><strong>Sample bags of water</strong> at 8.5 pH</li>
+    <li><strong>Glass containers</strong> for water samples</li>
+    <li><strong>Gallon bags</strong></li>
+    <li><strong>Clean tablecloth</strong></li>
+    <li><strong>Chairs</strong> (if not provided by the venue)</li>
+  </ul>
+</div>
+
+<h3>Part B: Water Demo Supplies</h3>
+<p>This is the live science show. This is what hooks people and starts conversations. Let them see the difference with their own eyes. Do not skip this.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge honey">Demo Kit</span>
+    <span class="phase-title">Your science show setup</span>
+  </div>
+  <ul>
+    <li><strong>Ionfaucet pH stand</strong></li>
+    <li><strong>pH drops</strong></li>
+    <li><strong>Comparison drinks:</strong> Sprite, Gatorade, carbonated water, tap water</li>
+    <li><strong>Tomatoes</strong></li>
+    <li><strong>Green tea bags</strong></li>
+    <li><strong>Sesame oil</strong></li>
+    <li><strong>Betadine</strong></li>
+    <li><strong>Vitamin C</strong></li>
+    <li><strong>Kangen 9.5 water</strong></li>
+    <li><strong>Kangen 11.5 water</strong></li>
+  </ul>
+</div>
+
+<h3>Part C: Printed Materials</h3>
+<p>Don't rely on memory. Have the answers ready before someone asks.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge cacao">Printed</span>
+    <span class="phase-title">Reference materials</span>
+  </div>
+  <ul>
+    <li><strong>Medical studies</strong></li>
+    <li><strong>Water usage guides</strong></li>
+    <li><strong>Machine comparison sheets</strong></li>
+    <li><strong>Compensation plans</strong></li>
+    <li><strong>Info binders</strong></li>
+  </ul>
+</div>
+
+<div class="callout">
+  <strong>If someone asks something you don't know</strong>
+  <p>That is completely fine. Get their number, find the answer, and call them back. That follow-up builds more trust than any scripted answer ever could.</p>
+</div>
+
+<h3>Part D: Giveaways</h3>
+<p>People love free stuff. This is how you collect leads without feeling salesy. Set up a fishbowl with entry slips. You're not selling — you're inviting.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge honey">Giveaways</span>
+    <span class="phase-title">Prize options</span>
+  </div>
+  <ul>
+    <li>Free month of water</li>
+    <li>Ukon soap or tea</li>
+    <li>Beauty toner</li>
+    <li>Four weeks of free water demos</li>
+  </ul>
+</div>
+
+
+<!-- 03 SET UP -->
+<h2>Stage 03 / Set Up</h2>
+
+<p class="lead">Get there early. Give yourself time to set the vibe before anyone walks in. The more interactive and visual your setup, the more people stop — and stopping is the whole game.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num sky">1</div>
+    <div class="step-body">
+      <h4>Arrive at setup time</h4>
+      <p>Not five minutes before the doors open. Early is on time. On time is late. Give yourself enough room to set up without rushing.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">2</div>
+    <div class="step-body">
+      <h4>Start your veggie soak</h4>
+      <p>Use your 11.5 water. Set it up where people can see it working in real time. Real results, happening right in front of them.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">3</div>
+    <div class="step-body">
+      <h4>Pre-set your water samples</h4>
+      <p>Add pH drops before anyone arrives. People should be able to walk up and see something immediately — not wait while you scramble to set up.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">4</div>
+    <div class="step-body">
+      <h4>Loop a video on a TV or laptop</h4>
+      <p>This runs in the background and draws people in while you're already talking to someone else. Two conversations happening at once.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num sky">5</div>
+    <div class="step-body">
+      <h4>Lay your table out deliberately</h4>
+      <p>Make it interactive. Make it visual. You own this space — set it up like you do.</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- 04 EXECUTION -->
+<h2>Stage 04 / Execution</h2>
+
+<p class="lead">You showed up. That alone puts you ahead of most people. Now your job is to connect — not pitch.</p>
+
+<div class="callout honey">
+  <strong>The mindset</strong>
+  <p>You are not selling a product. You are offering a solution to something they already care about. Lead with that.</p>
+</div>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num honey">1</div>
+    <div class="step-body">
+      <h4>Smile and make eye contact</h4>
+      <p>Be the most approachable person in the room. Energy is contagious. If you look bored, people will walk past. If you look like you love what you do, they'll slow down.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num honey">2</div>
+    <div class="step-body">
+      <h4>Ask questions, listen first</h4>
+      <p>Be genuinely curious about the people walking past your table. What brings them here? What are they dealing with? The conversation starts before the pitch ever does.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num honey">3</div>
+    <div class="step-body">
+      <h4>Practice your elevator pitch</h4>
+      <p>Know it well enough that it feels natural, not memorized. If it sounds scripted, start over.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num honey">4</div>
+    <div class="step-body">
+      <h4>Offer a demo to anyone who slows down</h4>
+      <p>The demo is the conversation. Let the water do the talking. You just need to invite them in.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num honey">5</div>
+    <div class="step-body">
+      <h4>Invite people to your next step</h4>
+      <p>A water share, a class, a demo at home. Plant the next touchpoint before they walk away.</p>
+      <div class="action">
+        <strong>Collect their info</strong>
+        Get a name and number or have them fill out an entry slip. No contact info means no follow up. No follow up means no sale.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="callout cacao">
+  <strong>What to avoid</strong>
+  <p>Don't pitch everyone who walks past — connect first. Don't let a slow moment feel like failure. Don't leave your table unattended for long stretches. And don't adjust your integrity because the energy in the room is low — adjust your energy instead.</p>
+</div>
+
+
+<!-- 05 FOLLOW UP -->
+<h2>Stage 05 / Follow Up</h2>
+
+<p class="lead">Do not skip this step. This is where the sale actually happens.</p>
+
+<p>Most people collect leads at an expo and then do nothing with them. The stack sits on their counter. The contacts go cold. The effort of the day goes to waste. You're not most people.</p>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body">
+      <h4>Organize your contacts within 48 hours</h4>
+      <p>Go through every card, entry slip, and contact you collected. Don't let the stack sit. After 48 hours the conversation is already going cold.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body">
+      <h4>Send a personal thank-you</h4>
+      <p>Reach out to everyone you had a real conversation with. Thank them for stopping by. Reference something specific from your conversation if you can — it shows you were actually listening.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body">
+      <h4>Deliver your freebie wins</h4>
+      <p>If someone entered the drawing, let them know. Fulfill the prize. A giveaway that never gets delivered is worse than no giveaway at all.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body">
+      <h4>Invite them to their next step</h4>
+      <p>A demo, a class, a water share. Keep the conversation going. The expo is the introduction — not the close.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <h4>Keep following up</h4>
+      <p>One message is not follow up. Check in again. Stay in the relationship. Trust builds over time, not in a single conversation at a table.</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- 06 QUICK REFERENCE CHECKLIST -->
+<h2>Stage 06 / Quick Reference Checklist</h2>
+
+<p>Use this before every event to confirm you haven't missed anything.</p>
+
+<div class="checklist-label">Registration</div>
+<ul class="checklist">
+  <li><span class="box"></span> Expo booked and confirmed</li>
+  <li><span class="box"></span> Date, time, and location in your calendar</li>
+  <li><span class="box"></span> Setup time confirmed with organizer</li>
+  <li><span class="box"></span> Table, power outlet, and Wi-Fi situation clarified</li>
+</ul>
+
+<div class="checklist-label">Business Supplies</div>
+<ul class="checklist">
+  <li><span class="box"></span> Banner or poster with logo</li>
+  <li><span class="box"></span> Business cards</li>
+  <li><span class="box"></span> Flyers</li>
+  <li><span class="box"></span> QR codes (demo booking, class, or landing page)</li>
+  <li><span class="box"></span> Sample bags of water at 8.5 pH</li>
+  <li><span class="box"></span> Glass containers and gallon bags</li>
+  <li><span class="box"></span> Clean tablecloth</li>
+  <li><span class="box"></span> Chairs (if not provided)</li>
+</ul>
+
+<div class="checklist-label">Demo Supplies</div>
+<ul class="checklist">
+  <li><span class="box"></span> Ionfaucet pH stand</li>
+  <li><span class="box"></span> pH drops</li>
+  <li><span class="box"></span> Sprite, Gatorade, carbonated water, tap water</li>
+  <li><span class="box"></span> Tomatoes</li>
+  <li><span class="box"></span> Green tea bags</li>
+  <li><span class="box"></span> Sesame oil</li>
+  <li><span class="box"></span> Betadine</li>
+  <li><span class="box"></span> Vitamin C</li>
+  <li><span class="box"></span> Kangen 9.5 water</li>
+  <li><span class="box"></span> Kangen 11.5 water</li>
+</ul>
+
+<div class="checklist-label">Printed Materials</div>
+<ul class="checklist">
+  <li><span class="box"></span> Medical studies</li>
+  <li><span class="box"></span> Water usage guides</li>
+  <li><span class="box"></span> Machine comparison sheets</li>
+  <li><span class="box"></span> Compensation plans</li>
+  <li><span class="box"></span> Info binders</li>
+</ul>
+
+<div class="checklist-label">Giveaways</div>
+<ul class="checklist">
+  <li><span class="box"></span> Fishbowl and entry slips</li>
+  <li><span class="box"></span> Prizes ready (water, Ukon, toner, demos)</li>
+</ul>
+
+<div class="checklist-label">Set Up (Day Of)</div>
+<ul class="checklist">
+  <li><span class="box"></span> Arrived at setup time</li>
+  <li><span class="box"></span> Veggie soak started in 11.5 water</li>
+  <li><span class="box"></span> Water samples pre-set with pH drops</li>
+  <li><span class="box"></span> Video looping on TV or laptop</li>
+  <li><span class="box"></span> Table set up and inviting</li>
+</ul>
+
+<div class="checklist-label">Execution</div>
+<ul class="checklist">
+  <li><span class="box"></span> Elevator pitch practiced and feels natural</li>
+  <li><span class="box"></span> Connecting before pitching</li>
+  <li><span class="box"></span> Offering demos to anyone who slows down</li>
+  <li><span class="box"></span> Collecting names and contact info</li>
+</ul>
+
+<div class="checklist-label">Follow Up (Within 48 Hours)</div>
+<ul class="checklist">
+  <li><span class="box"></span> Contacts organized</li>
+  <li><span class="box"></span> Personal thank-you messages sent</li>
+  <li><span class="box"></span> Drawing winner notified and prize delivered</li>
+  <li><span class="box"></span> Invitations sent to next class or demo</li>
+</ul>
+
+
+<!-- 07 COMMON MISTAKES -->
+<h2>Stage 07 / Common Mistakes That Cost You</h2>
+
+<div class="mistake">
+  <h4>Showing up without a demo</h4>
+  <p>The demo is the conversation starter. Without it, you're just another table people walk past. The science show is the whole point — it gives people something to stop for, something to respond to, something to talk about.</p>
+</div>
+
+<div class="mistake">
+  <h4>Waiting until the morning of to prepare</h4>
+  <p>Scrambling the day of leads to forgotten items and a stressed-out version of you standing at a half-set table. Pack and check your supplies the night before. If it's not in the bag, it's not coming.</p>
+</div>
+
+<div class="mistake">
+  <h4>Pitching instead of connecting</h4>
+  <p>Nobody wants to feel like a sales target at a wellness expo. Ask questions first. Be genuinely curious. The pitch comes naturally after the connection — and it lands completely differently when it does.</p>
+</div>
+
+<div class="mistake">
+  <h4>Collecting leads and disappearing</h4>
+  <p>The follow-up is where the sale happens. If you don't reach out within 48 hours, the conversation goes cold and the day was just an expensive afternoon. Every lead collected without a follow-up is a missed opportunity that you paid for.</p>
+</div>
+
+<div class="mistake">
+  <h4>Leaving your table unattended</h4>
+  <p>Every minute your table sits empty is a missed conversation. If you have to step away, ask someone to cover you. An empty, unmanned table tells people there's nothing worth stopping for.</p>
+</div>
+
+
+<!-- CLOSING -->
+<div class="ornament">&#9671; &nbsp; &#9671; &nbsp; &#9671;</div>
+
+<div class="closing-card">
+  <div class="label">One Last Thing</div>
+  <h3>You don't need to be perfect.<br>You just need to show up.</h3>
+  <p>You don't need a perfect logo. You don't need to have every answer memorized. You just need to show up, share something you genuinely believe in, and be willing to start real conversations.</p>
+  <p>This is your offline funnel — and it works.</p>
+  <p>Go hydrate some people.</p>
+</div>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;&bull;&nbsp; <strong>Expo Checklist</strong> &nbsp;&bull;&nbsp; Version 1.0 &nbsp;&bull;&nbsp; June 2026</div>
+</div>
+
+</body>
+</html>
