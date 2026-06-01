@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30-Day Water Tracker / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    background: var(--pearl);
+    color: var(--cacao);
+    padding: 40px 48px 48px;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  @media print {
+    @page { size: letter portrait; margin: 0.45in 0.5in; }
+    body {
+      padding: 0;
+      max-width: 100%;
+      background: #fff;
+    }
+    .no-print { display: none; }
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .header::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--sky-deep);
+  }
+  .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--cacao-soft);
+    line-height: 1.5;
+  }
+
+  /* NAME LINE */
+  .name-line {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 18px 0 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    font-weight: 500;
+  }
+  .name-line::before,
+  .name-line::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .name-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .name-field span {
+    white-space: nowrap;
+  }
+  .name-field .line {
+    width: 180px;
+    border-bottom: 1px solid var(--cacao-muted);
+    height: 18px;
+  }
+  .start-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .start-field .line {
+    width: 120px;
+    border-bottom: 1px solid var(--cacao-muted);
+    height: 18px;
+  }
+
+  /* REMINDER BANNER */
+  .reminder {
+    background: var(--sky-light);
+    border-left: 3px solid var(--sky-deep);
+    padding: 12px 18px;
+    margin-bottom: 22px;
+    border-radius: 0 4px 4px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .reminder-icon {
+    font-size: 18px;
+    line-height: 1;
+    padding-top: 1px;
+    flex-shrink: 0;
+  }
+  .reminder-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--cacao-soft);
+  }
+  .reminder-text strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 7px;
+    margin-bottom: 22px;
+  }
+
+  .day {
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    background: #fff;
+    aspect-ratio: 1 / 1.05;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .day-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--pearl);
+    background: var(--cacao);
+    padding: 4px 7px;
+    line-height: 1;
+  }
+
+  /* Milestone days get a honey accent */
+  .day.milestone .day-num {
+    background: var(--honey-deep);
+  }
+  .day.milestone {
+    border-color: var(--honey-deep);
+  }
+
+  .day-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 4px 4px;
+    gap: 4px;
+  }
+
+  /* X box — the big area they mark */
+  .x-box {
+    width: 100%;
+    flex: 1;
+    border: 1.5px dashed var(--rule);
+    border-radius: 3px;
+    background: var(--pearl);
+  }
+
+  .day.milestone .x-box {
+    border-color: var(--honey);
+    background: var(--honey-light);
+  }
+
+  .milestone-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* VIDEO ICON — shown on day 1 and day 30 */
+  .video-day .day-num {
+    background: var(--sky-deep);
+  }
+  .video-day {
+    border-color: var(--sky-deep);
+  }
+  .video-day .x-box {
+    border-color: var(--sky-deep);
+    background: var(--sky-light);
+  }
+  .video-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    font-weight: 500;
+  }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .legend-dot.normal { background: var(--cacao); }
+  .legend-dot.video { background: var(--sky-deep); }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+  }
+  .footer strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="eyebrow">Team True North</div>
+  <h1>My First<br>30 Days</h1>
+  <div class="subtitle">X off each day you drink your water. Don't break the streak.</div>
+</div>
+
+<!-- NAME + START DATE -->
+<div class="name-line">
+  <div class="name-field">
+    <span>Name</span>
+    <div class="line"></div>
+  </div>
+  <div class="start-field">
+    <span>Start date</span>
+    <div class="line"></div>
+  </div>
+</div>
+
+<!-- DAILY REMINDER -->
+<div class="reminder">
+  <div class="reminder-icon">&#127909;</div>
+  <div class="reminder-text">
+    <strong>Daily video reminder</strong>
+    Every morning when you drink your water, grab a quick selfie video. Say "Day 1," "Day 2," and so on. By day 30 you'll have a reel — and proof of everything that changed.
+  </div>
+</div>
+
+<!-- CALENDAR GRID -->
+<div class="grid">
+
+  <!-- Day 1 — Video day -->
+  <div class="day video-day">
+    <div class="day-num">1</div>
+    <div class="day-inner">
+      <div class="x-box"></div>
+      <div class="video-label">&#127909; Film it</div>
+    </div>
+  </div>
+
+  <!-- Days 2–9 -->
+  <div class="day"><div class="day-num">2</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">3</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">4</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">5</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">6</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">7</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">8</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">9</div><div class="day-inner"><div class="x-box"></div></div></div>
+
+  <!-- Day 10 — Milestone -->
+  <div class="day milestone">
+    <div class="day-num">10</div>
+    <div class="day-inner">
+      <div class="x-box"></div>
+      <div class="milestone-label">10 days!</div>
+    </div>
+  </div>
+
+  <!-- Days 11–19 -->
+  <div class="day"><div class="day-num">11</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">12</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">13</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">14</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">15</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">16</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">17</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">18</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">19</div><div class="day-inner"><div class="x-box"></div></div></div>
+
+  <!-- Day 20 — Milestone -->
+  <div class="day milestone">
+    <div class="day-num">20</div>
+    <div class="day-inner">
+      <div class="x-box"></div>
+      <div class="milestone-label">20 days!</div>
+    </div>
+  </div>
+
+  <!-- Days 21–29 -->
+  <div class="day"><div class="day-num">21</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">22</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">23</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">24</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">25</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">26</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">27</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">28</div><div class="day-inner"><div class="x-box"></div></div></div>
+  <div class="day"><div class="day-num">29</div><div class="day-inner"><div class="x-box"></div></div></div>
+
+  <!-- Day 30 — Video + Finish -->
+  <div class="day video-day">
+    <div class="day-num">30</div>
+    <div class="day-inner">
+      <div class="x-box"></div>
+      <div class="video-label">&#127909; Film it</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot normal"></div> Daily — mark with an X</div>
+  <div class="legend-item"><div class="legend-dot video"></div> Film yourself drinking your water</div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Team True North &nbsp;&bull;&nbsp; <strong>30-Day Water Tracker</strong> &nbsp;&bull;&nbsp; Print and put it on your fridge.
+</div>
+
+</body>
+</html>
