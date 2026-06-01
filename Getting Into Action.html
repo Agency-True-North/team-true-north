@@ -207,14 +207,17 @@
   /* TYPOGRAPHY */
   h2 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    letter-spacing: 4px;
+    font-size: 12px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--sky-deep);
-    margin: 48px 0 18px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--rule);
+    color: var(--pearl);
+    background: var(--cacao);
+    margin: 52px -64px 24px;
+    padding: 14px 64px;
     font-weight: 600;
+  }
+  @media (max-width: 700px) {
+    h2 { margin: 36px -18px 18px; padding: 12px 18px; }
   }
   h3 {
     font-family: 'Forum', Georgia, serif;
@@ -392,12 +395,14 @@
   /* CHECKLIST LABEL */
   .checklist-label {
     font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: var(--sky-deep);
+    color: var(--cacao);
     margin: 28px 0 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--honey);
   }
 
   /* OPTIONAL TAG */
@@ -527,7 +532,7 @@
   <li>
     <span class="box"></span>
     <div class="item-body">
-      Log in to your <strong>DSP (Distributor Support Portal)</strong> and confirm you can access your account.
+      Log in to your <strong><a href="https://information.enagic.com/login" target="_blank">DSP (Distributor Support Portal)</a></strong> and confirm you can access your account.
     </div>
   </li>
 
