@@ -48,17 +48,17 @@
 
   @media print {
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    body { padding: 24px 36px; font-size: 12px; background: #fff; max-width: 100%; }
+    body { padding: 24px 36px; font-size: 12px; background: #fff; max-width: 100%; orphans: 3; widows: 3; }
     .no-print { display: none !important; }
-    .cover { padding: 24px 0 16px; }
+    .cover { page-break-after: always; padding: 24px 0 16px; }
     .cover h1 { font-size: 38px; }
     .cover .subtitle { font-size: 14px; }
-    .toc { page-break-after: always; }
-    .phase-section { page-break-before: always; }
-    .phase-section:first-of-type { page-break-before: avoid; }
+    #phase-1 { page-break-before: always; }
+    .phase-section { page-break-before: auto; }
+    .phase-header { page-break-after: avoid; }
     .say-block, .coaching-block, .dont-block, .listen-block, .move-on-block, .if-then-block, .notes-card { page-break-inside: avoid; }
     h2 { page-break-after: avoid; }
-    .phase-header { page-break-after: avoid; }
+    .lead, .callout { page-break-inside: avoid; }
   }
 
   @media (max-width: 700px) {
@@ -957,7 +957,7 @@
 <!-- ─────────────────────────────────── -->
 <h2>01 / Phase One</h2>
 
-<div class="phase-section">
+<div class="phase-section" id="phase-1">
   <div class="phase-header">
     <div class="phase-header-left">
       <div class="phase-num">Phase 01</div>
