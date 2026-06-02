@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tracking Sheet Glossary / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .glossary-entry, .callout { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover { padding: 24px 0 16px; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover h1 { font-size: 36px; letter-spacing: 0.5px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .version { font-size: 9px; letter-spacing: 2.5px; margin-bottom: 18px; }
+    .cover .byline { font-size: 10px; letter-spacing: 2px; margin-bottom: 16px; }
+    .cover .subtitle { font-size: 17px; margin-bottom: 18px; line-height: 1.45; }
+    .toc { padding: 22px 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    .glossary-term { font-size: 19px; }
+    .glossary-calc { flex-direction: column; gap: 4px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+  .toc li .count {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--cacao-muted);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    padding-top: 4px;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 20px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .callout p + p { margin-top: 10px; }
+
+  /* DIVIDER */
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+
+  /* GLOSSARY ENTRIES */
+  .glossary-entry {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: #FFFFFF;
+    margin: 8px 0;
+    padding: 16px 20px;
+  }
+  .glossary-term {
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin-bottom: 7px;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+  }
+  .glossary-def {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao-soft);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .glossary-calc {
+    background: var(--honey-light);
+    border-left: 2px solid var(--honey-deep);
+    border-radius: 0 4px 4px 0;
+    padding: 10px 14px;
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .glossary-calc-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .glossary-calc-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    line-height: 1.5;
+  }
+  .glossary-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13.5px;
+    color: var(--cacao-muted);
+    font-style: italic;
+    margin-top: 9px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Tracking Sheet<br>Glossary</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">Every metric in your tracking sheet — defined, explained, and calculated.</div>
+  <div class="pills">
+    <span class="pill sky">48 Terms</span>
+    <span class="pill honey">8 Categories</span>
+    <span class="pill">Formulas Included</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>How to use this guide</strong>
+  <p>This glossary defines every column and metric in your tracking sheet. Use it when you're filling in data and want to confirm you're capturing the right number, when a metric looks off and you want to sanity-check the formula, or when you're training a new team member on what each field means.</p>
+  <p>Terms are grouped by funnel stage so you can find what you need fast. Metrics that require a calculation include the formula in a highlighted block below the definition.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>Categories</h3>
+  <ol>
+    <li><span class="num">01</span> Ad Performance <span class="count">8 terms</span></li>
+    <li><span class="num">02</span> Lead Generation <span class="count">6 terms</span></li>
+    <li><span class="num">03</span> Lead Quality <span class="count">3 terms</span></li>
+    <li><span class="num">04</span> Direct Message Funnel <span class="count">10 terms</span></li>
+    <li><span class="num">05</span> Discovery Process &amp; Front-End <span class="count">5 terms</span></li>
+    <li><span class="num">06</span> Webclass &amp; Offer <span class="count">5 terms</span></li>
+    <li><span class="num">07</span> Booked Calls &amp; Show-Up <span class="count">5 terms</span></li>
+    <li><span class="num">08</span> Sales &amp; Revenue <span class="count">6 terms</span></li>
+  </ol>
+</div>
+
+
+<!-- 01 / AD PERFORMANCE -->
+<h2>01 / Ad Performance</h2>
+
+<p class="lead">The top-of-funnel metrics pulled directly from your ads manager. These tell you how your ads are performing before anyone opts in.</p>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Date</div>
+  <p class="glossary-def">The specific day, week, month, or reporting period the data represents. Always note whether you're reporting daily, weekly, or by campaign date range. Mixing periods will skew every other metric in the row.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Spend</div>
+  <p class="glossary-def">The total amount of advertising dollars spent during the reporting period. This is your cost basis — every efficiency metric is measured against it.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Impressions</div>
+  <p class="glossary-def">The total number of times your ad was shown on users' screens. Every display counts, even if the same person sees it more than once. High impressions with low clicks means the creative is not stopping the scroll.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">CPM</div>
+  <p class="glossary-def">Cost per 1,000 impressions. Tells you how expensive it is to reach people with your ads. A rising CPM means the auction is getting more competitive — not necessarily that your ads are performing worse.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">CPM = Total Spend ÷ (Total Impressions ÷ 1,000)</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Clicks (All)</div>
+  <p class="glossary-def">The total number of clicks on your ad, including link clicks, profile clicks, likes, shares, and any other interaction click. This is the broadest click metric — useful for gauging overall engagement, not just traffic.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Unique Clicks</div>
+  <p class="glossary-def">The number of individual people who clicked the ad at least once. Removes duplicate clicks from the same person. More accurate than Clicks (All) when you want to know how many distinct people took action.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">CTR (All)</div>
+  <p class="glossary-def">The percentage of impressions that resulted in any click on your ad — including all interaction types, not just link clicks. Baseline minimum is 6%. Below that, the creative is not generating enough engagement.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">CTR (All) = Clicks (All) ÷ Impressions</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">CTR (Link)</div>
+  <p class="glossary-def">The percentage of impressions that resulted in a link click — the click that sends someone to your landing page. More meaningful than CTR (All) for measuring how well the ad drives traffic. Baseline minimum is 3%.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">CTR (Link) = Link Clicks ÷ Impressions</span>
+  </div>
+</div>
+
+
+<!-- 02 / LEAD GENERATION -->
+<h2>02 / Lead Generation</h2>
+
+<p class="lead">Metrics that track how well your funnel converts ad traffic into leads — from the first page visit to the completed opt-in.</p>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Survey Page Visits</div>
+  <p class="glossary-def">The number of people who landed on your survey or opt-in page. This is the entry point to your lead generation funnel — raw traffic before any conversion happens.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Survey Submissions</div>
+  <p class="glossary-def">The number of surveys completed and submitted. This is your raw lead count before any quality filter is applied.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Survey Conv Rate</div>
+  <p class="glossary-def">The percentage of survey page visitors who submitted the survey. A low rate usually means the page copy, form length, or load speed is losing people before they finish.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Survey Conv Rate = Survey Submissions ÷ Survey Page Visits</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Leads</div>
+  <p class="glossary-def">The number of people who submitted their information to become a lead — opt-in, survey submission, registration, or equivalent depending on your funnel. This is the first count of people who raised their hand.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Lead Conv Rate</div>
+  <p class="glossary-def">The percentage of page visitors who became leads by submitting a form. Measures how well your landing page converts traffic into opt-ins.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Lead Conv Rate = Leads ÷ Survey Page Visits</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Cost Per Lead</div>
+  <p class="glossary-def">The average advertising cost to generate one lead. A rising Cost Per Lead can signal increased competition, a weakening creative, or a drop in landing page conversion — check all three before diagnosing.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Cost Per Lead = Total Ad Spend ÷ Leads</span>
+  </div>
+</div>
+
+
+<!-- 03 / LEAD QUALITY -->
+<h2>03 / Lead Quality</h2>
+
+<p class="lead">Not all leads are equal. These metrics separate people who fit your ideal client profile from those who don't — and tell you what you're paying for quality.</p>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Marketing Qualified Leads (MQLs)</div>
+  <p class="glossary-def">The number of leads who passed your qualification criteria — fit, interest, readiness, or any combination your team uses. Higher quality than simple opt-ins. MQLs are the people worth pursuing.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">MQL Rate</div>
+  <p class="glossary-def">The percentage of total leads who qualified as Marketing Qualified Leads. A low MQL Rate means your ads are attracting the wrong audience — the targeting or the creative is pulling the wrong people in.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">MQL Rate = MQLs ÷ Leads</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Cost Per MQL</div>
+  <p class="glossary-def">The average advertising cost to generate one Marketing Qualified Lead. More meaningful than Cost Per Lead when lead quality varies — it tells you the true cost of generating a lead worth pursuing.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Cost Per MQL = Total Ad Spend ÷ MQLs</span>
+  </div>
+</div>
+
+
+<!-- 04 / DIRECT MESSAGE FUNNEL -->
+<h2>04 / Direct Message Funnel</h2>
+
+<p class="lead">If your funnel runs through DMs, these metrics track every step — from the first message to a meaningful two-way conversation.</p>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Direct Message</div>
+  <p class="glossary-def">The number of people who sent an inbound DM to the account, usually triggered by the ad. This is the raw quantity of DMs started — not responses, not connections. It tells you how many people showed enough interest to reach out.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">New DMs</div>
+  <p class="glossary-def">The total number of new direct message conversations initiated as a result of the ads. Counts first messages only, not ongoing replies. Often used interchangeably with Direct Message depending on how your sheet is structured.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">DM Responses</div>
+  <p class="glossary-def">The number of people who replied to a DM — first reply only. This is the lead's first signal of engagement beyond initiating contact.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">DM Response Rate</div>
+  <p class="glossary-def">The percentage of Direct Messages that received a reply from the lead. A low DM Response Rate usually points to a weak opening message, wrong audience, or a mismatch between what the ad promised and what the first DM delivered.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">DM Response Rate = DM Responses ÷ Direct Messages</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">My Response Rate</div>
+  <p class="glossary-def">The percentage of inbound DMs that received a response from your team. Measures how consistently the team is replying. A low number here is a team operations issue, not a lead quality issue.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">My Response Rate = Team DM Replies ÷ Direct Messages Received</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Connections</div>
+  <p class="glossary-def">The number of people who successfully connected in a DM conversation — meaning the conversation progressed beyond the initial message and the lead responded meaningfully. A Connection is a two-way exchange, not just a first message.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Connection Rate</div>
+  <p class="glossary-def">The percentage of New DMs that turned into Connections. Measures how well your opening DM converts a first message into a real conversation.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Connection Rate = Connections ÷ New DMs</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Cost Per DM</div>
+  <p class="glossary-def">The average advertising cost to generate one new DM conversation. This is your top-of-DM-funnel cost — what you're paying to get someone to message in the first place.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Cost Per DM = Total Ad Spend ÷ New DMs</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Cost Per DM Connection</div>
+  <p class="glossary-def">The cost to generate one DM-based connection — a meaningful two-way message exchange. Tracks what you pay for a conversation that actually progressed, not just one that started. The denominator is Connections (the "Connections" column in your sheet).</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Cost Per DM Connection = Total Ad Spend ÷ Connections</span>
+  </div>
+  <p class="glossary-note">See also: Cost Per Connection — both metrics use the same denominator (Connections). The distinction is naming convention only.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Cost Per Connection</div>
+  <p class="glossary-def">The average cost to generate one Connection in the DM funnel. This is the DM funnel equivalent of Cost Per Lead — it tells you what you're paying to generate a qualified conversation.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Cost Per Connection = Total Ad Spend ÷ Connections</span>
+  </div>
+  <p class="glossary-note">See also: Cost Per DM Connection — both use Connections as the denominator. The naming may differ by sheet version.</p>
+</div>
+
+
+<!-- 05 / DISCOVERY PROCESS & FRONT-END -->
+<h2>05 / Discovery Process &amp; Front-End</h2>
+
+<p class="lead">The bridge between a qualified lead and a front-end buyer. These metrics track how well your discovery process moves people toward purchase.</p>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Completes Discovery Process</div>
+  <p class="glossary-def">The number of prospects who completed the Discovery Process step — typically a form, questionnaire, or multi-step pipeline qualifier. This is the first handshake between the lead and a deeper commitment to the process.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Discovery Process Completion Rate</div>
+  <p class="glossary-def">The percentage of front-end buyers who completed the Discovery Process. A low rate may point to friction in the form, unclear instructions, or leads who weren't qualified enough to engage.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Discovery Process Completion Rate = Completed Discovery Processes ÷ Front-End Buyers</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Front End Sale</div>
+  <p class="glossary-def">The total number of front-end purchases made through the funnel — the main product being sold (e.g. Genesis). This is your primary conversion count for paid acquisition.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Front End Sale Conv Rate</div>
+  <p class="glossary-def">The percentage of leads who made a front-end purchase. Measures how well the full funnel — from lead to buyer — converts.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Front End Sale Conv Rate = Front End Sales ÷ Leads</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Cost Per Acquisition (CPA)</div>
+  <p class="glossary-def">The average advertising cost to acquire one front-end sale. The most direct measure of how efficiently your ad spend is converting to revenue. The lower the CPA, the more scalable the campaign.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">CPA = Total Ad Spend ÷ Front End Sales</span>
+  </div>
+</div>
+
+
+<!-- 06 / WEBCLASS & OFFER -->
+<h2>06 / Webclass &amp; Offer</h2>
+
+<p class="lead">How many people make it to the offer — and what they do once they get there. These metrics reveal whether your webclass is holding attention and whether the pitch is landing.</p>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Pushed to Webclass</div>
+  <p class="glossary-def">The number of people moved into the webclass portion of the funnel — whether via DM handoff, survey redirect, or manual push. This is the entry count for the webclass stage.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Completed Webclass / Saw Offer</div>
+  <p class="glossary-def">The number of people who completed the webclass or stayed long enough to see the offer. Used interchangeably with "Saw Offer" depending on how your funnel is tracked. If your webclass ends with the offer, these numbers are the same.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Saw Offer</div>
+  <p class="glossary-def">The total number of people who reached the point in the webclass where your offer was displayed. This is the pool from which all buyers come — only people who saw the offer can buy it.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Saw Offer Conv Rate</div>
+  <p class="glossary-def">The percentage of people pushed to the webclass who stayed long enough to see the offer. Measures retention through to the pitch. A low rate means people are dropping off before the offer is presented.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Saw Offer Conv Rate = People Who Saw Offer ÷ Pushed to Webclass</span>
+  </div>
+  <p class="glossary-note">Note: some setups use total attendees as the denominator instead of Pushed to Webclass. Use whichever is consistent in your sheet.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Cost Per Saw Offer</div>
+  <p class="glossary-def">The average advertising cost to get one person to the point of seeing your offer. Combines ad efficiency with webclass retention — a rising number can mean either stage is breaking down.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Cost Per Saw Offer = Total Ad Spend ÷ People Who Saw Offer</span>
+  </div>
+</div>
+
+
+<!-- 07 / BOOKED CALLS & SHOW-UP -->
+<h2>07 / Booked Calls &amp; Show-Up</h2>
+
+<p class="lead">Scheduled calls don't mean attended calls. These five metrics track both — and show you exactly where calls are being lost between booking and showing up.</p>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Booked Calls</div>
+  <p class="glossary-def">The total number of calls scheduled with prospects. This is the raw scheduling count — it includes calls that were later cancelled, rescheduled, or no-showed.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Book Call Rate</div>
+  <p class="glossary-def">The percentage of eligible prospects who booked a call — usually front-end buyers who have gone through the Discovery Process. Baseline minimum is 70%. Below that, look at your DM scripts, CTAs, or lead quality.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Book Call Rate = Booked Calls ÷ Front-End Buyers Eligible to Book</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Cost Per Booked Call</div>
+  <p class="glossary-def">The average advertising cost to generate one booked call. Useful for understanding how much it costs to move someone through the full funnel to the call stage.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Cost Per Booked Call = Total Ad Spend ÷ Booked Calls</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Attended</div>
+  <p class="glossary-def">The number of people who actually showed up to the booked call, discovery call, or appointment. This is the metric that matters for conversion — only attended calls can close.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Show Rate</div>
+  <p class="glossary-def">The percentage of booked calls where the prospect actually showed up. A drop usually points to weak confirmation sequences, low lead quality, or too much time between the booking and the call date. Baseline minimum is 80%.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Show Rate = Attended Calls ÷ Booked Calls</span>
+  </div>
+</div>
+
+
+<!-- 08 / SALES & REVENUE -->
+<h2>08 / Sales &amp; Revenue</h2>
+
+<p class="lead">The bottom of the funnel. These metrics tell you what happens on the call, what it closes for, and what it earns.</p>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Closed</div>
+  <p class="glossary-def">The total number of deals closed — sales won — during the reporting period. This is the count of successful conversions at the call stage.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Close Rate</div>
+  <p class="glossary-def">The percentage of attended calls that resulted in a closed sale. The most direct measure of call performance. Baseline minimum is 20%. Below that, the issue is usually in how the call is structured or how objections are handled.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Close Rate = Closed Deals ÷ Attended Calls</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Package</div>
+  <p class="glossary-def">The dollar amount of the offer or package the customer purchased (e.g. $1,995, $7,800). Used to calculate commission and total revenue. Each row in the sheet should reflect the actual package sold, not an average.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Commission</div>
+  <p class="glossary-def">The total amount of commission earned from closed deals during the reporting period. Your actual take-home number from the sales generated in that period.</p>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Earnings Per Call</div>
+  <p class="glossary-def">The average amount earned per booked call — whether the prospect showed up or not. A broader view of call value that accounts for no-shows. Useful for evaluating the economic value of each booking.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Earnings Per Call = Total Commission ÷ Booked Calls</span>
+  </div>
+</div>
+
+<div class="glossary-entry">
+  <div class="glossary-term">Earnings Per Appointment</div>
+  <p class="glossary-def">The average amount earned per attended appointment. More accurate than Earnings Per Call because it only counts calls where someone showed up. Use this to evaluate the quality and revenue value of your attended conversations.</p>
+  <div class="glossary-calc">
+    <span class="glossary-calc-label">Formula</span>
+    <span class="glossary-calc-text">Earnings Per Appointment = Total Commission ÷ Attended Appointments</span>
+  </div>
+</div>
+
+
+<div class="ornament">· · ·</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Tracking Sheet Glossary</strong> &nbsp;·&nbsp; Version 1.0</div>
+</div>
+
+</body>
+</html>
