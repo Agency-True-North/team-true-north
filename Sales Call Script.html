@@ -47,11 +47,18 @@
   }
 
   @media print {
-    body { padding: 36px; font-size: 13px; background: #fff; }
-    .no-print { display: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { padding: 24px 36px; font-size: 12px; background: #fff; max-width: 100%; }
+    .no-print { display: none !important; }
+    .cover { padding: 24px 0 16px; }
+    .cover h1 { font-size: 38px; }
+    .cover .subtitle { font-size: 14px; }
+    .toc { page-break-after: always; }
     .phase-section { page-break-before: always; }
     .phase-section:first-of-type { page-break-before: avoid; }
-    .say-block, .callout, .dont-block, .listen-block, .move-on-block, .if-then-block { page-break-inside: avoid; }
+    .say-block, .coaching-block, .dont-block, .listen-block, .move-on-block, .if-then-block, .notes-card { page-break-inside: avoid; }
+    h2 { page-break-after: avoid; }
+    .phase-header { page-break-after: avoid; }
   }
 
   @media (max-width: 700px) {
@@ -807,9 +814,34 @@
     .notes-card { background: #fff; border-color: #ccc; }
     .note-line { border-bottom-color: #ccc; }
   }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    padding: 11px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    z-index: 999;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: var(--cacao-soft); }
 </style>
 </head>
 <body>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn no-print" onclick="window.print()">&#128438; Print</button>
 
 <!-- COVER -->
 <div class="cover">
