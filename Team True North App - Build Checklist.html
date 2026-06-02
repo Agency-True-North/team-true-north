@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team True North App - Build Checklist</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f0;
+    color: #2d2d2d;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 40px; }
+  header h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 4px; }
+  header h2 { font-size: 18px; font-weight: 400; color: #666; margin-bottom: 8px; }
+  header p { font-size: 13px; color: #999; }
+
+  .progress-bar-wrap {
+    background: #e0e0d8;
+    border-radius: 20px;
+    height: 28px;
+    margin: 30px 0 10px;
+    overflow: hidden;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #7a9e7e, #4a7c59);
+    border-radius: 20px;
+    transition: width 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+    min-width: 60px;
+  }
+  .progress-bar span {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-size: 12px;
+    color: #888;
+    margin: 0 4px 26px;
+  }
+  .legend .me-key { color: #4a7c59; font-weight: 700; }
+  .legend .it-key { color: #b8860b; font-weight: 700; }
+  #legendCounts { font-weight: 600; color: #666; }
+
+  .module {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid #e8e8e2;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+  .module-header h3 {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .module-count {
+    font-size: 12px;
+    color: #999;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .module-note {
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #4a7c59;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 24px 0 10px;
+  }
+  .section-title:first-of-type { margin-top: 0; }
+  .section-note {
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .subsection-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2d2d2d;
+    letter-spacing: 0.3px;
+    margin: 16px 0 6px;
+    padding-left: 4px;
+  }
+  .subsection-title::before {
+    content: '✦';
+    color: #c8a44d;
+    margin-right: 6px;
+    font-size: 11px;
+  }
+
+  /* Two-column header row that sits above each checklist */
+  .col-headers {
+    display: flex;
+    padding-left: 4px;
+    margin-bottom: 4px;
+  }
+  .col-headers .col-h {
+    width: 34px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .col-headers .col-h.me { color: #4a7c59; }
+  .col-headers .col-h.it { color: #b8860b; }
+
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0ea;
+    transition: background 0.15s;
+    border-radius: 4px;
+    padding-left: 4px;
+  }
+  .checklist li:hover { background: #fafaf6; }
+  .checklist li:last-child { border-bottom: none; }
+
+  .checklist input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin: 1px 6px 0 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .checklist input[type="checkbox"]:checked {
+    background: #4a7c59;
+    border-color: #4a7c59;
+  }
+  .checklist input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -1px;
+    left: 3px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  /* IT column = warm gold, to read distinct from your green */
+  .checklist input.cb-it:checked {
+    background: #c8a44d;
+    border-color: #c8a44d;
+  }
+
+  .checklist label {
+    cursor: pointer;
+    flex: 1;
+    font-size: 15px;
+    margin-left: 8px;
+    transition: all 0.2s;
+  }
+  /* Only strike through once BOTH columns are checked (uploaded + verified) */
+  .checklist li.complete label {
+    color: #aaa;
+    text-decoration: line-through;
+  }
+  /* Uploaded by you but not yet verified by IT — subtle, still active */
+  .checklist li.me-done label { color: #6b6b6b; }
+
+  .it-notes {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed #ddd;
+  }
+  .it-notes h4 {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .it-notes textarea {
+    width: 100%;
+    min-height: 80px;
+    border: 1px solid #e0e0d8;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    color: #2d2d2d;
+    background: #fafaf6;
+  }
+  .it-notes textarea:focus { outline: 2px solid #4a7c59; border-color: transparent; }
+
+  .final-signoff .module-header { border-bottom-color: #4a7c59; }
+
+  .actions {
+    text-align: center;
+    margin: 32px 0 16px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  .actions button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .actions button:hover { background: #f0f0ea; }
+  .actions .reset { color: #c0392b; border-color: #e8c4c0; }
+  .actions .reset:hover { background: #fdf0ef; }
+
+  footer { text-align: center; margin-top: 20px; font-size: 12px; color: #bbb; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>TEAM TRUE NORTH APP</h1>
+  <h2>Build & Upload Checklist</h2>
+  <p>Prepared for IT Support &nbsp;|&nbsp; Agency True North</p>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar"><span id="progressText">0 / 0</span></div>
+</div>
+<div class="legend">
+  <span><span class="me-key">ME</span> = you uploaded &nbsp;·&nbsp; <span class="it-key">IT</span> = developer verified</span>
+  <span id="legendCounts"></span>
+</div>
+
+<!-- MODULE 1 -->
+<div class="module" data-module="1">
+  <div class="module-header">
+    <h3>MODULE 1: Get Started</h3>
+    <span class="module-count" data-count="1"></span>
+  </div>
+
+  <div class="section-title">Welcome & Mindset</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m1-1"><label for="m1-1">Welcome Video</label></li>
+    <li><input type="checkbox" id="m1-2"><label for="m1-2">Pour-in-Belief Video</label></li>
+    <li><input type="checkbox" id="m1-3"><label for="m1-3">Mindset Video</label></li>
+    <li><input type="checkbox" id="m1-4"><label for="m1-4">How to Use Affiliate Links</label></li>
+    <li><input type="checkbox" id="m1-5"><label for="m1-5">Getting into Action Video plus Checklist</label></li>
+    <li><input type="checkbox" id="m1-6"><label for="m1-6">Events & Community</label></li>
+  </ul>
+
+  <div class="section-title">Onboarding New Team Members</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m1-13"><label for="m1-13">Team Member Intro / Celebration Template</label></li>
+  </ul>
+
+  <div class="section-title">Resources & Links</div>
+  <div class="subsection-title">Faucets and Filters for your K8 Machine</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m1-14"><label for="m1-14">K8 Setup Guide — Faucets &amp; Filtration</label></li>
+  </ul>
+
+  <div class="it-notes">
+    <h4>Module 1 — IT Notes / Upload Status</h4>
+    <textarea data-notes="m1" placeholder="Track upload links, file names, or blockers..."></textarea>
+  </div>
+</div>
+
+<!-- MODULE 2 -->
+<div class="module" data-module="2">
+  <div class="module-header">
+    <h3>MODULE 2: Mentorship</h3>
+    <span class="module-count" data-count="2"></span>
+  </div>
+  <p class="module-note">Originally Module 3 on the whiteboard — swapped to Module 2.</p>
+
+  <div class="section-title">Opening / Foundation</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m2-1"><label for="m2-1">Jane Testimony Video — "$100M / 10yr: I knew what to do, I trained, then went → rebuilding, paying attention to what lights me up = VALUES"</label></li>
+  </ul>
+
+  <div class="section-title">8-Week Mentorship Program</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m2-2"><label for="m2-2">Week 1</label></li>
+    <li><input type="checkbox" id="m2-3"><label for="m2-3">Week 2</label></li>
+    <li><input type="checkbox" id="m2-4"><label for="m2-4">Week 3</label></li>
+    <li><input type="checkbox" id="m2-5"><label for="m2-5">Week 4</label></li>
+    <li><input type="checkbox" id="m2-6"><label for="m2-6">Week 5</label></li>
+    <li><input type="checkbox" id="m2-7"><label for="m2-7">Week 6</label></li>
+    <li><input type="checkbox" id="m2-8"><label for="m2-8">Week 7</label></li>
+    <li><input type="checkbox" id="m2-9"><label for="m2-9">Week 8</label></li>
+  </ul>
+
+  <div class="section-title">Core Mentorship Assets</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m2-10"><label for="m2-10">Values</label></li>
+    <li><input type="checkbox" id="m2-11"><label for="m2-11">ICP (Ideal Client Profile)</label></li>
+    <li><input type="checkbox" id="m2-12"><label for="m2-12">Prompts</label></li>
+    <li><input type="checkbox" id="m2-13"><label for="m2-13">Claude Set-Up</label></li>
+    <li><input type="checkbox" id="m2-14"><label for="m2-14">Peri's Loaded</label></li>
+  </ul>
+
+  <div class="section-title">Separate Chat For Each Mentorship Group</div>
+  <p class="section-note">One dedicated group chat per mentorship cohort listed below.</p>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m2-15"><label for="m2-15">4A Mentorship Group Chat</label></li>
+    <li><input type="checkbox" id="m2-16"><label for="m2-16">5A Mentorship Group Chat</label></li>
+    <li><input type="checkbox" id="m2-17"><label for="m2-17">6A Mentorship Group Chat</label></li>
+    <li><input type="checkbox" id="m2-18"><label for="m2-18">6A2 Mentorship Group Chat</label></li>
+    <li><input type="checkbox" id="m2-19"><label for="m2-19">6A2-2 Mentorship Group Chat</label></li>
+    <li><input type="checkbox" id="m2-20"><label for="m2-20">6A2-3 Mentorship Group Chat</label></li>
+  </ul>
+
+  <div class="section-title">Supporting Resources</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m2-21"><label for="m2-21">SOP</label></li>
+    <li><input type="checkbox" id="m2-22"><label for="m2-22">DMO</label></li>
+    <li><input type="checkbox" id="m2-23"><label for="m2-23">Books</label></li>
+    <li><input type="checkbox" id="m2-24"><label for="m2-24">INSPIREAN</label></li>
+  </ul>
+
+  <div class="it-notes">
+    <h4>Module 2 — IT Notes / Upload Status</h4>
+    <textarea data-notes="m2" placeholder="Track upload links, file names, or blockers..."></textarea>
+  </div>
+</div>
+
+<!-- MODULE 3 -->
+<div class="module" data-module="3">
+  <div class="module-header">
+    <h3>MODULE 3: Enagic</h3>
+    <span class="module-count" data-count="3"></span>
+  </div>
+  <p class="module-note">Originally Module 2 on the whiteboard — swapped to Module 3. These videos are for when team members are ready to grow / place sales.</p>
+
+  <div class="section-title">Portal & Compliance</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m3-1"><label for="m3-1">Portal / Compliance Walkthrough</label></li>
+    <li><input type="checkbox" id="m3-2"><label for="m3-2">DGS</label></li>
+    <li><input type="checkbox" id="m3-3"><label for="m3-3">DSS</label></li>
+    <li><input type="checkbox" id="m3-4"><label for="m3-4">Forms (EWS)</label></li>
+    <li><input type="checkbox" id="m3-5"><label for="m3-5">Place Order Walkthrough</label></li>
+  </ul>
+
+  <div class="section-title">Comp Plan & Rank Up</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m3-6"><label for="m3-6">Comp Plan</label></li>
+    <li><input type="checkbox" id="m3-7"><label for="m3-7">Rank Up</label></li>
+  </ul>
+
+  <div class="section-title">Pricing Tools</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m3-8"><label for="m3-8">Pricing</label></li>
+    <li><input type="checkbox" id="m3-9"><label for="m3-9">Tax Calculator</label></li>
+    <li><input type="checkbox" id="m3-10"><label for="m3-10">Canva Pricing Template</label></li>
+  </ul>
+
+  <div class="it-notes">
+    <h4>Module 3 — IT Notes / Upload Status</h4>
+    <textarea data-notes="m3" placeholder="Track upload links, file names, or blockers..."></textarea>
+  </div>
+</div>
+
+<!-- MODULE 4 -->
+<div class="module" data-module="4">
+  <div class="module-header">
+    <h3>MODULE 4: 4A Factory</h3>
+    <span class="module-count" data-count="4"></span>
+  </div>
+  <p class="module-note">Choose Your Own Adventure: 3 paths (1 → 2 → 3) — each with its own DMO. 3 folders total.</p>
+
+  <div class="section-title">Choose Your Own Adventure — Intro</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m4-1"><label for="m4-1">"Choose Your Own Adventure" Intro Video</label></li>
+    <li><input type="checkbox" id="m4-2"><label for="m4-2">Path 1 DMO</label></li>
+    <li><input type="checkbox" id="m4-3"><label for="m4-3">Path 2 DMO</label></li>
+    <li><input type="checkbox" id="m4-4"><label for="m4-4">Path 3 DMO</label></li>
+  </ul>
+
+  <div class="section-title">Folder [1] — Ads</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m4-5"><label for="m4-5">Claude (for Ads)</label></li>
+    <li><input type="checkbox" id="m4-6"><label for="m4-6">Hooks x3</label></li>
+    <li><input type="checkbox" id="m4-7"><label for="m4-7">Script x1</label></li>
+    <li><input type="checkbox" id="m4-8"><label for="m4-8">Set Budget</label></li>
+    <li><input type="checkbox" id="m4-9"><label for="m4-9">CapCut</label></li>
+    <li><input type="checkbox" id="m4-10"><label for="m4-10">Ad Walk → Nat</label></li>
+    <li><input type="checkbox" id="m4-11"><label for="m4-11">Equipment to Buy</label></li>
+    <li><input type="checkbox" id="m4-12"><label for="m4-12">Tracker + Glossary</label></li>
+    <li><input type="checkbox" id="m4-13"><label for="m4-13">Natalie video</label></li>
+  </ul>
+
+  <div class="section-title">Folder [2] — Prospecting</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m4-14"><label for="m4-14">Claude Set-Up (Prospecting)</label></li>
+    <li><input type="checkbox" id="m4-15"><label for="m4-15">Heaven + Hell Closing Script</label></li>
+  </ul>
+
+  <div class="section-title">Folder [3] — Offline</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m4-16"><label for="m4-16">How to Set-Up Water Shares</label></li>
+    <li><input type="checkbox" id="m4-22"><label for="m4-22">Loaner Folder</label></li>
+    <li><input type="checkbox" id="m4-17"><label for="m4-17">Welcome to Loaner Machine Training Program</label></li>
+    <li><input type="checkbox" id="m4-21"><label for="m4-21">Loaner Installation Process</label></li>
+    <li><input type="checkbox" id="m4-18"><label for="m4-18">Network Groups</label></li>
+    <li><input type="checkbox" id="m4-20"><label for="m4-20">Demo's + Supplies</label></li>
+    <li><input type="checkbox" id="m4-23"><label for="m4-23">Expos</label></li>
+  </ul>
+
+  <div class="it-notes">
+    <h4>Module 4 — IT Notes / Upload Status</h4>
+    <textarea data-notes="m4" placeholder="Track upload links, file names, or blockers..."></textarea>
+  </div>
+</div>
+
+<!-- MODULE 5 -->
+<div class="module" data-module="5">
+  <div class="module-header">
+    <h3>MODULE 5: Funnel Owner</h3>
+    <span class="module-count" data-count="5"></span>
+  </div>
+
+  <div class="section-title">Quick Start Guide</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m5-1"><label for="m5-1">SOP Videos</label></li>
+    <li><input type="checkbox" id="m5-2"><label for="m5-2">1:1 with Advisor</label></li>
+    <li><input type="checkbox" id="m5-3"><label for="m5-3">WhatsApp VIP setup</label></li>
+  </ul>
+
+  <div class="section-title">Funnel Build Assets</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m5-4"><label for="m5-4">ICP Template</label></li>
+    <li><input type="checkbox" id="m5-5"><label for="m5-5">3 Secrets</label></li>
+    <li><input type="checkbox" id="m5-6"><label for="m5-6">How to Script It</label></li>
+    <li><input type="checkbox" id="m5-7"><label for="m5-7">Millionaire PDF</label></li>
+    <li><input type="checkbox" id="m5-8"><label for="m5-8">Kala's Video</label></li>
+    <li><input type="checkbox" id="m5-9"><label for="m5-9">Jane's Example</label></li>
+    <li><input type="checkbox" id="m5-10"><label for="m5-10">Shannon's Example</label></li>
+  </ul>
+
+  <div class="section-title">Masterclass</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m5-11"><label for="m5-11">Video Tutorials</label></li>
+    <li><input type="checkbox" id="m5-12"><label for="m5-12">Examples</label></li>
+    <li><input type="checkbox" id="m5-13"><label for="m5-13">Equipment to Record</label></li>
+    <li><input type="checkbox" id="m5-14"><label for="m5-14">CapCut Link Tutorials</label></li>
+    <li><input type="checkbox" id="m5-15"><label for="m5-15">Canva Template</label></li>
+    <li><input type="checkbox" id="m5-16"><label for="m5-16">Professional Headshots</label></li>
+  </ul>
+
+  <div class="section-title">Sales Summit</div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="m5-17"><label for="m5-17">Sales Summit Overview Video</label></li>
+    <li><input type="checkbox" id="m5-18"><label for="m5-18">"All 3 Ways Lead to Sales Summit" Video</label></li>
+  </ul>
+
+  <div class="it-notes">
+    <h4>Module 5 — IT Notes / Upload Status</h4>
+    <textarea data-notes="m5" placeholder="Track upload links, file names, or blockers..."></textarea>
+  </div>
+</div>
+
+<!-- FINAL SIGN-OFF -->
+<div class="module final-signoff" data-module="final">
+  <div class="module-header">
+    <h3>FINAL SIGN-OFF</h3>
+    <span class="module-count" data-count="final"></span>
+  </div>
+  <ul class="checklist">
+    <li><input type="checkbox" id="mf-1"><label for="mf-1">All Module 1 items filmed AND uploaded</label></li>
+    <li><input type="checkbox" id="mf-2"><label for="mf-2">All Module 2 items filmed AND uploaded</label></li>
+    <li><input type="checkbox" id="mf-3"><label for="mf-3">All Module 3 items filmed AND uploaded</label></li>
+    <li><input type="checkbox" id="mf-4"><label for="mf-4">All Module 4 items filmed AND uploaded</label></li>
+    <li><input type="checkbox" id="mf-5"><label for="mf-5">All Module 5 items filmed AND uploaded</label></li>
+    <li><input type="checkbox" id="mf-6"><label for="mf-6">Final QA pass by Jane</label></li>
+    <li><input type="checkbox" id="mf-7"><label for="mf-7">App approved for launch</label></li>
+  </ul>
+</div>
+
+<div class="actions">
+  <button onclick="exportProgress()">Export Progress</button>
+  <button class="reset" onclick="resetAll()">Reset All</button>
+</div>
+
+<footer>Agency True North &nbsp;|&nbsp; Last saved: <span id="lastSaved">never</span></footer>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'ttn-checklist';
+
+// Build the two-column layout: keep each existing checkbox as the "ME" (uploaded)
+// column, and generate a matching "IT" (verified) checkbox + column headers.
+function buildColumns() {
+  document.querySelectorAll('ul.checklist').forEach(ul => {
+    const hdr = document.createElement('div');
+    hdr.className = 'col-headers';
+    hdr.innerHTML = '<span class="col-h me">Me</span><span class="col-h it">IT</span>';
+    ul.parentNode.insertBefore(hdr, ul);
+
+    ul.querySelectorAll('li').forEach(li => {
+      const me = li.querySelector('input[type="checkbox"]');
+      if (!me) return;
+      me.classList.add('cb-me');
+      const it = document.createElement('input');
+      it.type = 'checkbox';
+      it.className = 'cb-it';
+      it.id = me.id + '-it';
+      me.insertAdjacentElement('afterend', it);
+    });
+  });
+}
+
+function save() {
+  const state = {};
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    state[cb.id] = cb.checked;
+  });
+  document.querySelectorAll('textarea[data-notes]').forEach(ta => {
+    state['notes-' + ta.dataset.notes] = ta.value;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  document.getElementById('lastSaved').textContent = new Date().toLocaleString();
+}
+
+function load() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  const state = JSON.parse(raw);
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    if (state[cb.id] !== undefined) cb.checked = state[cb.id];
+  });
+  document.querySelectorAll('textarea[data-notes]').forEach(ta => {
+    const key = 'notes-' + ta.dataset.notes;
+    if (state[key] !== undefined) ta.value = state[key];
+  });
+}
+
+function updateProgress() {
+  const lis = document.querySelectorAll('ul.checklist li');
+  let total = 0, up = 0, itc = 0, both = 0;
+  lis.forEach(li => {
+    const me = li.querySelector('.cb-me');
+    if (!me) return;
+    const it = li.querySelector('.cb-it');
+    const meC = me.checked, itC = it && it.checked;
+    total++;
+    if (meC) up++;
+    if (itC) itc++;
+    if (meC && itC) both++;
+    li.classList.toggle('complete', meC && itC);
+    li.classList.toggle('me-done', meC && !itC);
+  });
+
+  const pct = total === 0 ? 0 : Math.round((both / total) * 100);
+  const bar = document.getElementById('progressBar');
+  bar.style.width = Math.max(pct, 8) + '%';
+  document.getElementById('progressText').textContent = 'Complete ' + both + ' / ' + total + '  (' + pct + '%)';
+  document.getElementById('legendCounts').textContent = 'Uploaded ' + up + '/' + total + '  ·  IT verified ' + itc + '/' + total;
+
+  document.querySelectorAll('.module').forEach(mod => {
+    let n = 0, m = 0, i = 0;
+    mod.querySelectorAll('ul.checklist li').forEach(li => {
+      const me = li.querySelector('.cb-me');
+      if (!me) return;
+      const it = li.querySelector('.cb-it');
+      n++;
+      if (me.checked) m++;
+      if (it && it.checked) i++;
+    });
+    const counter = mod.querySelector('.module-count');
+    if (counter) counter.textContent = 'Me ' + m + '/' + n + '  ·  IT ' + i + '/' + n;
+  });
+}
+
+function resetAll() {
+  if (!confirm('Reset all checkboxes and notes? This cannot be undone.')) return;
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+  document.querySelectorAll('textarea[data-notes]').forEach(ta => { ta.value = ''; });
+  save();
+  updateProgress();
+}
+
+function exportProgress() {
+  let text = 'TEAM TRUE NORTH APP — Progress Export\n';
+  text += new Date().toLocaleString() + '\n';
+  text += 'Columns: [Me = uploaded] [IT = verified]\n\n';
+  document.querySelectorAll('.module').forEach(mod => {
+    const title = mod.querySelector('h3').textContent;
+    const lis = mod.querySelectorAll('ul.checklist li');
+    let n = 0, m = 0, i = 0;
+    lis.forEach(li => {
+      const me = li.querySelector('.cb-me');
+      if (!me) return;
+      const it = li.querySelector('.cb-it');
+      n++;
+      if (me.checked) m++;
+      if (it && it.checked) i++;
+    });
+    text += title + '  [Me ' + m + '/' + n + ' · IT ' + i + '/' + n + ']\n';
+    lis.forEach(li => {
+      const me = li.querySelector('.cb-me');
+      if (!me) return;
+      const it = li.querySelector('.cb-it');
+      const label = li.querySelector('label').textContent;
+      text += '  [' + (me.checked ? 'x' : ' ') + ']' + '[' + (it && it.checked ? 'x' : ' ') + ']  ' + label + '\n';
+    });
+    const notes = mod.querySelector('textarea[data-notes]');
+    if (notes && notes.value.trim()) {
+      text += '  Notes: ' + notes.value.trim() + '\n';
+    }
+    text += '\n';
+  });
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'TTN-Checklist-Export-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+}
+
+// --- wire up ---
+buildColumns();
+
+document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', function() {
+    save();
+    updateProgress();
+  });
+});
+
+document.querySelectorAll('textarea[data-notes]').forEach(ta => {
+  ta.addEventListener('input', save);
+});
+
+load();
+updateProgress();
+</script>
+</body>
+</html>
