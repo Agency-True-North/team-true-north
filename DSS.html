@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSS — Team True North</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f0;
+    color: #2d2d2d;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 4px; }
+  header h2 { font-size: 18px; font-weight: 400; color: #666; margin-bottom: 8px; }
+  header p { font-size: 13px; color: #999; }
+
+  .progress-bar-wrap {
+    background: #e0e0d8;
+    border-radius: 20px;
+    height: 28px;
+    margin: 30px 0 24px;
+    overflow: hidden;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #7a9e7e, #4a7c59);
+    border-radius: 20px;
+    transition: width 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+    min-width: 60px;
+  }
+  .progress-bar span { font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; }
+
+  .intro {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border-left: 4px solid #4a7c59;
+  }
+  .intro p { margin-bottom: 12px; }
+  .intro p:last-child { margin-bottom: 0; }
+  .intro .lead { font-size: 17px; }
+
+  .module {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid #e8e8e2;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    gap: 12px;
+  }
+  .module-header h3 { font-size: 20px; letter-spacing: 0.5px; }
+  .module-header h3 .step-num { color: #4a7c59; margin-right: 8px; }
+  .module-count { font-size: 12px; color: #999; font-weight: 600; white-space: nowrap; }
+  .module > p { margin-bottom: 16px; color: #444; }
+
+  .checklist { list-style: none; margin-bottom: 4px; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f0ea;
+    transition: background 0.15s;
+    border-radius: 4px;
+    padding-left: 4px;
+  }
+  .checklist li:hover { background: #fafaf6; }
+  .checklist li:last-child { border-bottom: none; }
+
+  .checklist input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin: 1px 6px 0 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .checklist input[type="checkbox"]:checked { background: #4a7c59; border-color: #4a7c59; }
+  .checklist input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -1px;
+    left: 3px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .checklist label { cursor: pointer; flex: 1; font-size: 15px; margin-left: 8px; transition: all 0.2s; }
+  .checklist li.complete label { color: #aaa; text-decoration: line-through; }
+
+  .tip {
+    background: #fbf7ec;
+    border-left: 3px solid #c8a44d;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 16px 0 0;
+    font-size: 14px;
+    color: #5c5230;
+  }
+  .tip strong { color: #b8860b; }
+
+  .shot { margin-top: 18px; }
+  .shot img {
+    width: 100%;
+    border: 1px solid #e0e0d8;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+    display: block;
+  }
+  .shot figcaption {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  .module a, .intro a, .closing a {
+    color: #4a7c59;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid #bcd2c0;
+  }
+  .module a:hover, .intro a:hover, .closing a:hover { border-bottom-color: #4a7c59; }
+
+  .closing {
+    background: #4a7c59;
+    color: #fff;
+    border-radius: 12px;
+    padding: 30px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .closing h3 { font-size: 18px; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .closing p { margin-bottom: 10px; }
+  .closing p:last-child { margin-bottom: 0; }
+
+  .actions {
+    text-align: center;
+    margin: 32px 0 16px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .actions button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .actions button:hover { background: #f0f0ea; }
+  .actions .pdf { color: #4a7c59; border-color: #bcd2c0; }
+  .actions .pdf:hover { background: #f0f6f1; }
+  .actions .reset { color: #c0392b; border-color: #e8c4c0; }
+  .actions .reset:hover { background: #fdf0ef; }
+
+  footer { text-align: center; margin-top: 20px; font-size: 12px; color: #bbb; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .progress-bar-wrap, .actions, footer { display: none; }
+    .module, .intro, .closing { box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
+    .closing { background: #4a7c59 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>DSS</h1>
+  <h2>Distributor Support Service — track your sales, commissions, and payments</h2>
+  <p>Team True North &nbsp;|&nbsp; Agency True North</p>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar"><span id="progressText">0 / 0</span></div>
+</div>
+
+<div class="intro">
+  <p class="lead">DSS is where the money shows up.</p>
+  <p>Distributor Support Service holds your Sales Report — every sale, what you're owed, when you've been paid, and the points you've stacked along the way.</p>
+  <p>Here's how to pull it, one step at a time.</p>
+</div>
+
+<!-- STEP 1 -->
+<div class="module" data-module="1">
+  <div class="module-header">
+    <h3><span class="step-num">01</span>Log In</h3>
+    <span class="module-count" data-count="1"></span>
+  </div>
+  <p>Same door as always. Log in to the Distributor Support Portal with your Distributor ID and password.</p>
+  <figure class="shot"><img src="images/dgs-0.jpg?v=1" alt="Distributor Support Portal login screen with the ID and Password fields circled"><figcaption>Log in with your Distributor ID and password.</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s1-1"><label for="s1-1">Go to <a href="https://information.enagic.com/en/login" target="_blank" rel="noopener">information.enagic.com</a>.</label></li>
+    <li><input type="checkbox" id="s1-2"><label for="s1-2">Enter your Distributor ID and password, then click "Log In."</label></li>
+  </ul>
+</div>
+
+<!-- STEP 2 -->
+<div class="module" data-module="2">
+  <div class="module-header">
+    <h3><span class="step-num">02</span>Open Distributor Support Service</h3>
+    <span class="module-count" data-count="2"></span>
+  </div>
+  <p>Open the menu in the top-left. In your Shortcuts, click Distributor Support Service — the green one. That's DSS, and it opens your Sales Report.</p>
+  <figure class="shot"><img src="images/dss-1.jpg?v=1" alt="Portal menu open with the green Distributor Support Service shortcut circled"><figcaption>Under Shortcuts, click "Distributor Support Service" (the green button).</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s2-1"><label for="s2-1">Tap the menu (☰) in the top-left.</label></li>
+    <li><input type="checkbox" id="s2-2"><label for="s2-2">Under Shortcuts, click "Distributor Support Service" (green).</label></li>
+    <li><input type="checkbox" id="s2-3"><label for="s2-3">Your Sales Report opens.</label></li>
+  </ul>
+</div>
+
+<!-- STEP 3 -->
+<div class="module" data-module="3">
+  <div class="module-header">
+    <h3><span class="step-num">03</span>Set Your Dates and Search</h3>
+    <span class="module-count" data-count="3"></span>
+  </div>
+  <p>At the top of the Sales Report, set the date range you want to look at. Then hit Search — nothing fills in until you do. The report can run long, so it splits across pages.</p>
+  <figure class="shot"><img src="images/dss-2.jpg?v=1" alt="Sales Report table with the page navigation circled"><figcaption>Set your dates, hit Search, then move through the pages.</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s3-1"><label for="s3-1">Set the date range at the top for what you want to track.</label></li>
+    <li><input type="checkbox" id="s3-2"><label for="s3-2">Click "Search" to populate the report.</label></li>
+    <li><input type="checkbox" id="s3-3"><label for="s3-3">Read each row: sale date, product, amount, and the Paid column.</label></li>
+    <li><input type="checkbox" id="s3-4"><label for="s3-4">Notice the page numbers — the report runs across more than one page.</label></li>
+  </ul>
+  <div class="tip"><strong>Tip —</strong> The Paid column tells the story. A date means you've been paid. Blank means you're still waiting.</div>
+</div>
+
+<!-- STEP 4 -->
+<div class="module" data-module="4">
+  <div class="module-header">
+    <h3><span class="step-num">04</span>Get Your Total</h3>
+    <span class="module-count" data-count="4"></span>
+  </div>
+  <p>Scroll to the last page. At the bottom you'll find your totals — Not Paid, Paid, and the grand Total. That's your number.</p>
+  <figure class="shot"><img src="images/dss-3.jpg?v=1" alt="Last page of the Sales Report with the Not Paid, Paid, and Total rows circled"><figcaption>On the last page, your totals: Not Paid, Paid, and Total.</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s4-1"><label for="s4-1">Go to the last page of the report.</label></li>
+    <li><input type="checkbox" id="s4-2"><label for="s4-2">Scroll to the bottom.</label></li>
+    <li><input type="checkbox" id="s4-3"><label for="s4-3">Read your totals: Not Paid, Paid, and Total.</label></li>
+  </ul>
+  <div class="tip"><strong>Tip —</strong> This is your fast answer to "has it processed, has it paid, or am I still waiting?"</div>
+</div>
+
+<div class="closing">
+  <h3>That's DSS.</h3>
+  <p>Log in, open Distributor Support Service, set your dates and search, then scroll to the last page for your total.</p>
+  <p>Now you always know exactly where your money stands.</p>
+</div>
+
+<div class="actions">
+  <button class="pdf" onclick="window.print()">Save as PDF</button>
+  <button onclick="exportProgress()">Export Progress</button>
+  <button class="reset" onclick="resetAll()">Reset All</button>
+</div>
+
+<footer>Agency True North &nbsp;|&nbsp; Last saved: <span id="lastSaved">never</span></footer>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'dss-guide';
+
+function save() {
+  const state = {};
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => { state[cb.id] = cb.checked; });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  document.getElementById('lastSaved').textContent = new Date().toLocaleString();
+}
+
+function load() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  const state = JSON.parse(raw);
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    if (state[cb.id] !== undefined) cb.checked = state[cb.id];
+  });
+}
+
+function updateProgress() {
+  const lis = document.querySelectorAll('ul.checklist li');
+  let total = 0, done = 0;
+  lis.forEach(li => {
+    const cb = li.querySelector('input[type="checkbox"]');
+    if (!cb) return;
+    total++;
+    if (cb.checked) done++;
+    li.classList.toggle('complete', cb.checked);
+  });
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+  const bar = document.getElementById('progressBar');
+  bar.style.width = Math.max(pct, 8) + '%';
+  document.getElementById('progressText').textContent = done + ' / ' + total + '  (' + pct + '%)';
+
+  document.querySelectorAll('.module').forEach(mod => {
+    let n = 0, d = 0;
+    mod.querySelectorAll('ul.checklist li').forEach(li => {
+      const cb = li.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      n++;
+      if (cb.checked) d++;
+    });
+    const counter = mod.querySelector('.module-count');
+    if (counter) counter.textContent = d + ' / ' + n + ' done';
+  });
+}
+
+function resetAll() {
+  if (!confirm('Reset all checkboxes? This cannot be undone.')) return;
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+  save();
+  updateProgress();
+}
+
+function exportProgress() {
+  let text = 'DSS — Progress Export\n';
+  text += new Date().toLocaleString() + '\n\n';
+  document.querySelectorAll('.module').forEach(mod => {
+    const title = mod.querySelector('h3').textContent.trim();
+    const lis = mod.querySelectorAll('ul.checklist li');
+    let n = 0, d = 0;
+    lis.forEach(li => {
+      const cb = li.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      n++;
+      if (cb.checked) d++;
+    });
+    text += title + '  [' + d + '/' + n + ']\n';
+    lis.forEach(li => {
+      const cb = li.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      const label = li.querySelector('label').textContent.trim();
+      text += '  [' + (cb.checked ? 'x' : ' ') + ']  ' + label + '\n';
+    });
+    text += '\n';
+  });
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'DSS-Progress-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+}
+
+load();
+document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', function() { save(); updateProgress(); });
+});
+updateProgress();
+</script>
+</body>
+</html>
