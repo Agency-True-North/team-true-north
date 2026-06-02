@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Call Script / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+    --danger: #C0392B;
+    --danger-light: #FDECEA;
+    --success: #2E7D5E;
+    --success-light: #E8F5EE;
+    --violet: #6B5B9A;
+    --violet-light: #EDEBF7;
+    --amber: #B45309;
+    --amber-light: #FEF3C7;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    .phase-section { page-break-before: always; }
+    .phase-section:first-of-type { page-break-before: avoid; }
+    .say-block, .callout, .dont-block, .listen-block, .move-on-block, .if-then-block { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover h1 { font-size: 36px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover .subtitle { font-size: 17px; line-height: 1.45; }
+    .toc { padding: 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    .phase-header { padding: 18px 20px; }
+    .say-content { font-size: 16px; }
+    .legend-grid { grid-template-columns: 1fr; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 54px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+  .pill.success { background: var(--success); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin-bottom: 7px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 2px;
+  }
+  .toc li .time {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    color: var(--cacao-muted);
+    font-weight: 400;
+    white-space: nowrap;
+    padding-top: 3px;
+    letter-spacing: 0.3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 52px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 24px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--cacao-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 20px 0 10px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--cacao-soft);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 24px;
+    padding-left: 20px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* LEGEND */
+  .legend-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 20px 0 32px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    background: #fff;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 36px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .legend-text strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 3px;
+    font-weight: 600;
+  }
+  .legend-text span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--cacao-soft);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.65; font-family: 'Cormorant Garamond', serif; }
+  .callout p + p { margin-top: 10px; }
+  .callout ul { margin: 8px 0 0; padding-left: 20px; }
+  .callout li { font-size: 14px; margin-bottom: 4px; }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--pearl);
+  }
+
+  /* PHASE SECTION */
+  .phase-section {
+    margin: 48px 0 0;
+  }
+  .phase-header {
+    background: var(--cacao);
+    color: var(--pearl);
+    padding: 22px 28px;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .phase-header-left {}
+  .phase-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sky);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .phase-name {
+    font-family: 'Forum', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--pearl);
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+  }
+  .phase-purpose {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14.5px;
+    color: rgba(250,248,245,0.65);
+    margin-top: 8px;
+    line-height: 1.5;
+    font-style: italic;
+    max-width: 520px;
+  }
+  .phase-time {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--honey);
+    font-weight: 600;
+    white-space: nowrap;
+    padding-top: 4px;
+    text-align: right;
+  }
+  .phase-conditional {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(250,248,245,0.45);
+    font-weight: 500;
+    margin-top: 2px;
+    text-align: right;
+  }
+  .phase-body {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 24px 28px 28px;
+  }
+
+  /* SUB-SECTION LABEL */
+  .sub-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin: 24px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sub-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .sub-label:first-child { margin-top: 4px; }
+
+  /* SAY BLOCKS — Blue */
+  .say-block {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #B8D9E8;
+    margin: 10px 0;
+  }
+  .say-tag {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    padding: 7px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .say-tag .say-icon {
+    font-size: 11px;
+    opacity: 0.8;
+  }
+  .say-content {
+    background: var(--sky-light);
+    padding: 16px 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--espresso);
+  }
+  .say-content .alt {
+    font-size: 14.5px;
+    color: var(--cacao-muted);
+    font-style: italic;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #C5DCE8;
+    font-weight: 400;
+  }
+  .say-content .alt strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .say-note {
+    background: #EFF6FB;
+    padding: 10px 20px;
+    border-top: 1px solid #C5DCE8;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.5px;
+    color: var(--cacao-soft);
+    font-style: italic;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  /* COACHING BLOCKS — Green */
+  .coaching-block {
+    border-left: 3px solid var(--success);
+    background: var(--success-light);
+    padding: 14px 20px;
+    margin: 14px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .coaching-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--success);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .coaching-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .coaching-block p + p { margin-top: 8px; }
+  .coaching-block ul { margin: 6px 0 0; padding-left: 20px; }
+  .coaching-block li { font-size: 14.5px; margin-bottom: 4px; }
+
+  /* DON'T SAY BLOCKS — Red */
+  .dont-block {
+    border-left: 3px solid var(--danger);
+    background: var(--danger-light);
+    padding: 14px 20px;
+    margin: 14px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .dont-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--danger);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .dont-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .dont-block ul { margin: 6px 0 0; padding-left: 20px; }
+  .dont-block li { font-size: 14.5px; margin-bottom: 4px; }
+
+  /* LISTEN FOR BLOCKS — Violet */
+  .listen-block {
+    border-left: 3px solid var(--violet);
+    background: var(--violet-light);
+    padding: 14px 20px;
+    margin: 14px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .listen-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .listen-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .listen-block ul { margin: 6px 0 0; padding-left: 20px; }
+  .listen-block li { font-size: 14.5px; margin-bottom: 6px; }
+
+  /* MOVE ON WHEN — Gold/Amber */
+  .move-on-block {
+    background: var(--amber-light);
+    border: 1px solid #FCD34D;
+    border-left: 3px solid var(--amber);
+    padding: 14px 20px;
+    margin: 20px 0 4px;
+    border-radius: 0 4px 4px 0;
+  }
+  .move-on-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .move-on-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .move-on-block ul { margin: 6px 0 0; padding-left: 20px; }
+  .move-on-block li { font-size: 14.5px; margin-bottom: 5px; }
+
+  /* IF / THEN BLOCKS */
+  .if-then-block {
+    background: var(--pearl-deep);
+    border: 1px solid var(--rule);
+    padding: 16px 20px;
+    margin: 14px 0;
+    border-radius: 4px;
+  }
+  .if-then-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .if-then-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--cacao);
+  }
+  .if-then-row:last-child { margin-bottom: 0; }
+  .if-arrow {
+    color: var(--honey-deep);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    padding-top: 2px;
+  }
+
+  /* STEP BLOCKS (for Phase 9) */
+  .step-list {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0;
+    counter-reset: steps;
+  }
+  .step-list li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 13px 16px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.55;
+    counter-increment: steps;
+  }
+  .step-list li:first-child { border-radius: 4px 4px 0 0; }
+  .step-list li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .step-num {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0;
+  }
+  .step-list .warning-step { background: var(--danger); }
+
+  /* DIVIDERS */
+  hr { border: none; border-top: 1px solid var(--rule); margin: 36px 0; }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+
+  a { color: var(--honey-deep); text-decoration: underline; }
+  a:hover { color: var(--cacao); }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Sales Call Script</h1>
+  <div class="version">Hell → Heaven Framework</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">A line-by-line guide for running a sales call that feels like connection and closes with clarity.</div>
+  <div class="pills">
+    <span class="pill sky">Sales</span>
+    <span class="pill honey">Hell → Heaven</span>
+    <span class="pill">Discovery Calls</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Before you open this script</strong>
+  <p>The True North app has a built-in Hell → Heaven skill that walks you through this in real time. Use it as your primary tool. This guide is your training reference and backup — use it to learn the framework, study the language, and build fluency before you get on calls.</p>
+  <p>This is not a word-for-word script to read aloud. It is a framework to internalize. The goal is to know it well enough that it sounds completely like you.</p>
+</div>
+
+<!-- LEGEND -->
+<div class="toc">
+  <h3>Color Key</h3>
+  <div class="legend-grid">
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: var(--sky-deep);"></div>
+      <div class="legend-text">
+        <strong style="color: var(--sky-deep);">Say</strong>
+        <span>Exact language to use. Make it yours, but stay close.</span>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: var(--success);"></div>
+      <div class="legend-text">
+        <strong style="color: var(--success);">Coaching Note</strong>
+        <span>What new callers most often get wrong here.</span>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: var(--danger);"></div>
+      <div class="legend-text">
+        <strong style="color: var(--danger);">Don't Say / Don't Do</strong>
+        <span>Common mistakes that cost you the call.</span>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: var(--violet);"></div>
+      <div class="legend-text">
+        <strong style="color: var(--violet);">Listen For</strong>
+        <span>Signals that tell you what to do next.</span>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: var(--amber);"></div>
+      <div class="legend-text">
+        <strong style="color: var(--amber);">Move Forward When</strong>
+        <span>The signal to advance to the next phase.</span>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: var(--honey-deep);"></div>
+      <div class="legend-text">
+        <strong style="color: var(--honey-deep);">If / Then</strong>
+        <span>Branching decisions based on their response.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALL MAP TOC -->
+<div class="toc">
+  <h3>Call Map — Total: 45–60 Minutes</h3>
+  <ol>
+    <li><span class="num">01</span> Frame the Call <span class="time">3–5 min</span></li>
+    <li><span class="num">02</span> Hell: Dive Into the Pain <span class="time">15–20 min</span></li>
+    <li><span class="num">03</span> Heaven: Cast the Vision <span class="time">10–15 min</span></li>
+    <li><span class="num">04</span> Close the Commitment</li>
+    <li><span class="num">05</span> Finances + Resourcefulness <span class="time">5–10 min</span></li>
+    <li><span class="num">06</span> Spouse Objection Pre-Frame <span class="time">if needed</span></li>
+    <li><span class="num">07</span> Separate Money from Commitment <span class="time">if needed</span></li>
+    <li><span class="num">08</span> Inoculate Against Cold Feet <span class="time">every call</span></li>
+    <li><span class="num">09</span> Affiliating On the Call <span class="time">if closing today</span></li>
+  </ol>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PRE-CALL -->
+<!-- ─────────────────────────────────── -->
+<h2>00 / Before the Call</h2>
+
+<p class="lead">Walk into every call with context. If you're reading notes cold while they're talking, you've already lost the lead.</p>
+
+<h4>Review before every call</h4>
+<ul class="checklist">
+  <li><span class="box"></span> Review their clarity form or clarity call notes — know their name, their situation, and what they responded to</li>
+  <li><span class="box"></span> Know why they raised their hand: what they clicked on, what they said on the form</li>
+  <li><span class="box"></span> Have the True North Hell → Heaven skill open in the app as your primary reference</li>
+  <li><span class="box"></span> Close everything else. Give this call your full attention.</li>
+  <li><span class="box"></span> Have a notepad ready — you will need their exact words in Phase 4</li>
+</ul>
+
+<div class="callout honey">
+  <strong>Why the form matters</strong>
+  <p>If they filled out a clarity form, you already know something about their pain before they say a word. Use it. Reference it early. "I noticed you mentioned X on the form — tell me more about that." It builds immediate rapport and shows you actually read what they shared.</p>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 1 -->
+<!-- ─────────────────────────────────── -->
+<h2>01 / Phase One</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 01</div>
+      <div class="phase-name">Frame the Call</div>
+      <div class="phase-purpose">Set the container before the conversation begins. This is not small talk — it is the moment you establish yourself as the guide and create the safety for them to be completely honest with you.</div>
+    </div>
+    <div>
+      <div class="phase-time">3–5 minutes</div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "Just want to make sure you have 45–60 minutes to be fully present with me on this call?"
+      </div>
+      <div class="say-note">No time? Reschedule. A rushed call does not close — and it shouldn't.</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "Good. This might be one of the most important conversations of your life."
+      </div>
+      <div class="say-note">Let it land. Don't soften it or follow it with something lighter. Mean it.</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "My job here is to connect with you and guide you — not to tell you what you want to hear, but what you need to hear to make the most aligned decision for your dreams. Does that make sense?"
+      </div>
+      <div class="say-note">"Does that make sense?" is not filler. It is a micro-close. Use it throughout the call. Every small yes compounds into the big one.</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "I'm sure you have questions for me too — there will be plenty of room for that."
+      </div>
+    </div>
+
+    <div class="dont-block">
+      <span class="dont-tag">✕ Don't Do</span>
+      <ul>
+        <li>Don't apologize for taking their time or minimize how important this call is</li>
+        <li>Don't skip the frame because it feels awkward — it is doing real psychological work</li>
+        <li>Don't move on until time is confirmed and the frame is agreed to</li>
+      </ul>
+    </div>
+
+    <div class="move-on-block">
+      <span class="move-on-tag">→ Move Forward When</span>
+      <p>They have confirmed their time and agreed to the frame you just set. Both. Not just one.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 2 -->
+<!-- ─────────────────────────────────── -->
+<h2>02 / Phase Two</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 02</div>
+      <div class="phase-name">Hell: Dive Into the Pain</div>
+      <div class="phase-purpose">Help them feel and name what their current life is actually costing them. The deeper you go here, the more invested they become in finding a solution. You are not manufacturing urgency — you are helping them see what is already true.</div>
+    </div>
+    <div>
+      <div class="phase-time">15–20 minutes</div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <div class="sub-label">Open the Conversation</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "So — what's going on that made you want to start an online business right now in your life?"
+      </div>
+      <div class="say-note">Listen more than you speak. Take notes. Their exact words will matter in Phase 4.</div>
+    </div>
+
+    <div class="sub-label">Extract the Emotional and Relational Cost</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "What is that costing you personally?"
+      </div>
+      <div class="say-note">Wait for a real answer. Don't move on if they give you a surface response. Push gently: "And what else?"</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "How does that affect your kids? Your spouse?"
+      </div>
+      <div class="say-note">Get specific. Ask for names. Ask for ages. Ask about their schedule, their job, their daily life. The more specific the details, the more real the conversation becomes. This is care, not nosiness — and they will feel the difference.</div>
+    </div>
+
+    <div class="sub-label">Inoculate Against "I Need to Think About It"</div>
+
+    <div class="coaching-block">
+      <span class="coaching-tag">✓ Coaching Note</span>
+      <p>Do this before the objection ever forms. You are planting the answer to "I need to think about it" while you're still in the pain phase. Once they've answered this question, that objection has already been addressed — they said it themselves.</p>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "Why is it important for you to do something about this now — not six months from now?"
+        <div class="alt">
+          <strong>Alternate phrasing</strong>
+          "What's the tug on your heart that's making you want to move on this now, instead of waiting?"
+        </div>
+      </div>
+      <div class="say-note">Let them answer fully. Do not jump in. Silence here is productive.</div>
+    </div>
+
+    <div class="sub-label">Pre-Frame Why This Time Is Different</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"What else have you tried before?"</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"Why didn't that work?"</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"What makes you feel like this time would be different?"</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"How are <em>you</em> going to show up differently this time?"</div>
+      <div class="say-note">This question gets them to commit out loud to a new level of personal responsibility. When they say what they'll do differently, they believe it more than if you said it for them.</div>
+    </div>
+
+    <div class="dont-block">
+      <span class="dont-tag">✕ Don't Do</span>
+      <ul>
+        <li>Do not talk about the business, the product, or the opportunity in this phase — not yet</li>
+        <li>Do not rush through the pain to get to the solution. The pain phase is doing the most important work of the call</li>
+        <li>Do not fill silences. Silence is where the real answers come from</li>
+      </ul>
+    </div>
+
+    <div class="coaching-block">
+      <span class="coaching-tag">✓ Coaching Note</span>
+      <p>This is the phase where most callers get impatient and want to start talking about the business. The instinct is to rescue them from their pain by showing them the solution. Don't. Stay in their pain. The more time they spend naming what their life is costing them, the more motivated they are to change it. Your job here is to ask, listen, and ask again.</p>
+    </div>
+
+    <div class="move-on-block">
+      <span class="move-on-tag">→ Move Forward When</span>
+      <p>They have clearly named what their current life is costing them — personally, relationally, emotionally. They have told you what they've tried before and why it didn't work. You can feel the weight of their situation.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 3 -->
+<!-- ─────────────────────────────────── -->
+<h2>03 / Phase Three</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 03</div>
+      <div class="phase-name">Heaven: Cast the Vision</div>
+      <div class="phase-purpose">Help them feel the life they actually want — specifically. Not vague hopes. Specific pictures. The goal is to make the vision so clear and so felt that staying stuck starts to feel more painful than taking the leap.</div>
+    </div>
+    <div>
+      <div class="phase-time">10–15 minutes</div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <div class="sub-label">Open the Vision</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "Dream with me. In 3–5 years — what would your ideal life look like?"
+      </div>
+      <div class="say-note">Give them time. If they stay vague, push for specifics.</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say — Prompt for Specifics</div>
+      <div class="say-content">
+        "What kind of house? What are you driving? What does your schedule actually look like? Where are you traveling? What's your income — monthly? Yearly?"
+      </div>
+      <div class="say-note">Keep going until you have a picture in your head. Vague answers = they haven't fully gone there yet. Push gently until the vision is specific.</div>
+    </div>
+
+    <div class="sub-label">Anchor the Emotion</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"How would that make you feel?"</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"When you picture that life and you look in the mirror — what do you see?"</div>
+    </div>
+
+    <div class="sub-label">Expand to Family Impact</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"What does that future do for your family?"</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"How does it change their life — and their future?"</div>
+    </div>
+
+    <div class="sub-label">Bridge to Decision</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"Would you agree that the cost of staying stuck is higher than the cost of changing?"</div>
+      <div class="say-note">Wait for their answer. Don't rush past this. It is the bridge from dreaming to deciding.</div>
+    </div>
+
+    <div class="listen-block">
+      <span class="listen-tag">◉ Listen For</span>
+      <ul>
+        <li>Specific details — house, car, schedule, dollar amounts. Specificity = they're really feeling it</li>
+        <li>Emotion in their voice — a shift in tone, a pause, their voice getting quieter or fuller</li>
+        <li>Family mentions — when they bring up their kids or partner unprompted, the vision is landing</li>
+      </ul>
+    </div>
+
+    <div class="dont-block">
+      <span class="dont-tag">✕ Don't Move On Yet If</span>
+      <ul>
+        <li>Their vision is still vague ("I just want more time" / "I want to make more money") — keep pushing for specifics</li>
+        <li>You can't hear the emotion in their voice — they're describing it intellectually, not feeling it. Go deeper.</li>
+      </ul>
+    </div>
+
+    <div class="coaching-block">
+      <span class="coaching-tag">✓ Coaching Note</span>
+      <p>This is where the energy of the call shifts. Up until now you've been excavating pain. Now you're building desire. Write down their specific words — the exact vision they describe. You will reflect it back to them word for word in Phase 4. Paraphrase is not the same thing.</p>
+    </div>
+
+    <div class="move-on-block">
+      <span class="move-on-tag">→ Move Forward When</span>
+      <ul>
+        <li>They have described a <strong>specific</strong> vision — not general, not vague</li>
+        <li>You can hear or feel the emotion behind it</li>
+        <li>If either is missing — keep pushing. Go back to the specifics questions. They are not ready yet.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 4 -->
+<!-- ─────────────────────────────────── -->
+<h2>04 / Phase Four</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 04</div>
+      <div class="phase-name">Close the Commitment</div>
+      <div class="phase-purpose">You've heard their pain. You've helped them build their vision. Now you reflect it back exactly and make a clear, confident recommendation. This is not a soft suggestion.</div>
+    </div>
+    <div>
+      <div class="phase-time"></div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <div class="sub-label">Recap in Their Exact Words</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "Here's what I heard. You're stuck in [<em>their pain</em>], and it's costing you and your family [<em>their impact</em>]. And what you want is [<em>their desired future</em>]."
+      </div>
+      <div class="say-note">Use their exact words. Not your summary — theirs. This is not the moment to paraphrase. They need to hear themselves reflected back precisely. That's what makes it land.</div>
+    </div>
+
+    <div class="coaching-block">
+      <span class="coaching-tag">✓ Coaching Note</span>
+      <p>This is why you take notes in Phase 2 and Phase 3. If you can't recall their exact language, you can't do this right. The goal is for them to feel completely heard — more heard than they've felt in a long time.</p>
+    </div>
+
+    <div class="sub-label">Make the Recommendation</div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">
+        "My recommendation is to get started with a Quad. That positions you to maximize your commissions right away."
+      </div>
+      <div class="say-note" style="background: #FFF8E8; border-top: 1px solid #FCD34D; color: #92400E;">
+        ★ &nbsp;Then stop. Completely. Do not add more. Do not explain. Do not soften. Let them speak first. Whoever speaks next is the one who needs something.
+      </div>
+    </div>
+
+    <div class="dont-block">
+      <span class="dont-tag">✕ Don't Do</span>
+      <ul>
+        <li>Do not fill the silence after the recommendation — this is where most people lose the deal</li>
+        <li>Do not follow your recommendation with "Does that sound good?" or any softening phrase</li>
+        <li>Do not start explaining the packages unprompted — wait for them to engage</li>
+      </ul>
+    </div>
+
+    <div class="if-then-block">
+      <span class="if-then-tag">If / Then</span>
+      <div class="if-then-row">
+        <span class="if-arrow">→</span>
+        <span><strong>If they engage and start discussing options:</strong> Move into package details.</span>
+      </div>
+      <div class="if-then-row">
+        <span class="if-arrow">→</span>
+        <span><strong>If they go quiet or show hesitation around financing:</strong> Move to Phase 5.</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 5 -->
+<!-- ─────────────────────────────────── -->
+<h2>05 / Phase Five</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 05</div>
+      <div class="phase-name">Finances + Resourcefulness</div>
+      <div class="phase-purpose">Starting a business requires investment. Your job is not to be their financial advisor — it's to help them think resourcefully about what options actually exist. Successful people aren't always more resourced. They're more resourceful.</div>
+    </div>
+    <div>
+      <div class="phase-time">5–10 minutes</div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"Starting a business takes an investment. What resources do you have available?"</div>
+      <div class="say-note">Let them answer first, fully. Then prompt if needed.</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say — Prompt if Needed</div>
+      <div class="say-content">"Checking or savings? Credit cards? 401k? Home equity? What does your credit look like?"</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"You've obviously invested in yourself or your current situation before. What have you used to finance things in the past?"</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say — Reframe</div>
+      <div class="say-content">"Successful people aren't always more resourced — they're more resourceful. We're just exploring options together. This doesn't mean you'll use any of them."</div>
+    </div>
+
+    <div class="dont-block">
+      <span class="dont-tag">✕ Don't Do</span>
+      <p>Don't let this feel like an interrogation. You're problem-solving alongside them — not extracting financial information. Warm and curious, not transactional.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 6 -->
+<!-- ─────────────────────────────────── -->
+<h2>06 / Phase Six</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 06</div>
+      <div class="phase-name">Spouse Objection Pre-Frame</div>
+      <div class="phase-purpose">Find out where the spouse stands before the objection shows up after you hang up. Better to address it now than to lose the deal to a conversation you weren't part of.</div>
+    </div>
+    <div>
+      <div class="phase-time">If needed</div>
+      <div class="phase-conditional">Use if a partner was mentioned but is not on the call</div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"I heard you mention your husband. Is he supportive of you doing this?"</div>
+    </div>
+
+    <div class="if-then-block">
+      <span class="if-then-tag">If / Then</span>
+      <div class="if-then-row">
+        <span class="if-arrow">→</span>
+        <span><strong>If yes:</strong> "Good. But he's not on this call — so what happens if he pushes back when you talk to him later? Do we just let that stop you, or do you find a way?"</span>
+      </div>
+      <div class="if-then-row">
+        <span class="if-arrow">→</span>
+        <span><strong>If no or unsure:</strong> Explore what his concerns are and what support would need to look like. You may need to arrange a three-way call.</span>
+      </div>
+    </div>
+
+    <div class="coaching-block">
+      <span class="coaching-tag">✓ Coaching Note</span>
+      <p>Don't skip this phase if a partner was mentioned anywhere in the call. A deal that closes on the call can fall apart in 48 hours if the spouse conversation hasn't been addressed. Pre-framing it here gives her language and resolve for what's coming.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 7 -->
+<!-- ─────────────────────────────────── -->
+<h2>07 / Phase Seven</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 07</div>
+      <div class="phase-name">Separate Money from Commitment</div>
+      <div class="phase-purpose">Most people who "can't afford it" have not yet fully committed. Commitment comes first. The how comes second. This phase separates those two things.</div>
+    </div>
+    <div>
+      <div class="phase-time">If needed</div>
+      <div class="phase-conditional">Use when money is the stated barrier</div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"Let's set the money aside completely for a second. Are you committed to this?"</div>
+      <div class="say-note">Wait. Don't help them answer. Don't soften the question or give them an out. Their answer is the data.</div>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Say</div>
+      <div class="say-content">"Because committed people don't wait until they know the 'how.' They decide first. Then they figure it out."</div>
+    </div>
+
+    <div class="coaching-block">
+      <span class="coaching-tag">✓ Coaching Note</span>
+      <p>This is not a pressure tactic. It is a clarity question. You are helping them separate wanting the result from believing they can get there. Those are two different things, and most people conflate them. A person who is truly committed will find a way. A person who is not will use money as the reason — and no financing conversation will change that.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 8 -->
+<!-- ─────────────────────────────────── -->
+<h2>08 / Phase Eight</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 08</div>
+      <div class="phase-name">Inoculate Against Cold Feet</div>
+      <div class="phase-purpose">Protect the decision they just made. Once you hang up, they go back to their world — their friends, their family, their own doubts. This conversation prepares them for that. Use it on every call, regardless of where they land.</div>
+    </div>
+    <div>
+      <div class="phase-time">Every call</div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <div class="coaching-block">
+      <span class="coaching-tag">✓ Coaching Note — Read This First</span>
+      <p>Deliver this conversationally, in your own words. This is the one phase you should not read from the script. Know the structure, know the points, and let it come out naturally. A scripted inoculation defeats its own purpose.</p>
+    </div>
+
+    <div class="sub-label">Cover These Points — In Your Own Words</div>
+
+    <div class="listen-block">
+      <span class="listen-tag">◉ Hit Each of These</span>
+      <ul>
+        <li>Big decisions feel clear in the moment — then doubt can creep in after</li>
+        <li>When you hang up, you'll talk to people you love. Some will question it. Some might call it a scam. That is not sabotage — that is fear-based protection. But they weren't on this call. They don't have the context you have right now.</li>
+        <li>You might also get in your own head. Second-guess yourself. Wonder if you have what it takes. That is where most people stop. That is the line between people who build something and people who stay exactly where they are.</li>
+      </ul>
+    </div>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">◆</span> Close With This Question</div>
+      <div class="say-content">
+        "If your family pushes back — if you get cold feet — if financing takes longer than expected — what happens? Do we toss everything we talked about out the window? Do we walk away from the future you just described to me? Or do you double down on your commitment? Talk to me. What happens next?"
+      </div>
+      <div class="say-note">This is not rhetorical. Wait for a real answer. Their response tells you exactly how real this deal is and what your follow-up conversation needs to look like.</div>
+    </div>
+
+    <div class="listen-block">
+      <span class="listen-tag">◉ Listen For</span>
+      <ul>
+        <li><strong>Committed person:</strong> Answers with something concrete. "I'm doing this." "I'll figure it out." "My husband will come around." Clear. Decisive.</li>
+        <li><strong>Lukewarm person:</strong> Goes vague. Starts hedging. Makes it conditional. "Well, I guess it depends…" This tells you the follow-up needs more work — and it's better to know now.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────────── -->
+<!-- PHASE 9 -->
+<!-- ─────────────────────────────────── -->
+<h2>09 / Phase Nine</h2>
+
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Phase 09</div>
+      <div class="phase-name">Affiliating On the Call</div>
+      <div class="phase-purpose">If they are ready to move forward today, this is where it becomes official. How you handle this moment is the first impression of what it's like to work with you. Be organized. Be calm. Be thorough.</div>
+    </div>
+    <div>
+      <div class="phase-time">If closing today</div>
+    </div>
+  </div>
+  <div class="phase-body">
+
+    <ul class="step-list">
+      <li>
+        <span class="step-num">1</span>
+        Share your screen. Let them watch you fill out the forms in real time — they should be able to follow every step.
+      </li>
+      <li>
+        <span class="step-num">2</span>
+        Complete both forms together. Walk them through each field. Don't rush.
+      </li>
+      <li>
+        <span class="step-num" style="background: var(--danger);">3</span>
+        Stop your recording before collecting any card information. Do not record payment details.
+      </li>
+      <li>
+        <span class="step-num">4</span>
+        Refer to the SOP for direct form links and the full affiliating process.
+      </li>
+      <li>
+        <span class="step-num">5</span>
+        Send all completed forms to Naomi immediately after the call, with the exact package confirmed.
+      </li>
+    </ul>
+
+    <div class="dont-block">
+      <span class="dont-tag">✕ Don't Do</span>
+      <p>Do not rush through the forms. Moving fast creates mistakes and erodes their confidence right at the moment they most need to feel they made the right call. They are watching how you work. Organized and calm is the only way to close this.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="ornament">· · ·</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Sales Call Script</strong> &nbsp;·&nbsp; Hell → Heaven Framework &nbsp;·&nbsp; June 2026</div>
+</div>
+
+</body>
+</html>
