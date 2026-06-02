@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baseline Metrics Guide / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .metric-card, .callout, .phase { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover { padding: 24px 0 16px; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover h1 { font-size: 36px; letter-spacing: 0.5px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .version { font-size: 9px; letter-spacing: 2.5px; margin-bottom: 18px; }
+    .cover .byline { font-size: 10px; letter-spacing: 2px; margin-bottom: 16px; }
+    .cover .subtitle { font-size: 17px; margin-bottom: 18px; line-height: 1.45; }
+    .toc { padding: 22px 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    h3 { font-size: 22px; margin: 22px 0 8px; }
+    .metric-card { padding: 18px 20px; }
+    .metric-threshold { font-size: 48px; }
+    .callout { padding: 14px 16px; margin: 16px 0; }
+    table { font-size: 14px; }
+    th { padding: 10px 12px; }
+    td { padding: 11px 12px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .callout p + p { margin-top: 10px; }
+
+  /* PHASE BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase ul { margin: 0; }
+  .phase li { font-size: 15px; }
+
+  /* METRIC CARDS */
+  .metric-card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: #FFFFFF;
+    margin: 18px 0;
+    overflow: hidden;
+  }
+  .metric-card-header {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--rule);
+  }
+  .metric-threshold-block {
+    background: var(--cacao);
+    color: var(--pearl);
+    padding: 22px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .metric-threshold-block.sky { background: var(--sky-deep); }
+  .metric-threshold-block.honey { background: var(--honey); color: var(--cacao); }
+  .metric-threshold {
+    font-family: 'Forum', serif;
+    font-size: 52px;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+  .metric-threshold-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 6px;
+    opacity: 0.85;
+  }
+  .metric-card-title-block {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+  }
+  .metric-card-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .metric-card-name {
+    font-family: 'Forum', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+  }
+  .metric-card-body {
+    padding: 18px 24px;
+  }
+  .metric-card-body p {
+    font-size: 15px;
+    margin-bottom: 12px;
+    color: var(--cacao-soft);
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .metric-diagnostic {
+    background: var(--honey-light);
+    border-left: 2px solid var(--honey-deep);
+    border-radius: 0 4px 4px 0;
+    padding: 12px 16px;
+    margin-top: 4px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .metric-diagnostic-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    font-weight: 600;
+    white-space: nowrap;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .metric-diagnostic p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--cacao);
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 22px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+  }
+  th {
+    background: var(--cacao);
+    color: var(--pearl);
+    padding: 13px 18px;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.6;
+    background: #FFFFFF;
+  }
+  tr:nth-child(even) td { background: var(--pearl-deep); }
+  .td-metric { font-family: 'Forum', serif; font-size: 17px; font-weight: 400; color: var(--cacao); }
+  .td-threshold {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--sky-deep);
+    white-space: nowrap;
+  }
+  .td-threshold.honey { color: var(--honey-deep); }
+  .td-stage {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    font-weight: 600;
+  }
+
+  /* DIVIDER */
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 36px 0;
+  }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Baseline<br>Metrics Guide</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">The minimum performance standards for every stage of your funnel — and exactly what to fix when a number falls short.</div>
+  <div class="pills">
+    <span class="pill sky">Meta Ads</span>
+    <span class="pill honey">Funnel</span>
+    <span class="pill">Sales</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>What this guide is for</strong>
+  <p>Baseline metrics are not goals. They are the minimum acceptable performance at each stage of your funnel. If a number is above baseline, it's working. If it's below, something is broken — and this guide tells you exactly where to look.</p>
+  <p>Use this as your diagnostic tool. Check your numbers weekly. When something drops below its baseline, don't guess at the problem. The threshold tells you what to fix.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>What's Inside</h3>
+  <ol>
+    <li><span class="num">01</span> What baseline metrics are</li>
+    <li><span class="num">02</span> Quick reference: all baselines</li>
+    <li><span class="num">03</span> CTR (All) — 6% minimum</li>
+    <li><span class="num">04</span> CTR (Link) — 3% minimum</li>
+    <li><span class="num">05</span> Landing Page Conversion — 20% minimum</li>
+    <li><span class="num">06</span> Saw Offer Rate — 20% minimum</li>
+    <li><span class="num">07</span> Front-End Sale Conversion — 3% minimum</li>
+    <li><span class="num">08</span> Booked Call Rate — 70% minimum</li>
+    <li><span class="num">09</span> Show-Up Rate — 80% minimum</li>
+    <li><span class="num">10</span> Back-End Sale Conversion — 20% minimum</li>
+  </ol>
+</div>
+
+
+<!-- 01 -->
+<h2>01 / What Are Baseline Metrics?</h2>
+
+<p class="lead">Baseline metrics are the minimum acceptable performance levels for each stage of your funnel. They act as diagnostic thresholds — not targets, not goals, but the floor. Drop below them and something needs fixing.</p>
+
+<p>Think of them as a smoke detector, not a scoreboard. When everything is above baseline, the system is healthy. When something drops below, it tells you precisely where the breakdown is — so you fix the right thing instead of guessing.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Key Distinction</span>
+    <span class="phase-title">Baselines vs. Goals</span>
+  </div>
+  <ul>
+    <li><strong>Baseline = minimum standard.</strong> Anything below this requires immediate attention. It means something in that stage is broken.</li>
+    <li><strong>Goal = what you're aiming for.</strong> Baselines are not your goals. Healthy numbers should be comfortably above baseline.</li>
+    <li><strong>Anything above baseline is good.</strong> You can always optimize further, but above baseline means the system is functioning.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <strong>How to use this guide</strong>
+  <p>Pull your funnel numbers weekly. Compare each metric to its baseline. If something is below, go to that section of this guide and use the diagnostic to identify what needs fixing. Don't try to fix multiple stages at once — isolate the bottleneck first.</p>
+</div>
+
+
+<!-- 02 -->
+<h2>02 / Quick Reference — All Baselines</h2>
+
+<p class="lead">Your full funnel at a glance. Eight metrics, eight minimum standards, eight diagnostics.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Minimum</th>
+      <th>Stage</th>
+      <th>If Below Threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td-metric">CTR (All)</td>
+      <td class="td-threshold">6%</td>
+      <td class="td-stage">Ad Creative</td>
+      <td>Ad creative isn't engaging enough</td>
+    </tr>
+    <tr>
+      <td class="td-metric">CTR (Link)</td>
+      <td class="td-threshold">3%</td>
+      <td class="td-stage">Ad Copy</td>
+      <td>Headline, hook, or value proposition needs work</td>
+    </tr>
+    <tr>
+      <td class="td-metric">Landing Page Conversion</td>
+      <td class="td-threshold">20%</td>
+      <td class="td-stage">Landing Page</td>
+      <td>Messaging, layout, or offer needs improvement</td>
+    </tr>
+    <tr>
+      <td class="td-metric">Saw Offer Rate</td>
+      <td class="td-threshold">20%</td>
+      <td class="td-stage">Webclass</td>
+      <td>Retention, delivery, or engagement needs fixing</td>
+    </tr>
+    <tr>
+      <td class="td-metric">Front-End Sale Conversion</td>
+      <td class="td-threshold honey">3%</td>
+      <td class="td-stage">Front-End Offer</td>
+      <td>Offer clarity, pitch, or perceived value needs work</td>
+    </tr>
+    <tr>
+      <td class="td-metric">Booked Call Rate</td>
+      <td class="td-threshold honey">70%</td>
+      <td class="td-stage">Discovery Process</td>
+      <td>Lead quality, DM scripts, or CTAs need adjustment</td>
+    </tr>
+    <tr>
+      <td class="td-metric">Show-Up Rate</td>
+      <td class="td-threshold honey">80%</td>
+      <td class="td-stage">Call Reminders</td>
+      <td>Reminders, confirmation messaging, or scheduling friction</td>
+    </tr>
+    <tr>
+      <td class="td-metric">Back-End Sale Conversion</td>
+      <td class="td-threshold honey">20%</td>
+      <td class="td-stage">Sales Call</td>
+      <td>Lead quality, sales process, or objection handling</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- 03 -->
+<h2>03 / CTR (All) — 6% Minimum</h2>
+
+<div class="metric-card">
+  <div class="metric-card-header">
+    <div class="metric-threshold-block sky">
+      <div class="metric-threshold">6%</div>
+      <div class="metric-threshold-label">Minimum</div>
+    </div>
+    <div class="metric-card-title-block">
+      <div class="metric-card-eyebrow">Ad Stage</div>
+      <div class="metric-card-name">CTR — All Clicks</div>
+    </div>
+  </div>
+  <div class="metric-card-body">
+    <p>Click-through rate (all) measures the percentage of total impressions that result in any type of click — including clicks on your profile, your page, your "see more" link, and links to your landing page. It tells you whether the ad is stopping the scroll and creating any kind of engagement at all.</p>
+    <p>If your CTR (All) is strong but your CTR (Link) is low, people are engaging with the ad but not clicking through to your funnel. That's a copy or offer clarity problem, not a creative problem.</p>
+    <div class="metric-diagnostic">
+      <div class="metric-diagnostic-label">If below 3%</div>
+      <p>The ad creative itself isn't engaging enough. The visual, video, or opening frame isn't stopping the scroll. Test new creative before touching anything else.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- 04 -->
+<h2>04 / CTR (Link) — 3% Minimum</h2>
+
+<div class="metric-card">
+  <div class="metric-card-header">
+    <div class="metric-threshold-block sky">
+      <div class="metric-threshold">3%</div>
+      <div class="metric-threshold-label">Minimum</div>
+    </div>
+    <div class="metric-card-title-block">
+      <div class="metric-card-eyebrow">Ad Stage</div>
+      <div class="metric-card-name">CTR — Link Clicks</div>
+    </div>
+  </div>
+  <div class="metric-card-body">
+    <p>Link click-through rate measures the percentage of impressions that result in a click specifically to your landing page or funnel. This is the more important of the two CTR metrics — it tells you how many people your ad is actually sending into your funnel.</p>
+    <p>CTR (Link) below 3% means your ad is failing to get people off Facebook and into your world. This is usually a headline, hook, or offer clarity problem — not a visual problem.</p>
+    <div class="metric-diagnostic">
+      <div class="metric-diagnostic-label">If below 1%</div>
+      <p>The headline, hook, or value proposition in the ad needs work. People are seeing it but not clicking through. Rewrite your primary text and headline — focus on speaking directly to the problem your ideal client is feeling right now.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- 05 -->
+<h2>05 / Landing Page Conversion Rate — 20% Minimum</h2>
+
+<div class="metric-card">
+  <div class="metric-card-header">
+    <div class="metric-threshold-block">
+      <div class="metric-threshold">20%</div>
+      <div class="metric-threshold-label">Minimum</div>
+    </div>
+    <div class="metric-card-title-block">
+      <div class="metric-card-eyebrow">Funnel Stage</div>
+      <div class="metric-card-name">Landing Page Conversion</div>
+    </div>
+  </div>
+  <div class="metric-card-body">
+    <p>Landing page conversion rate measures the percentage of visitors who become leads — meaning they opt in, submit a survey, or register for the webclass. This is the bridge between your ad traffic and your funnel. A high CTR with a low landing page conversion means the ad is working but the landing page is leaking leads.</p>
+    <div class="metric-diagnostic">
+      <div class="metric-diagnostic-label">If below 20%</div>
+      <p>The landing page messaging, layout, or offer needs improvement. Start with the headline — it should immediately reflect what the ad promised. If the ad and landing page feel disconnected, people leave. Also check page load speed on mobile.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- 06 -->
+<h2>06 / Saw Offer Rate — 20% Minimum</h2>
+
+<div class="metric-card">
+  <div class="metric-card-header">
+    <div class="metric-threshold-block">
+      <div class="metric-threshold">20%</div>
+      <div class="metric-threshold-label">Minimum</div>
+    </div>
+    <div class="metric-card-title-block">
+      <div class="metric-card-eyebrow">Webclass Stage</div>
+      <div class="metric-card-name">Saw Offer Rate</div>
+    </div>
+  </div>
+  <div class="metric-card-body">
+    <p>Saw offer rate measures the percentage of registered attendees who stay in the webclass long enough to see the sales offer. Before anyone can say yes, they have to hear the offer. If this number is below baseline, you have a retention problem — people are leaving before they ever get the chance to buy.</p>
+    <div class="metric-diagnostic">
+      <div class="metric-diagnostic-label">If below 20%</div>
+      <p>Webinar retention, delivery, or engagement needs fixing. Look at where people are dropping off. Are they leaving in the first 10 minutes (intro problem), the middle (content problem), or just before the offer (transition problem)? Each has a different fix.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- 07 -->
+<h2>07 / Front-End Sale Conversion Rate — 3% Minimum</h2>
+
+<div class="metric-card">
+  <div class="metric-card-header">
+    <div class="metric-threshold-block honey">
+      <div class="metric-threshold">3%</div>
+      <div class="metric-threshold-label">Minimum</div>
+    </div>
+    <div class="metric-card-title-block">
+      <div class="metric-card-eyebrow">Front-End Offer</div>
+      <div class="metric-card-name">Front-End Sale Conversion</div>
+    </div>
+  </div>
+  <div class="metric-card-body">
+    <p>Front-end sale conversion rate measures the percentage of people who saw the offer and went on to purchase the front-end product. This is your webclass-to-buyer ratio. A low number here means either the offer wasn't compelling, the pitch wasn't clear, or the perceived value didn't match the ask.</p>
+    <div class="metric-diagnostic">
+      <div class="metric-diagnostic-label">If below 3%</div>
+      <p>Offer clarity, pitch strength, or perceived value needs improvement. Review how the offer is framed — is the transformation clear? Is the price anchored against something? Are objections being addressed before the close? Weak conversion here often comes from a pitch that explains features instead of outcomes.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- 08 -->
+<h2>08 / Booked Call Rate — 70% Minimum</h2>
+
+<div class="metric-card">
+  <div class="metric-card-header">
+    <div class="metric-threshold-block honey">
+      <div class="metric-threshold">70%</div>
+      <div class="metric-threshold-label">Minimum</div>
+    </div>
+    <div class="metric-card-title-block">
+      <div class="metric-card-eyebrow">Discovery Process</div>
+      <div class="metric-card-name">Booked Call Rate</div>
+    </div>
+  </div>
+  <div class="metric-card-body">
+    <p>Booked call rate measures the percentage of eligible prospects who schedule a Discovery Process call. This reflects the strength of your DM conversations, the clarity of your call-to-action, and whether your leads are arriving qualified and ready to take a next step. A low booking rate means the friction is somewhere between the first touchpoint and the calendar link.</p>
+    <div class="metric-diagnostic">
+      <div class="metric-diagnostic-label">If below 70%</div>
+      <p>Lead quality, the Discovery Process framing, DM scripts, or CTAs need adjustment. Review your messaging sequence — are you inviting the right people to book? Is the ask clear? Is there too much friction in the scheduling process itself? Also check whether your leads understand what the call is and why it's valuable before you ask them to book.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- 09 -->
+<h2>09 / Show-Up Rate — 80% Minimum</h2>
+
+<div class="metric-card">
+  <div class="metric-card-header">
+    <div class="metric-threshold-block honey">
+      <div class="metric-threshold">80%</div>
+      <div class="metric-threshold-label">Minimum</div>
+    </div>
+    <div class="metric-card-title-block">
+      <div class="metric-card-eyebrow">Discovery Process</div>
+      <div class="metric-card-name">Show-Up Rate</div>
+    </div>
+  </div>
+  <div class="metric-card-body">
+    <p>Show-up rate measures the percentage of scheduled calls where the prospect actually attends. A booked call only becomes a sales opportunity if the person shows up. Low show-up rates waste your time and inflate your funnel numbers with dead leads. The fix is almost always in the confirmation and reminder sequence.</p>
+    <div class="metric-diagnostic">
+      <div class="metric-diagnostic-label">If below 80%</div>
+      <p>Reminder workflows, confirmation messaging, or scheduling friction need work. Make sure you have at least two reminders going out before the call — one the day before, one one hour before. Confirmation messages should build anticipation and reinforce the value of the conversation, not just send a calendar link.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- 10 -->
+<h2>10 / Back-End Sale Conversion Rate — 20% Minimum</h2>
+
+<div class="metric-card">
+  <div class="metric-card-header">
+    <div class="metric-threshold-block">
+      <div class="metric-threshold">20%</div>
+      <div class="metric-threshold-label">Minimum</div>
+    </div>
+    <div class="metric-card-title-block">
+      <div class="metric-card-eyebrow">Sales Call</div>
+      <div class="metric-card-name">Back-End Sale Conversion</div>
+    </div>
+  </div>
+  <div class="metric-card-body">
+    <p>Back-end sale conversion rate measures the percentage of attended calls that convert into a back-end sale. This is your closing rate — the most direct indicator of how well your Discovery Process is working. Below 20% means something is breaking in either the lead quality, the sales conversation structure, or your ability to handle objections.</p>
+    <div class="metric-diagnostic">
+      <div class="metric-diagnostic-label">If below 20%</div>
+      <p>Lead quality, the sales process, discovery questions, or objection handling need improvement. First, check lead quality — are the right people booking calls? If yes, look at your discovery questions — are they surfacing the real pain point? Then review your close — are you asking for the sale clearly, or dancing around it? Objections that come up repeatedly are usually a sign that something isn't being addressed earlier in the conversation.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ornament">· · ·</div>
+
+<div class="callout honey">
+  <strong>Remember</strong>
+  <p>These numbers are floors, not ceilings. Above baseline means the system is working. Well above baseline means it's working well. When something drops, don't panic — diagnose. The metric tells you where, the diagnostic tells you what. Fix one thing at a time and re-measure before touching anything else.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Baseline Metrics Guide</strong> &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; June 2026</div>
+</div>
+
+</body>
+</html>
