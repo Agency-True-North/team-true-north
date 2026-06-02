@@ -161,18 +161,6 @@
     margin-top: 14px;
   }
 
-  .photo-placeholder {
-    margin-top: 18px;
-    border: 2px dashed #cfcfc4;
-    border-radius: 8px;
-    background: #fafaf6;
-    padding: 26px 16px;
-    text-align: center;
-    color: #a8a89c;
-  }
-  .photo-placeholder .cam { font-size: 26px; display: block; margin-bottom: 6px; }
-  .photo-placeholder .cap { font-size: 13px; font-style: italic; }
-
   .module a, .intro a, .closing a {
     color: #4a7c59;
     font-weight: 600;
@@ -200,6 +188,7 @@
     display: flex;
     gap: 12px;
     justify-content: center;
+    flex-wrap: wrap;
   }
   .actions button {
     padding: 10px 24px;
@@ -212,10 +201,19 @@
     transition: all 0.2s;
   }
   .actions button:hover { background: #f0f0ea; }
+  .actions .pdf { color: #4a7c59; border-color: #bcd2c0; }
+  .actions .pdf:hover { background: #f0f6f1; }
   .actions .reset { color: #c0392b; border-color: #e8c4c0; }
   .actions .reset:hover { background: #fdf0ef; }
 
   footer { text-align: center; margin-top: 20px; font-size: 12px; color: #bbb; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .progress-bar-wrap, .actions, footer { display: none; }
+    .module, .intro, .closing { box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
+    .closing { background: #4a7c59 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
 </style>
 </head>
 <body>
@@ -235,7 +233,7 @@
   <p class="lead">Welcome. You're building something real.</p>
   <p>Before the ads run and the calls come in, you need a foundation under you. This is that foundation — laid out one step at a time.</p>
   <p>Don't rush it. Don't do it all today. Check a box, breathe, come back tomorrow.</p>
-  <p>Order matters here. Each step sets up the next. Work top to bottom, and by the end you'll have a name, the handles to match, your registration, a domain, an email, a website, and your first ad live.</p>
+  <p>Order matters here. Each step sets up the next. Work top to bottom, and by the end you'll have a clean business name, your real name on every platform, your registration, a domain, a professional email, and your first ad live.</p>
   <p>You've got a seat at this table. Here's how to set it.</p>
 </div>
 
@@ -245,35 +243,34 @@
     <h3><span class="step-num">01</span>Name Your Business</h3>
     <span class="module-count" data-count="1"></span>
   </div>
-  <p>Your name is the first thing people meet. It doesn't have to be clever. It has to be clear, easy to say, and easy to spell. Say it out loud. Text it to a friend. If they spell it back wrong, keep going.</p>
+  <p>Keep it simple. Clear, concise, clean — not clever, not crazy. You want people to remember it and spell it right the first time.</p>
+  <p>Think of it this way: Jane Box is the person. Agency True North is the business. True North Funnels, the True North app — all clear, all clean. Your business name can be its own thing. It just has to be easy.</p>
   <ul class="checklist">
-    <li><input type="checkbox" id="s1-1"><label for="s1-1">Write down 5–10 name ideas. No filtering yet.</label></li>
-    <li><input type="checkbox" id="s1-2"><label for="s1-2">Say each one out loud. Cut the ones that trip your tongue.</label></li>
-    <li><input type="checkbox" id="s1-3"><label for="s1-3">Search each name on Google, Instagram, and Facebook to see if it's taken.</label></li>
-    <li><input type="checkbox" id="s1-4"><label for="s1-4">Check the name is free in your state or country business registry.</label></li>
-    <li><input type="checkbox" id="s1-5"><label for="s1-5">Pick your one. Sit with it for a day before you commit.</label></li>
+    <li><input type="checkbox" id="s1-1"><label for="s1-1">Write down 3–5 simple, clear options. Nothing fancy.</label></li>
+    <li><input type="checkbox" id="s1-2"><label for="s1-2">Say each one out loud. If a friend can't spell it back, cut it.</label></li>
+    <li><input type="checkbox" id="s1-3"><label for="s1-3">Check the name is free in your state or country business registry.</label></li>
+    <li><input type="checkbox" id="s1-4"><label for="s1-4">Pick your one. Sit with it for a day before you commit.</label></li>
   </ul>
-  <div class="tip"><strong>Tip —</strong> Keep it short. Two or three words. Leave room to grow, so you're not boxed into one product down the road.</div>
-  <div class="photo-placeholder"><span class="cam">📷</span><span class="cap">Photo to add: a business-name search in your state or country registry.</span></div>
+  <div class="tip"><strong>Tip —</strong> Clear beats clever every time. Short and clean carries further than unique and confusing.</div>
 </div>
 
 <!-- STEP 2 -->
 <div class="module" data-module="2">
   <div class="module-header">
-    <h3><span class="step-num">02</span>Lock Your Handles</h3>
+    <h3><span class="step-num">02</span>Use Your Real Name on Social</h3>
     <span class="module-count" data-count="2"></span>
   </div>
-  <p>When someone sees your ad, the first thing they do is look you up. Your Instagram and Facebook need to match your name and each other. Same name. Same photo. Same energy. That match is what makes you believable.</p>
+  <p>On social media, be exactly who you are. Your real name — first and last — on every platform. Not a clever handle. Not your business name. You.</p>
+  <p>People buy from a person they can see and trust. When your name and your face are the same everywhere, that's the congruence. It's what makes you believable when someone looks you up after the ad.</p>
   <ul class="checklist">
-    <li><input type="checkbox" id="s2-1"><label for="s2-1">Check your business name is free on Instagram.</label></li>
-    <li><input type="checkbox" id="s2-2"><label for="s2-2">Check it's free on Facebook.</label></li>
-    <li><input type="checkbox" id="s2-3"><label for="s2-3">Grab the handle on both — even if you're not posting yet.</label></li>
-    <li><input type="checkbox" id="s2-4"><label for="s2-4">Use the same handle on each, or as close as you can get.</label></li>
-    <li><input type="checkbox" id="s2-5"><label for="s2-5">Set the same profile photo on both.</label></li>
-    <li><input type="checkbox" id="s2-6"><label for="s2-6">Write a short, clear bio that says who you help.</label></li>
+    <li><input type="checkbox" id="s2-1"><label for="s2-1">Set your real name — first and last — as your handle on Instagram.</label></li>
+    <li><input type="checkbox" id="s2-2"><label for="s2-2">Set the same real name on Facebook.</label></li>
+    <li><input type="checkbox" id="s2-3"><label for="s2-3">Match it on any other platform you're on.</label></li>
+    <li><input type="checkbox" id="s2-4"><label for="s2-4">Use the same clear photo of you on every platform.</label></li>
+    <li><input type="checkbox" id="s2-5"><label for="s2-5">Write a short, clear bio that says who you help.</label></li>
   </ul>
-  <div class="tip"><strong>Tip —</strong> If the exact name is taken, add a small, consistent tag — the same one everywhere. Never a different handle on each platform. Congruence is the whole point.</div>
-  <div class="photo-placeholder"><span class="cam">📷</span><span class="cap">Photo to add: your matching Instagram and Facebook profiles, side by side.</span></div>
+  <div class="tip"><strong>Tip —</strong> Same name, same face, everywhere. If your exact name is taken, add one small consistent piece — a middle initial, or your city — and use that same one on every platform.</div>
+  <p class="note">Your business name and your social name don't have to match. Your business is its own thing. Your social is you.</p>
 </div>
 
 <!-- STEP 3 -->
@@ -284,16 +281,15 @@
   </div>
   <p>This makes it real on paper. The exact steps depend on where you live — your state or your country sets the rules. Don't let that stall you. Most of it is one form and a small fee.</p>
   <ul class="checklist">
-    <li><input type="checkbox" id="s3-1"><label for="s3-1">Look up your state or country's business registration site.</label></li>
+    <li><input type="checkbox" id="s3-1"><label for="s3-1">Find your registration site. In the US, start at the <a href="https://www.sba.gov/business-guide/launch-your-business/register-your-business" target="_blank" rel="noopener">SBA — Register Your Business</a> page. Other countries: search "register a business in [your country]".</label></li>
     <li><input type="checkbox" id="s3-2"><label for="s3-2">Decide your structure — sole proprietor, LLC, or your local equivalent.</label></li>
     <li><input type="checkbox" id="s3-3"><label for="s3-3">Register your business name.</label></li>
-    <li><input type="checkbox" id="s3-4"><label for="s3-4">Get your tax ID (EIN in the US, or your country's equivalent).</label></li>
+    <li><input type="checkbox" id="s3-4"><label for="s3-4">Get your tax ID. In the US, apply free at the <a href="https://www.irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online" target="_blank" rel="noopener">IRS — Apply for an EIN</a>. Other countries: your equivalent.</label></li>
     <li><input type="checkbox" id="s3-5"><label for="s3-5">Open a separate bank account for the business.</label></li>
     <li><input type="checkbox" id="s3-6"><label for="s3-6">Save every confirmation in one folder.</label></li>
   </ul>
   <div class="tip"><strong>Tip —</strong> Keep business money and personal money apart from day one. It saves you at tax time.</div>
   <p class="note">Not sure which structure fits? A quick call with an accountant is worth the hour. Ask your sponsor who they use.</p>
-  <div class="photo-placeholder"><span class="cam">📷</span><span class="cap">Photo to add: your state or country's business registration homepage.</span></div>
 </div>
 
 <!-- STEP 4 -->
@@ -302,15 +298,14 @@
     <h3><span class="step-num">04</span>Claim Your Domain</h3>
     <span class="module-count" data-count="4"></span>
   </div>
-  <p>Your domain is your address on the internet — yourname.com. Grab it now, even before the website exists. They're cheap, and the good ones go fast.</p>
+  <p>Your domain is your address on the internet — yourname.com. Pick it, buy it, and you're done. Our team takes it from there.</p>
   <ul class="checklist">
-    <li><input type="checkbox" id="s4-1"><label for="s4-1">Search for your business name as a .com.</label></li>
-    <li><input type="checkbox" id="s4-2"><label for="s4-2">If .com is taken, try a clean variation — add your city, or "co".</label></li>
-    <li><input type="checkbox" id="s4-3"><label for="s4-3">Buy it from a registrar (GoDaddy, Namecheap, Squarespace, and others).</label></li>
-    <li><input type="checkbox" id="s4-4"><label for="s4-4">Turn on auto-renew so you never lose it.</label></li>
+    <li><input type="checkbox" id="s4-1"><label for="s4-1">Search for your name as a .com.</label></li>
+    <li><input type="checkbox" id="s4-2"><label for="s4-2">Buy the .com — and only the .com. Skip every other ending.</label></li>
+    <li><input type="checkbox" id="s4-3"><label for="s4-3">Turn on auto-renew so you never lose it.</label></li>
+    <li><input type="checkbox" id="s4-4"><label for="s4-4">Send your domain details to your sponsor so the team can connect it.</label></li>
   </ul>
-  <div class="tip"><strong>Tip —</strong> Reach for the .com first. It's the one people guess. Skip the strange endings.</div>
-  <div class="photo-placeholder"><span class="cam">📷</span><span class="cap">Photo to add: a domain search showing your name available.</span></div>
+  <div class="tip"><strong>Tip —</strong> It has to be a .com. It's the one people guess and trust. If your exact name is taken, add your city — but keep it a .com.</div>
 </div>
 
 <!-- STEP 5 -->
@@ -319,36 +314,30 @@
     <h3><span class="step-num">05</span>Set Up Your Email</h3>
     <span class="module-count" data-count="5"></span>
   </div>
-  <p>An address like you@yourbusiness.com beats yourname1987@gmail.com every time. It tells people you're serious before you say a word.</p>
+  <p>Use <a href="https://workspace.google.com/" target="_blank" rel="noopener">Google Workspace</a>. An address like yourname@yourbusiness.com beats a personal gmail every time. It tells people you're serious before you say a word.</p>
   <ul class="checklist">
-    <li><input type="checkbox" id="s5-1"><label for="s5-1">Pick an email host (Google Workspace, and others).</label></li>
+    <li><input type="checkbox" id="s5-1"><label for="s5-1">Set up <a href="https://workspace.google.com/" target="_blank" rel="noopener">Google Workspace</a>.</label></li>
     <li><input type="checkbox" id="s5-2"><label for="s5-2">Connect it to your domain.</label></li>
-    <li><input type="checkbox" id="s5-3"><label for="s5-3">Create your main address — hello@ or yourname@.</label></li>
+    <li><input type="checkbox" id="s5-3"><label for="s5-3">Create your main address — yourname@yourbusiness.</label></li>
     <li><input type="checkbox" id="s5-4"><label for="s5-4">Set up your signature — name, business, one link.</label></li>
     <li><input type="checkbox" id="s5-5"><label for="s5-5">Test it. Send yourself a message from your phone.</label></li>
   </ul>
-  <div class="tip"><strong>Tip —</strong> Keep it simple. One address is plenty on day one. You don't need ten.</div>
-  <div class="photo-placeholder"><span class="cam">📷</span><span class="cap">Photo to add: your new branded email in the inbox.</span></div>
+  <div class="tip"><strong>Tip —</strong> Start with one address — your name. Down the road, as you grow, you might add a support@ address for your team. Plan for it, but you don't need it yet.</div>
 </div>
 
 <!-- STEP 6 -->
 <div class="module" data-module="6">
   <div class="module-header">
-    <h3><span class="step-num">06</span>Build Your Website</h3>
+    <h3><span class="step-num">06</span>Your Website — We Build It For You</h3>
     <span class="module-count" data-count="6"></span>
   </div>
-  <p>Your site is where everything points. It doesn't need to be big. It needs to load fast, look like you, and tell people what you do and how to reach you.</p>
+  <p>Here's the good news: you don't build this. Once you have your domain, our team connects it to our Go High Level system and builds your funnel and site for you. All you do is get the domain and hand it off.</p>
   <ul class="checklist">
-    <li><input type="checkbox" id="s6-1"><label for="s6-1">Ask your sponsor for the team's website template before you start from scratch.</label></li>
-    <li><input type="checkbox" id="s6-2"><label for="s6-2">Pick a builder, or use the team's.</label></li>
-    <li><input type="checkbox" id="s6-3"><label for="s6-3">Connect your domain.</label></li>
-    <li><input type="checkbox" id="s6-4"><label for="s6-4">Add a clear homepage — who you help, in one line.</label></li>
-    <li><input type="checkbox" id="s6-5"><label for="s6-5">Add your photo and a short story.</label></li>
-    <li><input type="checkbox" id="s6-6"><label for="s6-6">Add one clear way to reach you — a button, a form, or a calendar link.</label></li>
-    <li><input type="checkbox" id="s6-7"><label for="s6-7">Check it on your phone before you call it done.</label></li>
+    <li><input type="checkbox" id="s6-1"><label for="s6-1">Make sure your .com domain is bought (Step 4).</label></li>
+    <li><input type="checkbox" id="s6-2"><label for="s6-2">Send your domain to your sponsor or the team.</label></li>
+    <li><input type="checkbox" id="s6-3"><label for="s6-3">That's it — leave the build to us.</label></li>
   </ul>
-  <div class="tip"><strong>Tip —</strong> One clear page beats five cluttered ones. Start small. You can grow it later.</div>
-  <div class="photo-placeholder"><span class="cam">📷</span><span class="cap">Photo to add: your homepage on desktop and phone.</span></div>
+  <div class="tip"><strong>Tip —</strong> You focus on your name, your handles, and your first conversations. We'll handle the tech.</div>
 </div>
 
 <!-- STEP 7 -->
@@ -367,12 +356,13 @@
 
 <div class="closing">
   <h3>That's your foundation.</h3>
-  <p>Name, handles, registration, domain, email, website, ads. You built the table.</p>
+  <p>Name, real name on social, registration, domain, email, website, ads. You built the table.</p>
   <p>Now you get to fill the seats. One step at a time — you don't have to have it all done today.</p>
   <p>Come back, check the next box, keep moving.</p>
 </div>
 
 <div class="actions">
+  <button class="pdf" onclick="window.print()">Save as PDF</button>
   <button onclick="exportProgress()">Export Progress</button>
   <button class="reset" onclick="resetAll()">Reset All</button>
 </div>
