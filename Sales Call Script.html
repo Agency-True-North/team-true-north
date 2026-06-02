@@ -754,6 +754,59 @@
 
   a { color: var(--honey-deep); text-decoration: underline; }
   a:hover { color: var(--cacao); }
+
+  /* NOTES CARDS */
+  .notes-card {
+    background: #FFFEF0;
+    border: 1px solid var(--honey);
+    border-left: 3px solid var(--honey-deep);
+    border-radius: 0 4px 4px 0;
+    padding: 16px 20px;
+    margin: 0 0 22px;
+  }
+  .notes-card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+  }
+  .note-field { display: flex; flex-direction: column; gap: 5px; }
+  .note-field.span-2 { grid-column: span 2; }
+  .note-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+  }
+  .note-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    background: transparent;
+    padding: 3px 2px;
+    outline: none;
+    min-height: 26px;
+    line-height: 1.5;
+  }
+  .note-line[data-tall] { min-height: 46px; }
+  .note-line:focus { border-bottom-color: var(--honey-deep); }
+  @media print {
+    .notes-card { background: #fff; border-color: #ccc; }
+    .note-line { border-bottom-color: #ccc; }
+  }
 </style>
 </head>
 <body>
@@ -952,6 +1005,48 @@
   </div>
   <div class="phase-body">
 
+    <div class="notes-card">
+      <span class="notes-card-title">📋 &nbsp;Capture As You Go — Fill This In During Phase 2 &amp; 3</span>
+      <div class="notes-grid">
+        <div class="note-field">
+          <span class="note-label">Her Name</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field">
+          <span class="note-label">Spouse / Partner Name</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field">
+          <span class="note-label">Kid #1 — Name &amp; Age</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field">
+          <span class="note-label">Kid #2 — Name &amp; Age</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field">
+          <span class="note-label">Kid #3 — Name &amp; Age</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field">
+          <span class="note-label">Her Job / Work Situation</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field span-2">
+          <span class="note-label">Her Pain — In Her Exact Words (use these in Phase 4)</span>
+          <div class="note-line" contenteditable="true" data-tall="true"></div>
+        </div>
+        <div class="note-field span-2">
+          <span class="note-label">Why Now — What She Said</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field span-2">
+          <span class="note-label">What She's Tried Before</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="sub-label">Open the Conversation</div>
 
     <div class="say-block">
@@ -1079,6 +1174,36 @@
         "What kind of house? What are you driving? What does your schedule actually look like? Where are you traveling? What's your income — monthly? Yearly?"
       </div>
       <div class="say-note">Keep going until you have a picture in your head. Vague answers = they haven't fully gone there yet. Push gently until the vision is specific.</div>
+    </div>
+
+    <div class="notes-card">
+      <span class="notes-card-title">📋 &nbsp;Capture Her Vision — Use These Word-for-Word in Phase 4</span>
+      <div class="notes-grid">
+        <div class="note-field">
+          <span class="note-label">Income Goal (Monthly / Yearly)</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field">
+          <span class="note-label">Schedule / Time Freedom</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field">
+          <span class="note-label">House / Location / Lifestyle</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field">
+          <span class="note-label">Travel / Big Dreams</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field span-2">
+          <span class="note-label">What She Said It Would Mean for Her Family</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+        <div class="note-field span-2">
+          <span class="note-label">The Emotion She Used — Her Exact Words</span>
+          <div class="note-line" contenteditable="true"></div>
+        </div>
+      </div>
     </div>
 
     <div class="sub-label">Anchor the Emotion</div>
