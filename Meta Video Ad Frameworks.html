@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Video Ad Frameworks / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+    --danger: #C0392B;
+    --danger-light: #FDECEA;
+    --success: #2E7D5E;
+    --success-light: #E8F5EE;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .rule-card, .callout, .phase, .compare-row, .script-block { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover h1 { font-size: 36px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover .subtitle { font-size: 17px; line-height: 1.45; }
+    .toc { padding: 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    h3 { font-size: 22px; margin: 22px 0 8px; }
+    .compare-row { flex-direction: column; gap: 0; }
+    .compare-col { border-radius: 0 !important; }
+    .compare-col + .compare-col { border-top: none; border-left: none !important; }
+    .framework-num { font-size: 52px; }
+    .checklist li { padding: 10px 14px; }
+    .script-block { padding: 18px 20px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.65; font-family: 'Cormorant Garamond', serif; }
+  .callout p + p { margin-top: 10px; }
+  .callout ul { margin: 8px 0 0; padding-left: 22px; }
+  .callout li { font-size: 14px; margin-bottom: 4px; }
+
+  /* PHASE BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase p:last-child { margin-bottom: 0; }
+  .phase ul, .phase ol { margin: 0; }
+  .phase li { font-size: 15px; }
+
+  /* RULE CARDS (Execution Rules) */
+  .rule-card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: #FFFFFF;
+    margin: 22px 0;
+    overflow: hidden;
+  }
+  .rule-card-header {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--rule);
+  }
+  .rule-num-block {
+    background: var(--cacao);
+    color: var(--pearl);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .rule-num {
+    font-family: 'Forum', serif;
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 400;
+  }
+  .rule-num-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 5px;
+    opacity: 0.7;
+  }
+  .rule-title-block {
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+  }
+  .rule-title {
+    font-family: 'Forum', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+  }
+  .rule-card-body {
+    padding: 18px 22px 20px;
+  }
+  .rule-card-body > p {
+    font-size: 15px;
+    color: var(--cacao-soft);
+    margin-bottom: 14px;
+  }
+
+  /* DO / DON'T COMPARISONS */
+  .compare { margin: 14px 0 6px; }
+  .compare-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .compare-col {
+    flex: 1;
+    padding: 12px 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .compare-col.dont {
+    background: var(--danger-light);
+    border-right: 1px solid #F5C6C2;
+  }
+  .compare-col.do {
+    background: var(--success-light);
+  }
+  .compare-icon {
+    font-size: 14px;
+    line-height: 1.7;
+    flex-shrink: 0;
+  }
+  .compare-col.dont .compare-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--danger);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .compare-col.do .compare-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--success);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .compare-col p {
+    margin: 0;
+    font-size: 14.5px;
+    color: var(--cacao);
+  }
+
+  /* FRAMEWORK BLOCKS */
+  .framework-block {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: #FFFFFF;
+    margin: 24px 0;
+    overflow: hidden;
+  }
+  .framework-header {
+    display: flex;
+    align-items: stretch;
+  }
+  .framework-num-block {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 88px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .framework-num-block.hook    { background: var(--sky-deep); color: var(--pearl); }
+  .framework-num-block.content { background: var(--cacao); color: var(--pearl); }
+  .framework-num-block.relate  { background: var(--honey); color: var(--cacao); }
+  .framework-num-block.cta1    { background: var(--sky-deep); color: var(--pearl); }
+  .framework-num-block.twist   { background: var(--cacao-soft); color: var(--pearl); }
+  .framework-num-block.cta2    { background: var(--espresso); color: var(--pearl); }
+  .framework-num {
+    font-family: 'Forum', serif;
+    font-size: 44px;
+    line-height: 1;
+    font-weight: 400;
+  }
+  .framework-part-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 5px;
+    opacity: 0.8;
+  }
+  .framework-title-block {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+  }
+  .framework-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  .framework-name {
+    font-family: 'Forum', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+  }
+  .framework-body {
+    padding: 18px 24px 20px;
+  }
+  .framework-body p {
+    font-size: 15px;
+    margin-bottom: 12px;
+    color: var(--cacao-soft);
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1.65;
+  }
+  .framework-body p:last-child { margin-bottom: 0; }
+  .framework-body ul { margin: 6px 0 0; padding-left: 22px; }
+  .framework-body li { font-size: 15px; color: var(--cacao); margin-bottom: 5px; }
+  .framework-body strong { color: var(--cacao); }
+
+  /* SCRIPT BLOCKS */
+  .script-section {
+    margin: 12px 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .script-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .script-label.hook    { background: var(--sky-deep); color: var(--pearl); }
+  .script-label.content { background: var(--cacao); color: var(--pearl); }
+  .script-label.relate  { background: var(--honey); color: var(--cacao); }
+  .script-label.cta1    { background: var(--sky-deep); color: var(--pearl); }
+  .script-label.twist   { background: var(--cacao-soft); color: var(--pearl); }
+  .script-label.cta2    { background: var(--espresso); color: var(--pearl); }
+  .script-content {
+    padding: 16px 20px;
+    background: #FFFFFF;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cacao);
+  }
+  .script-content em {
+    color: var(--cacao-muted);
+    font-size: 13.5px;
+    font-style: italic;
+    display: block;
+    margin-top: 8px;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.3px;
+  }
+  .script-content p { margin: 0 0 10px; font-size: 16px; }
+  .script-content p:last-child { margin-bottom: 0; }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--pearl);
+  }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--rule); margin: 36px 0; }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Meta Video<br>Ad Frameworks</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">The 6-part framework and 8 execution rules for creating Meta video ads that stop the scroll, build trust, and convert.</div>
+  <div class="pills">
+    <span class="pill sky">Meta Ads</span>
+    <span class="pill honey">Video</span>
+    <span class="pill">Scripting</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Read this before you script or film anything</strong>
+  <p>Most marketers fail with this framework because they talk too much and show too little. A Meta ad is not a monologue. It is a demonstration. Your job is to make the viewer see the transformation, see the proof, and see themselves inside the process.</p>
+  <p>This guide has two parts. Part One is the execution rules — how to think and move on camera. Part Two is the 6-part framework — how to structure every ad you build. The framework gives you the skeleton. The execution rules give it life.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>What's Inside</h3>
+  <ol>
+    <li><span class="num">01</span> Part One: The 8 execution rules</li>
+    <li><span class="num">02</span> Rule 1 — Don't talk, show</li>
+    <li><span class="num">03</span> Rule 2 — Visual proof over verbal claims</li>
+    <li><span class="num">04</span> Rule 3 — B-roll and pattern interrupts</li>
+    <li><span class="num">05</span> Rule 4 — Demonstrate the CTA</li>
+    <li><span class="num">06</span> Rule 5 — Make teaching tactile</li>
+    <li><span class="num">07</span> Rule 6 — Visual metaphors for emotion</li>
+    <li><span class="num">08</span> Rule 7 — Make them see themselves</li>
+    <li><span class="num">09</span> Rule 8 — Cinematic, not static</li>
+    <li><span class="num">10</span> Part Two: The 6-part ad framework</li>
+    <li><span class="num">11</span> Before you film — asset checklist</li>
+    <li><span class="num">12</span> Sample script</li>
+  </ol>
+</div>
+
+
+<!-- 01 -->
+<h2>01 / Part One — The 8 Execution Rules</h2>
+
+<p class="lead">These are non-negotiable. The framework tells you what to say and in what order. These rules tell you how to say it — on camera, in motion, with proof. Ignore them and the framework doesn't work.</p>
+
+<div class="callout honey">
+  <strong>The master rule</strong>
+  <p>Every time you SAY something important, ask yourself: <strong>"How can I SHOW this visually?"</strong> If you follow that one rule, your ads will outperform 99% of what's running in your market.</p>
+</div>
+
+
+<!-- 02 -->
+<h2>02 / Rule 1 — Don't Just Talk. Show.</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">1</div>
+      <div class="rule-num-label">Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">Your ad should feel like a visual experience, not a talking head video.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>If the only thing on screen is your face and your words, you are losing. Viewers don't trust what you say — they trust what they see. Every statement you make is an opportunity to replace words with evidence.</p>
+    <div class="compare">
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't say</span><p>"Back then I was broke and struggling."</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do show</span><p>Photos of where you lived, your old job, your old car, old bank account screenshots.</p></div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't say</span><p>"Today my life looks completely different."</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do show</span><p>Clips of your home, your lifestyle, your events, your students, your team.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 03 -->
+<h2>03 / Rule 2 — Visual Proof Over Verbal Claims</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">2</div>
+      <div class="rule-num-label">Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">Every claim you make should be backed by evidence the viewer can see with their own eyes.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>Verbal claims cost you nothing to make, which means they're worth nothing to the viewer. Proof that exists on screen — dashboards, screenshots, recordings — is visceral and undeniable. Show the thing, don't narrate it.</p>
+    <div class="compare">
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't</span><p>Explain what Facebook Ads Manager "looks like."</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do</span><p>Show a screen recording of you inside Ads Manager in real time.</p></div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't</span><p>Describe your framework or methodology in words.</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do</span><p>Show screenshots, diagrams, or slides that visually explain the system.</p></div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't</span><p>Talk about your results or numbers.</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do</span><p>Show Stripe dashboards, program screenshots, testimonial screenshots, your ad account, your timeline.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 04 -->
+<h2>04 / Rule 3 — B-Roll and Pattern Interrupts</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">3</div>
+      <div class="rule-num-label">Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">If your video looks the same for more than 3–4 seconds, they scroll.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>The algorithm rewards watch time. Watch time is earned by constantly giving the brain something new to process. A static frame with a talking head trains viewers to look away. Motion, cuts, and visual variety force attention.</p>
+    <p>Layer in all of the following:</p>
+    <ul>
+      <li>B-roll of your life and environment</li>
+      <li>B-roll of you working — at your desk, on calls, in your space</li>
+      <li>Screen recordings of tools, dashboards, or your funnel</li>
+      <li>Camera angle changes and cuts every 3–4 seconds</li>
+      <li>Text overlays on key statements</li>
+      <li>Proof shots — screenshots, results, testimonials</li>
+      <li>Environment changes — walk, move, gesture, change scenes</li>
+    </ul>
+    <p style="margin-top:12px; font-style: italic; color: var(--cacao-muted); font-size: 14.5px;">Motion creates tension. Tension creates retention.</p>
+  </div>
+</div>
+
+
+<!-- 05 -->
+<h2>05 / Rule 4 — Demonstrate the CTA, Don't Just Speak It</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">4</div>
+      <div class="rule-num-label">Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">People trust what they see, not what they hear.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>When you tell someone to click a link, there's friction — they don't know what they're clicking into. When you show them the page they're about to land on, the friction disappears. Doubt is replaced by anticipation.</p>
+    <div class="compare">
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't say</span><p>"Click the link and register."</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do show</span><p>A clip of the registration page or the thank-you page they'll land on.</p></div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't say</span><p>"On the next page you'll watch the training."</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do show</span><p>A 1–2 second shot of the actual training video interface.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 06 -->
+<h2>06 / Rule 5 — When Teaching, Make It Tactile</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">5</div>
+      <div class="rule-num-label">Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">When you explain how something works, the viewer should feel like they're watching you do it.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>Teaching in the abstract loses people. Teaching while showing the actual tool, dashboard, or process pulls them in. They're not just learning something — they're watching it happen.</p>
+    <ul>
+      <li>Show Ads Manager while explaining how to launch a campaign</li>
+      <li>Show a dashboard while talking about metrics</li>
+      <li>Show an example funnel while explaining the funnel concept</li>
+      <li>Show your notes, whiteboard, or mindmap as you explain a strategy</li>
+      <li>Show live walkthroughs of real assets — never theory alone</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- 07 -->
+<h2>07 / Rule 6 — Support Every Emotion With a Visual Metaphor</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">6</div>
+      <div class="rule-num-label">Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">If you talk about a feeling, show an image that represents it.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>Emotion is the accelerant. Whenever you name a feeling your viewer is experiencing — stress, confusion, exhaustion, the moment things clicked — you need a visual that makes them feel it, not just hear it.</p>
+    <ul>
+      <li>Talk about stress, overwhelm, or being stuck → show images that represent that state</li>
+      <li>Talk about the breakthrough moment → show the moment things changed — a location, a screen, a call, an email</li>
+      <li>Talk about freedom or transformation → show the environment, lifestyle, or outcomes that followed</li>
+    </ul>
+    <p style="margin-top: 12px; font-style: italic; color: var(--cacao-muted); font-size: 14.5px;">Intensified identification = intensified urgency to act.</p>
+  </div>
+</div>
+
+
+<!-- 08 -->
+<h2>08 / Rule 7 — Make the Viewer See Themselves Doing the Thing</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">7</div>
+      <div class="rule-num-label">Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">Your visuals must constantly help the viewer picture themselves inside the transformation.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>People don't buy what you tell them. They buy what they can picture themselves doing. Your job is to give them that picture — not through promises, but through visual immersion in the process and the result.</p>
+    <ul>
+      <li>Show what the program dashboard looks like when they log in</li>
+      <li>Show what the workbook or materials look like</li>
+      <li>Show a clip from inside your community or group</li>
+      <li>Show a moment from your event or training environment</li>
+      <li>Show success call screenshots or win posts</li>
+      <li>Show testimonials and transformations from real people</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- 09 -->
+<h2>09 / Rule 8 — This Is Cinematic Coaching, Not Script Reading</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">8</div>
+      <div class="rule-num-label">Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">If you sit still and stare at a camera the entire video, you've already failed.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>The 6-part framework is the spine of your ad. Your visuals, pacing, B-roll, and proof are the muscle tissue that makes it come alive. A perfectly structured script delivered in a static, lifeless way will still lose to a less-structured ad that moves, proves, and pulls you in.</p>
+    <p>Treat every ad like a short film, not a presentation. You are the guide, the proof, and the experience — all at once.</p>
+  </div>
+</div>
+
+<div class="ornament">· · ·</div>
+
+
+<!-- 10 -->
+<h2>10 / Part Two — The 6-Part Ad Framework</h2>
+
+<p class="lead">Every high-performing Meta ad follows this structure. The six parts work together to move a cold viewer from scroll to click — through attention, belief, identification, desire, and urgency.</p>
+
+<!-- HOOK -->
+<div class="framework-block">
+  <div class="framework-header">
+    <div class="framework-num-block hook">
+      <div class="framework-num">1</div>
+      <div class="framework-part-label">Part One</div>
+    </div>
+    <div class="framework-title-block">
+      <div class="framework-eyebrow">Seconds 1–3</div>
+      <div class="framework-name">The Hook</div>
+    </div>
+  </div>
+  <div class="framework-body">
+    <p>A fast, attention-grabbing opening line or visual moment designed to stop the scroll in the first 1–3 seconds. Its job is one thing: interrupt the pattern and make the viewer think, <em>"Wait — what is this?"</em></p>
+    <p>The hook doesn't need to be clever. It needs to be <strong>disruptive</strong>. Use any one of these approaches:</p>
+    <ul>
+      <li>A bold, counterintuitive claim that challenges what they believe</li>
+      <li>A surprising statistic that stops them cold</li>
+      <li>A question that forces self-reflection ("Are you still doing X?")</li>
+      <li>A direct contradiction of a common belief in your market</li>
+      <li>A visually striking moment — movement, text on screen, an unexpected image</li>
+    </ul>
+    <p style="margin-top: 12px;"><strong>The test:</strong> If someone saw only your first 3 seconds, would they keep watching? If no, rewrite the hook.</p>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="framework-block">
+  <div class="framework-header">
+    <div class="framework-num-block content">
+      <div class="framework-num">2</div>
+      <div class="framework-part-label">Part Two</div>
+    </div>
+    <div class="framework-title-block">
+      <div class="framework-eyebrow">The Main Teaching</div>
+      <div class="framework-name">Content</div>
+    </div>
+  </div>
+  <div class="framework-body">
+    <p>This is where you deliver the main idea, story, or teaching of the ad. Give the viewer real value — something that makes them feel like they're learning something meaningful and that you know what you're talking about.</p>
+    <p>This section answers the question the hook created: <em>"Why should I listen to this? How does this work? What makes this different from everything else I've seen?"</em></p>
+    <p>This is where visual proof becomes critical. Show the system, the tool, the dashboard, the result — don't just describe it. Every claim needs something on screen that backs it up.</p>
+  </div>
+</div>
+
+<!-- RELATABILITY -->
+<div class="framework-block">
+  <div class="framework-header">
+    <div class="framework-num-block relate">
+      <div class="framework-num">3</div>
+      <div class="framework-part-label">Part Three</div>
+    </div>
+    <div class="framework-title-block">
+      <div class="framework-eyebrow">Underdog Resonance</div>
+      <div class="framework-name">Relatability</div>
+    </div>
+  </div>
+  <div class="framework-body">
+    <p>This is where you show the viewer that you were once exactly where they are now — struggling with the same problems, carrying the same frustrations, hitting the same walls. Not generic empathy. A personal bridge between their pain and your past.</p>
+    <p>Cover four things:</p>
+    <ul>
+      <li>The specific struggles you faced — the same ones they're feeling right now</li>
+      <li>How long or how deeply you were stuck in them</li>
+      <li>What it emotionally cost you to stay in that place</li>
+      <li>The moment everything shifted — what you discovered that changed the trajectory</li>
+    </ul>
+    <p>When this section is done right, the viewer thinks: <em>"He gets me. He was me."</em></p>
+    <p>This accomplishes two things simultaneously. First: <strong>identification</strong> — they see their own story reflected in yours. Second: <strong>credibility through lived experience</strong> — your insights didn't come from theory. They came from survival, breakthrough, and results. That's the kind of credibility that can't be faked.</p>
+  </div>
+</div>
+
+<!-- CTA 1 -->
+<div class="framework-block">
+  <div class="framework-header">
+    <div class="framework-num-block cta1">
+      <div class="framework-num">4</div>
+      <div class="framework-part-label">Part Four</div>
+    </div>
+    <div class="framework-title-block">
+      <div class="framework-eyebrow">Primary Action</div>
+      <div class="framework-name">Call to Action 1</div>
+    </div>
+  </div>
+  <div class="framework-body">
+    <p>The first clear instruction telling them what to do next. This CTA should feel effortless, inviting, and logical — a natural next step based on the value you've just delivered.</p>
+    <p>Keep it simple. One action. One destination. Show them what they're clicking to (see Rule 4).</p>
+    <p><strong>Examples:</strong> <em>"Click the link below to watch the free training."</em> / <em>"Hit the button below and download the guide now."</em></p>
+    <p>This is not the high-pressure close. That comes in Part 6. This CTA is for the people who are already convinced — give them the easy exit before you go harder.</p>
+  </div>
+</div>
+
+<!-- TWIST -->
+<div class="framework-block">
+  <div class="framework-header">
+    <div class="framework-num-block twist">
+      <div class="framework-num">5</div>
+      <div class="framework-part-label">Part Five</div>
+    </div>
+    <div class="framework-title-block">
+      <div class="framework-eyebrow">Emotional Pressure Point</div>
+      <div class="framework-name">Twist the Knife</div>
+    </div>
+  </div>
+  <div class="framework-body">
+    <p>This is not manipulation. This is truth with urgency. You surface the real cost of inaction — what happens if they close this video and keep doing things the same way.</p>
+    <p>This section answers the question most viewers won't ask themselves: <em>"What happens if I don't do this?"</em></p>
+    <p>Don't manufacture fear. Reflect it. Name the exhaustion they're already feeling, the time they've already lost, the gap between where they are and where they want to be. You're not creating pain — you're making existing pain specific enough to act on.</p>
+    <p><strong>Done well, this creates clarity, not anxiety.</strong> The viewer doesn't feel manipulated — they feel like someone finally said what they already knew.</p>
+  </div>
+</div>
+
+<!-- CTA 2 -->
+<div class="framework-block">
+  <div class="framework-header">
+    <div class="framework-num-block cta2">
+      <div class="framework-num">6</div>
+      <div class="framework-part-label">Part Six</div>
+    </div>
+    <div class="framework-title-block">
+      <div class="framework-eyebrow">The Closer</div>
+      <div class="framework-name">Call to Action 2</div>
+    </div>
+  </div>
+  <div class="framework-body">
+    <p>A stronger, more direct version of the CTA — placed now, in an emotionally activated moment. You've earned the right to ask again because you've just amplified the stakes and made the cost of inaction real.</p>
+    <p>This CTA is the close. It should be more urgent and more direct than CTA 1:</p>
+    <ul>
+      <li><em>"Click the link now — you can't afford to keep waiting."</em></li>
+      <li><em>"Go watch the training while it's still available."</em></li>
+      <li><em>"Hit the button below. You've been thinking about this long enough."</em></li>
+    </ul>
+    <p>CTA 1 invites. CTA 2 seals the psychological deal. Don't soften it here — the viewer who made it to this point is ready to move. Give them one clear direction and let them go.</p>
+  </div>
+</div>
+
+<div class="ornament">· · ·</div>
+
+
+<!-- 11 -->
+<h2>11 / Before You Film — Asset Checklist</h2>
+
+<p class="lead">Before you sit down to script or film, collect your visual proof. An ad without these assets will always underperform one that has them. Gather everything on this list first.</p>
+
+<h4>Proof Shots</h4>
+<ul class="checklist">
+  <li><span class="box"></span> Screenshots of results, dashboards, or income (Stripe, PayPal, commission statements)</li>
+  <li><span class="box"></span> Screenshots of client wins, testimonials, or success call messages</li>
+  <li><span class="box"></span> Photos or clips showing your past situation (old job, old location, before)</li>
+  <li><span class="box"></span> Photos or clips showing your current lifestyle (home, travel, events, freedom moments)</li>
+</ul>
+
+<h4>Screen Recordings</h4>
+<ul class="checklist">
+  <li><span class="box"></span> Walkthrough of Facebook Ads Manager or the tool you're teaching</li>
+  <li><span class="box"></span> Walkthrough of your landing page or registration page</li>
+  <li><span class="box"></span> Walkthrough of your training or program interface (what they'll see after they opt in)</li>
+  <li><span class="box"></span> Walkthrough of the affiliate or commission network (Clickbank, Digistore, etc.) if relevant</li>
+</ul>
+
+<h4>B-Roll</h4>
+<ul class="checklist">
+  <li><span class="box"></span> Clips of you working — at your desk, on your phone, on a call</li>
+  <li><span class="box"></span> Clips of your environment or lifestyle (anywhere that shows the result)</li>
+  <li><span class="box"></span> Any movement footage — walking, gesturing, changing locations</li>
+</ul>
+
+<h4>Visual Teaching Assets</h4>
+<ul class="checklist">
+  <li><span class="box"></span> A diagram, slide, or whiteboard that explains your system or framework</li>
+  <li><span class="box"></span> Notes, a mindmap, or any visual representation of the process you're teaching</li>
+  <li><span class="box"></span> Any workbook, PDF, or resource the viewer will receive (show the cover or inside)</li>
+</ul>
+
+<div class="callout">
+  <strong>On video length</strong>
+  <p>Shorter ads (30–60 seconds) work best for cold traffic with a simple hook and direct CTA. Longer ads (90 seconds to 3 minutes) allow room for the full 6-part framework and work well when you need to build trust before the ask. For most offers in this business, aim for 90 seconds to 2 minutes — enough to complete the framework without losing people.</p>
+</div>
+
+
+<!-- 12 -->
+<h2>12 / Sample Script</h2>
+
+<p class="lead">This is a complete script built using the 6-part framework. Use it as a template — replace the bracketed sections with your own story and offer. Notice how each section is doing a specific job.</p>
+
+<div class="script-section">
+  <div class="script-label hook">Part 1 &nbsp;—&nbsp; Hook</div>
+  <div class="script-content">
+    <p>I started my own online business without inventing anything, having any products to sell, or dealing with any inventory or customer hassles. Here's how…</p>
+  </div>
+</div>
+
+<div class="script-section">
+  <div class="script-label content">Part 2 &nbsp;—&nbsp; Content</div>
+  <div class="script-content">
+    <p>Did you know sites like these exist — [show Clickbank, Digistore24, Commission Junction] — where you can find products that are already selling and get paid to share them on social media?</p>
+    <p>Look at all the niches available. You can find products on just about anything. And some of them pay really well.</p>
+    <p>All you have to do to start is click a button like this and you'll get a referral link. Now anytime someone clicks that link, you earn a commission.</p>
+    <p>Now you might be thinking — "I don't want to pitch my friends and family, and I don't want to feel sales-y." Did you know that if you have a Facebook Ads account, you can show your product to people who are highly likely to buy it? Facebook uses AI to find who's most likely to want what you're selling. That means you never have to pitch strangers or come across as pushy.</p>
+    <em>Show screen recording of Ads Manager, affiliate networks, referral link, and the campaign setup process throughout this section.</em>
+  </div>
+</div>
+
+<div class="script-section">
+  <div class="script-label relate">Part 3 &nbsp;—&nbsp; Relatability</div>
+  <div class="script-content">
+    <p>Hi — in case we've never met, my name is [Your Name]. When I discovered this, I went from [insert past pain — specific, not vague]…</p>
+    <p>…to [insert current result — for example: having an online business that sells products to every country in the world, works entirely online, and means customers can buy from me even if I'm eating, sleeping, or on vacation].</p>
+    <em>Show photos or clips from your "before" — old job, old circumstances, the struggle. Then cut to your current life and results.</em>
+  </div>
+</div>
+
+<div class="script-section">
+  <div class="script-label cta1">Part 4 &nbsp;—&nbsp; Call to Action 1</div>
+  <div class="script-content">
+    <p>Obviously, there's more to this than I can show you in one short video. That's why when you click the button below, you can [insert your next step — watch the training, download the guide, register for the webclass].</p>
+    <em>Show a 1–2 second clip of the landing page or registration page as you say this.</em>
+  </div>
+</div>
+
+<div class="script-section">
+  <div class="script-label twist">Part 5 &nbsp;—&nbsp; Twist the Knife</div>
+  <div class="script-content">
+    <p>What if you didn't have to wake up every day and go to some job where you work to make someone else rich?</p>
+    <p>What if you could earn the same amount — or more — working from your living room in your pajamas?</p>
+    <p>And… what if you miss it?</p>
+    <em>Let these questions land. Pause. Don't rush past them. The viewer needs a moment to feel what staying stuck actually costs them.</em>
+  </div>
+</div>
+
+<div class="script-section">
+  <div class="script-label cta2">Part 6 &nbsp;—&nbsp; Call to Action 2</div>
+  <div class="script-content">
+    <p>Listen — click the button below this video and [insert your next step]. You've been thinking about this long enough.</p>
+    <em>Show the registration or landing page again. Make the next step completely obvious and frictionless.</em>
+  </div>
+</div>
+
+<div class="callout honey">
+  <strong>Before you go live</strong>
+  <p>Watch your finished ad back on your phone with the sound off. If it still makes sense — if the visuals alone tell the story — it's ready. If it only works with the audio, you need more visual proof and B-roll. Most people scroll with the sound off. Build for that viewer first.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Meta Video Ad Frameworks</strong> &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; June 2026</div>
+</div>
+
+</body>
+</html>
