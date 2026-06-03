@@ -165,6 +165,8 @@
     cursor: pointer;
     position: relative;
     transition: all 0.2s;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
   .checklist input[type="checkbox"]:checked {
     background: #4a7c59;
@@ -250,6 +252,18 @@
   .actions .reset:hover { background: #fdf0ef; }
 
   footer { text-align: center; margin-top: 20px; font-size: 12px; color: #bbb; }
+
+  .actions .pdf { color: #4a7c59; border-color: #bcd2c0; }
+  .actions .pdf:hover { background: #f0f6f1; }
+
+  @media print {
+    body { background: #fff; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .progress-bar-wrap { position: static; box-shadow: none; }
+    .actions { display: none; }
+    .module { box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
+    .it-notes textarea { border: 1px solid #ddd; }
+    a { color: #4a7c59; text-decoration: underline; }
+  }
 </style>
 </head>
 <body>
@@ -550,6 +564,7 @@
 </div>
 
 <div class="actions">
+  <button class="pdf" onclick="window.print()">Save as PDF</button>
   <button onclick="exportProgress()">Export Progress</button>
   <button class="reset" onclick="resetAll()">Reset All</button>
 </div>
