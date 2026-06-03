@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self Purchase Order — Team True North</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f0;
+    color: #2d2d2d;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 4px; }
+  header h2 { font-size: 18px; font-weight: 400; color: #666; margin-bottom: 8px; }
+  header p { font-size: 13px; color: #999; }
+
+  .progress-bar-wrap {
+    background: #e0e0d8;
+    border-radius: 20px;
+    height: 28px;
+    margin: 30px 0 24px;
+    overflow: hidden;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #7a9e7e, #4a7c59);
+    border-radius: 20px;
+    transition: width 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+    min-width: 60px;
+  }
+  .progress-bar span { font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; }
+
+  .intro {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border-left: 4px solid #4a7c59;
+  }
+  .intro p { margin-bottom: 12px; }
+  .intro p:last-child { margin-bottom: 0; }
+  .intro .lead { font-size: 17px; }
+
+  .module {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid #e8e8e2;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    gap: 12px;
+  }
+  .module-header h3 { font-size: 20px; letter-spacing: 0.5px; }
+  .module-header h3 .step-num { color: #4a7c59; margin-right: 8px; }
+  .module-count { font-size: 12px; color: #999; font-weight: 600; white-space: nowrap; }
+  .module > p { margin-bottom: 16px; color: #444; }
+
+  .checklist { list-style: none; margin-bottom: 4px; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f0ea;
+    transition: background 0.15s;
+    border-radius: 4px;
+    padding-left: 4px;
+  }
+  .checklist li:hover { background: #fafaf6; }
+  .checklist li:last-child { border-bottom: none; }
+
+  .checklist input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin: 1px 6px 0 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .checklist input[type="checkbox"]:checked { background: #4a7c59; border-color: #4a7c59; }
+  .checklist input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -1px;
+    left: 3px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .checklist label { cursor: pointer; flex: 1; font-size: 15px; margin-left: 8px; transition: all 0.2s; }
+  .checklist li.complete label { color: #aaa; text-decoration: line-through; }
+
+  .tip {
+    background: #fbf7ec;
+    border-left: 3px solid #c8a44d;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 16px 0 0;
+    font-size: 14px;
+    color: #5c5230;
+  }
+  .tip strong { color: #b8860b; }
+
+  .shot { margin-top: 18px; }
+  .shot img {
+    width: 100%;
+    border: 1px solid #e0e0d8;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+    display: block;
+  }
+  .shot figcaption {
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  .module a, .intro a, .closing a {
+    color: #4a7c59;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid #bcd2c0;
+  }
+  .module a:hover, .intro a:hover, .closing a:hover { border-bottom-color: #4a7c59; }
+
+  .closing {
+    background: #4a7c59;
+    color: #fff;
+    border-radius: 12px;
+    padding: 30px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .closing h3 { font-size: 18px; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .closing p { margin-bottom: 10px; }
+  .closing p:last-child { margin-bottom: 0; }
+
+  .actions {
+    text-align: center;
+    margin: 32px 0 16px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .actions button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .actions button:hover { background: #f0f0ea; }
+  .actions .pdf { color: #4a7c59; border-color: #bcd2c0; }
+  .actions .pdf:hover { background: #f0f6f1; }
+  .actions .reset { color: #c0392b; border-color: #e8c4c0; }
+  .actions .reset:hover { background: #fdf0ef; }
+
+  footer { text-align: center; margin-top: 20px; font-size: 12px; color: #bbb; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .progress-bar-wrap, .actions, footer { display: none; }
+    .module, .intro, .closing { box-shadow: none; break-inside: avoid; page-break-inside: avoid; }
+    .closing { background: #4a7c59 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>SELF PURCHASE ORDER</h1>
+  <h2>How to place a self-purchase order in Enagic</h2>
+  <p>Team True North &nbsp;|&nbsp; Agency True North</p>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar"><span id="progressText">0 / 0</span></div>
+</div>
+
+<div class="intro">
+  <p class="lead">This is how you buy for yourself through Enagic.</p>
+  <p>Your own products, supplies, or accessories — start to finish, six steps.</p>
+  <p>Take it slow and double-check your ID along the way. Once an order is processed, it can't be changed.</p>
+</div>
+
+<!-- STEP 1 -->
+<div class="module" data-module="1">
+  <div class="module-header">
+    <h3><span class="step-num">01</span>Log In With Your ID</h3>
+    <span class="module-count" data-count="1"></span>
+  </div>
+  <p>Sign in to the Distributor Support Portal with the ID you want to place the order under. Use the right ID — this is the account the order gets credited to.</p>
+  <figure class="shot"><img src="images/spo-1.jpg?v=1" alt="Distributor Support Portal login with the ID field circled"><figcaption>Sign in with the Distributor ID you want to order with.</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s1-1"><label for="s1-1">Go to <a href="https://information.enagic.com/en/login" target="_blank" rel="noopener">information.enagic.com</a>.</label></li>
+    <li><input type="checkbox" id="s1-2"><label for="s1-2">Enter the Distributor ID you want to order with, plus your password.</label></li>
+    <li><input type="checkbox" id="s1-3"><label for="s1-3">Click "Log In."</label></li>
+  </ul>
+</div>
+
+<!-- STEP 2 -->
+<div class="module" data-module="2">
+  <div class="module-header">
+    <h3><span class="step-num">02</span>Open the Enagic Store</h3>
+    <span class="module-count" data-count="2"></span>
+  </div>
+  <p>Open the menu in the top-left. On the left, click Enagic Store.</p>
+  <figure class="shot"><img src="images/spo-2.jpg?v=1" alt="Portal menu with the Enagic Store shortcut circled on the left"><figcaption>Under Shortcuts, click "Enagic Store."</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s2-1"><label for="s2-1">Tap the menu (☰) in the top-left.</label></li>
+    <li><input type="checkbox" id="s2-2"><label for="s2-2">Under Shortcuts, click "Enagic Store."</label></li>
+  </ul>
+</div>
+
+<!-- STEP 3 -->
+<div class="module" data-module="3">
+  <div class="module-header">
+    <h3><span class="step-num">03</span>Start a Self Purchase Order</h3>
+    <span class="module-count" data-count="3"></span>
+  </div>
+  <p>Under "Buying Products for Yourself," check the ID is the one you want and your Line Rank is right. Then click Self Purchase Orders.</p>
+  <figure class="shot"><img src="images/spo-3.jpg?v=1" alt="Buying Products for Yourself with the ID dropdown circled"><figcaption>Confirm the ID is the one you want to order with.</figcaption></figure>
+  <figure class="shot"><img src="images/spo-3b.jpg?v=1" alt="Self Purchase Orders button circled"><figcaption>Then click the "Self Purchase Orders" button.</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s3-1"><label for="s3-1">Under "Buying Products for Yourself," confirm the ID is correct.</label></li>
+    <li><input type="checkbox" id="s3-2"><label for="s3-2">Check your Line Rank.</label></li>
+    <li><input type="checkbox" id="s3-3"><label for="s3-3">Click "Self Purchase Orders."</label></li>
+  </ul>
+  <div class="tip"><strong>Tip —</strong> No changes are allowed once the order is processed. Get the ID and rank right before you go on.</div>
+</div>
+
+<!-- STEP 4 -->
+<div class="module" data-module="4">
+  <div class="module-header">
+    <h3><span class="step-num">04</span>Confirm Your Details and Continue</h3>
+    <span class="module-count" data-count="4"></span>
+  </div>
+  <p>Review your details — Buyer, Enroller, Distributor, Line Rank, and email. If everything's right, click Proceed to EOS in the top-right corner.</p>
+  <figure class="shot"><img src="images/spo-4.jpg?v=1" alt="Confirm your Self Purchase details page with the Proceed to EOS button circled top right"><figcaption>Check your details, then click "Proceed to EOS?" in the top-right.</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s4-1"><label for="s4-1">Check Buyer, Enroller, and Distributor all show the right ID.</label></li>
+    <li><input type="checkbox" id="s4-2"><label for="s4-2">Check the Line Rank and email address.</label></li>
+    <li><input type="checkbox" id="s4-3"><label for="s4-3">Click "Proceed to EOS?" in the top-right.</label></li>
+  </ul>
+</div>
+
+<!-- STEP 5 -->
+<div class="module" data-module="5">
+  <div class="module-header">
+    <h3><span class="step-num">05</span>Confirm to Enter the Store</h3>
+    <span class="module-count" data-count="5"></span>
+  </div>
+  <p>A small box pops up asking if you're sure you want to go to the Enagic Store. Click OK.</p>
+  <figure class="shot"><img src="images/spo-5.jpg?v=1" alt="Pop-up asking to go to the Enagic Store with the OK button circled"><figcaption>When the pop-up appears, click "OK."</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s5-1"><label for="s5-1">When it asks "Are you sure you want to go to the Enagic Store?", click "OK."</label></li>
+  </ul>
+</div>
+
+<!-- STEP 6 -->
+<div class="module" data-module="6">
+  <div class="module-header">
+    <h3><span class="step-num">06</span>Shop the Store</h3>
+    <span class="module-count" data-count="6"></span>
+  </div>
+  <p>You're in the Enagic Store. Pick what you need from the top menu — a product, supplies, accessories, and more — then check out.</p>
+  <figure class="shot"><img src="images/spo-6.jpg?v=1" alt="Enagic Store with the top category menu circled"><figcaption>Choose from the top menu: Water Ionizers, Ukon, Supplies, Foods, Marketing Materials, Shower Unit, E8PA.</figcaption></figure>
+  <ul class="checklist">
+    <li><input type="checkbox" id="s6-1"><label for="s6-1">Choose a category from the top menu — product, supplies, accessories, and more.</label></li>
+    <li><input type="checkbox" id="s6-2"><label for="s6-2">Add what you need to your cart.</label></li>
+    <li><input type="checkbox" id="s6-3"><label for="s6-3">Check out.</label></li>
+  </ul>
+  <div class="tip"><strong>Tip —</strong> Your Enroller, Sponsor, and Line Rank show at the top of the store. Confirm they're right before you buy.</div>
+</div>
+
+<div class="closing">
+  <h3>That's a self purchase order.</h3>
+  <p>Log in with the right ID, open the Enagic Store, start the self purchase, confirm your details, and shop.</p>
+  <p>Slow is smooth — double-check the ID and rank, because they lock once it's processed.</p>
+</div>
+
+<div class="actions">
+  <button class="pdf" onclick="window.print()">Save as PDF</button>
+  <button onclick="exportProgress()">Export Progress</button>
+  <button class="reset" onclick="resetAll()">Reset All</button>
+</div>
+
+<footer>Agency True North &nbsp;|&nbsp; Last saved: <span id="lastSaved">never</span></footer>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'self-purchase-order';
+
+function save() {
+  const state = {};
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => { state[cb.id] = cb.checked; });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  document.getElementById('lastSaved').textContent = new Date().toLocaleString();
+}
+
+function load() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  const state = JSON.parse(raw);
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    if (state[cb.id] !== undefined) cb.checked = state[cb.id];
+  });
+}
+
+function updateProgress() {
+  const lis = document.querySelectorAll('ul.checklist li');
+  let total = 0, done = 0;
+  lis.forEach(li => {
+    const cb = li.querySelector('input[type="checkbox"]');
+    if (!cb) return;
+    total++;
+    if (cb.checked) done++;
+    li.classList.toggle('complete', cb.checked);
+  });
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+  const bar = document.getElementById('progressBar');
+  bar.style.width = Math.max(pct, 8) + '%';
+  document.getElementById('progressText').textContent = done + ' / ' + total + '  (' + pct + '%)';
+
+  document.querySelectorAll('.module').forEach(mod => {
+    let n = 0, d = 0;
+    mod.querySelectorAll('ul.checklist li').forEach(li => {
+      const cb = li.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      n++;
+      if (cb.checked) d++;
+    });
+    const counter = mod.querySelector('.module-count');
+    if (counter) counter.textContent = d + ' / ' + n + ' done';
+  });
+}
+
+function resetAll() {
+  if (!confirm('Reset all checkboxes? This cannot be undone.')) return;
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+  save();
+  updateProgress();
+}
+
+function exportProgress() {
+  let text = 'SELF PURCHASE ORDER — Progress Export\n';
+  text += new Date().toLocaleString() + '\n\n';
+  document.querySelectorAll('.module').forEach(mod => {
+    const title = mod.querySelector('h3').textContent.trim();
+    const lis = mod.querySelectorAll('ul.checklist li');
+    let n = 0, d = 0;
+    lis.forEach(li => {
+      const cb = li.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      n++;
+      if (cb.checked) d++;
+    });
+    text += title + '  [' + d + '/' + n + ']\n';
+    lis.forEach(li => {
+      const cb = li.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      const label = li.querySelector('label').textContent.trim();
+      text += '  [' + (cb.checked ? 'x' : ' ') + ']  ' + label + '\n';
+    });
+    text += '\n';
+  });
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Self-Purchase-Order-Progress-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+}
+
+load();
+document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', function() { save(); updateProgress(); });
+});
+updateProgress();
+</script>
+</body>
+</html>
