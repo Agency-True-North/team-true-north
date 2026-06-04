@@ -69,6 +69,7 @@
     .l5{background:#f0fdf4;color:#166534} .l6{background:#fff7ed;color:#9a3412}
 
     .entry-badge{font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:6px;background:var(--g200);color:var(--g500);flex-shrink:0}
+    .place-badge{font-size:.58rem;font-weight:700;padding:2px 5px;border-radius:6px;background:#ede9fe;color:#6d28d9;flex-shrink:0;margin-left:auto}
     .nc-name{font-size:.86rem;font-weight:700;padding:0 10px 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .nc-stats{display:flex;justify-content:space-between;padding:0 10px 6px;font-size:.67rem;color:var(--g400)}
     .nc-stats .earned{color:var(--green);font-weight:700}
@@ -233,12 +234,12 @@
     <div class="fg">
       <label>Lane Placement</label>
       <select id="addLane">
-        <option value="1">1A Lane — you earn 1 pt per sale · $351 (K8)</option>
-        <option value="2">2A Lane — you earn 2 pts per sale · $702 (K8)</option>
-        <option value="3">3A Lane — you earn 3 pts per sale · $1,053 (K8)</option>
-        <option value="4">4A Lane — you earn 4 pts per sale · $1,404 (K8)</option>
-        <option value="5">5A Lane — you earn 5 pts per sale · $1,755 (K8)</option>
-        <option value="6">6A Lane — you earn 6 pts per sale · $2,106 (K8)</option>
+        <option value="1">Place in 1A lane — ranks you to 1A, earns you 1pt/sale</option>
+        <option value="2">Place in 2A lane — ranks you to 2A, earns you 2pts/sale</option>
+        <option value="3">Place in 3A lane — ranks you to 3A, earns you 3pts/sale</option>
+        <option value="4">Place in 4A lane — ranks you to 4A, earns you 4pts/sale</option>
+        <option value="5">Place in 5A lane — ranks you to 5A, earns you 5pts/sale</option>
+        <option value="6">Place in 6A lane — ranks you to 6A, earns you 6pts/sale</option>
       </select>
     </div>
     <div class="modal-actions">
@@ -317,7 +318,7 @@ let uid = 1;
 
 // Root node = You (6A). Children = accounts placed in your lanes.
 const mkNode = (id, name, entryProd, lane, parent) =>
-  ({id, name, entryProd, lane, parent, children:[], earned:0, sales:0});
+  ({id, name, entryProd, lane, parent, children:[], earned:0, sales:0, rank:1});
 
 const DEFAULT = () => {
   uid = 10;
@@ -447,10 +448,12 @@ function buildCard(n) {
   const card = mk('div','nc');
   card.id = 'node-'+n.id;
 
+  const ownRank = n.rank || 1;
   card.innerHTML = `
     <div class="nc-head">
-      <span class="lane-badge ${laneCls[n.lane]}">${laneLabels[n.lane]}${isRoot?' · You':''}</span>
+      <span class="lane-badge ${laneCls[ownRank]}">${laneLabels[ownRank]}${isRoot?' · You':''}</span>
       <span class="entry-badge">${prod.short}</span>
+      ${!isRoot ? `<span class="place-badge" title="Placed in parent's ${laneLabels[n.lane]} lane — parent earns ${n.lane}pt per sale through this branch">→${laneLabels[n.lane]}</span>` : ''}
     </div>
     <div class="nc-name">${esc(n.name)}</div>
     <div class="nc-stats">
@@ -557,6 +560,8 @@ function confirmAdd() {
   const id = String(uid++);
   nodes[id] = mkNode(id, name, prodKey, lane, pendingParent);
   nodes[pendingParent].children.push(id);
+  // Placing a child in lane X ranks the parent up to X
+  nodes[pendingParent].rank = Math.max(nodes[pendingParent].rank, lane);
   closeAdd();
 
   // Auto-record the entry purchase as a sale
@@ -589,6 +594,14 @@ function confirmEdit() {
   nodes[editTarget].name      = name;
   nodes[editTarget].entryProd = newProd;
   nodes[editTarget].lane      = newLane;
+
+  // If placement lane changed, recalculate parent's rank from all children
+  if (newLane !== oldLane) {
+    const pid = nodes[editTarget].parent;
+    if (pid !== null) {
+      nodes[pid].rank = Math.max(1, ...nodes[pid].children.map(cid => nodes[cid].lane));
+    }
+  }
 
   // If product or lane changed, reverse old entry commission and re-record
   if (newProd !== oldProd || newLane !== oldLane) {
