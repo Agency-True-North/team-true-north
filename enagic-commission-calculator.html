@@ -381,6 +381,7 @@ function recordSale(nodeId, prodKey, isEntryPurchase) {
 
   // Log entry
   saleLog.unshift({
+    nodeId,
     seller: seller.name,
     prod:   prod.name,
     short:  prod.short,
@@ -446,11 +447,6 @@ function buildCard(n) {
   const card = mk('div','nc');
   card.id = 'node-'+n.id;
 
-  // Build product buttons
-  const pbHTML = Object.entries(PRODS).map(([k,p]) =>
-    `<button class="pb" onclick="recordSale('${n.id}','${k}',false)" title="${p.name} · $${p.p1}/pt">${p.short}</button>`
-  ).join('');
-
   card.innerHTML = `
     <div class="nc-head">
       <span class="lane-badge ${laneCls[n.lane]}">${laneLabels[n.lane]}${isRoot?' · You':''}</span>
@@ -465,8 +461,6 @@ function buildCard(n) {
       <div class="flash-main"><span class="flash-pts"></span><span class="flash-amt"></span></div>
       <div class="flash-from"></div>
     </div>
-    <div class="nc-sales-label">Record a sale from this account:</div>
-    <div class="nc-prods">${pbHTML}</div>
     <button class="nc-edit-btn" onclick="openEdit('${n.id}')">✎ Edit account</button>
     <button class="nc-add-btn"  onclick="openAdd('${n.id}')">+ Place account below</button>
   `;
@@ -585,11 +579,38 @@ function closeEdit() {
   editTarget = null;
 }
 function confirmEdit() {
-  const name = document.getElementById('editName').value.trim();
+  const name    = document.getElementById('editName').value.trim();
   if (!name) return;
-  nodes[editTarget].name     = name;
-  nodes[editTarget].entryProd = document.getElementById('editProduct').value;
-  nodes[editTarget].lane     = parseInt(document.getElementById('editLane').value);
+  const newProd = document.getElementById('editProduct').value;
+  const newLane = parseInt(document.getElementById('editLane').value);
+  const oldProd = nodes[editTarget].entryProd;
+  const oldLane = nodes[editTarget].lane;
+
+  nodes[editTarget].name      = name;
+  nodes[editTarget].entryProd = newProd;
+  nodes[editTarget].lane      = newLane;
+
+  // If product or lane changed, reverse old entry commission and re-record
+  if (newProd !== oldProd || newLane !== oldLane) {
+    const entryIdx = saleLog.findIndex(e => e.nodeId === editTarget && e.isEntry);
+    if (entryIdx !== -1) {
+      const old = saleLog[entryIdx];
+      old.commissions.forEach(r => {
+        if (nodes[r.id]) {
+          nodes[r.id].earned -= r.amt;
+          if (!r.ea) nodes[r.id].sales--;
+        }
+      });
+      uplineTotals.pts   -= old.remPts;
+      uplineTotals.amt   -= old.ulAmt;
+      uplineTotals.sales -= 1;
+      saleLog.splice(entryIdx, 1);
+      closeEdit();
+      recordSale(editTarget, newProd, true);
+      return;
+    }
+  }
+
   closeEdit();
   renderTree();
 }
