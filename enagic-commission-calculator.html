@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team True North — Enagic Commission Calculator</title>
+  <style>
+    :root {
+      --blue:     #0055b3;
+      --blue-mid: #0077d4;
+      --blue-lt:  #dceeff;
+      --green:    #15803d;
+      --green-bg: #dcfce7;
+      --orange:   #c2410c;
+      --orange-bg:#ffedd5;
+      --line:     #bfdbfe;
+      --g100:#f8fafc; --g200:#f1f5f9; --g300:#e2e8f0;
+      --g400:#94a3b8; --g500:#64748b; --g700:#334155; --g900:#0f172a;
+      --r: 10px;
+      --node-w: 196px;
+      --gap: 20px;
+      --conn: 28px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--g200);color:var(--g900);min-height:100vh}
+
+    /* HEADER */
+    .hdr{background:linear-gradient(135deg,#003080 0%,var(--blue-mid) 100%);color:#fff;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,50,130,.28);position:sticky;top:0;z-index:30}
+    .hdr-title{font-size:1.1rem;font-weight:800;letter-spacing:-.02em}
+    .hdr-sub{font-size:.68rem;opacity:.7;margin-top:1px}
+    .hdr-btns{display:flex;gap:8px}
+    .btn{padding:6px 13px;border-radius:6px;border:none;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .14s;line-height:1.4}
+    .btn-glass{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25)}
+    .btn-glass:hover{background:rgba(255,255,255,.24)}
+    .btn-white{background:#fff;color:var(--blue)}.btn-white:hover{background:#ebf4ff}
+    .btn-blue{background:var(--blue-mid);color:#fff}.btn-blue:hover{background:#0066be}
+    .btn-ghost{background:#fff;color:var(--g500);border:1px solid var(--g300)}.btn-ghost:hover{background:var(--g100)}
+    .btn-red{background:#fee2e2;color:#b91c1c}.btn-red:hover{background:#fecaca}
+
+    /* LAYOUT */
+    .layout{display:flex;height:calc(100vh - 48px)}
+    .tree-panel{flex:1;overflow:auto;padding:36px 44px 80px;min-width:0}
+
+    /* UPLINE BOX */
+    .upline-box{display:inline-flex;align-items:center;gap:16px;background:#fff;border:2px solid var(--blue-lt);border-radius:var(--r);padding:12px 18px;margin-bottom:28px;box-shadow:0 2px 8px rgba(0,80,200,.08)}
+    .upline-label{font-size:.68rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em}
+    .upline-recent{font-size:1rem;font-weight:800;color:var(--green)}
+    .upline-total{font-size:.8rem;color:var(--g500)}
+    .upline-total span{font-weight:700;color:var(--g700)}
+    .upline-pts{font-size:.72rem;color:var(--g400);margin-top:2px}
+    .upline-divider{width:1px;height:36px;background:var(--g300)}
+
+    /* TREE */
+    .nw{display:flex;flex-direction:column;align-items:center}
+    .vc{width:2px;height:var(--conn);background:var(--line);flex-shrink:0}
+    .cr{display:flex;gap:var(--gap);position:relative}
+    .hbar{position:absolute;top:0;height:2px;background:var(--line);pointer-events:none}
+
+    /* NODE CARD */
+    .nc{width:var(--node-w);background:#fff;border-radius:var(--r);border:2px solid var(--g300);overflow:hidden;transition:border-color .22s,box-shadow .22s;flex-shrink:0}
+    .nc.earn   {border-color:#4ade80;box-shadow:0 0 0 3px rgba(74,222,128,.2);animation:pop .28s}
+    .nc.ea-earn{border-color:#fb923c;box-shadow:0 0 0 3px rgba(251,146,60,.2);animation:pop .28s}
+    @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+
+    .nc-head{display:flex;align-items:center;gap:6px;padding:8px 10px 5px}
+    .lane-badge{font-size:.63rem;font-weight:800;padding:2px 7px;border-radius:8px;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+    .l1{background:#f1f5f9;color:#475569} .l2{background:#fefce8;color:#854d0e}
+    .l3{background:#fef2f2;color:#991b1b} .l4{background:#eff6ff;color:#1e40af}
+    .l5{background:#f0fdf4;color:#166534} .l6{background:#fff7ed;color:#9a3412}
+
+    .entry-badge{font-size:.62rem;font-weight:700;padding:2px 6px;border-radius:6px;background:var(--g200);color:var(--g500);flex-shrink:0}
+    .nc-name{font-size:.86rem;font-weight:700;padding:0 10px 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .nc-stats{display:flex;justify-content:space-between;padding:0 10px 6px;font-size:.67rem;color:var(--g400)}
+    .nc-stats .earned{color:var(--green);font-weight:700}
+
+    .nc-flash{padding:6px 10px;display:none;flex-direction:column;gap:2px;border-top:2px solid}
+    .nc-flash.show{display:flex}
+    .nc-flash.gf{background:var(--green-bg);border-color:#86efac}
+    .nc-flash.of{background:var(--orange-bg);border-color:#fdba74}
+    .flash-main{display:flex;justify-content:space-between;font-size:.8rem;font-weight:800}
+    .flash-main .fp{color:var(--green)}.nc-flash.of .flash-main .fp{color:var(--orange)}
+    .flash-main .fa{color:var(--g700)}
+    .flash-from{font-size:.64rem;color:var(--g400)}
+
+    .nc-sales-label{padding:0 10px 4px;font-size:.64rem;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.05em;border-top:1px solid var(--g200);padding-top:7px;margin-top:2px}
+    .nc-prods{display:flex;flex-wrap:wrap;gap:3px;padding:0 10px 8px}
+    .pb{padding:3px 6px;font-size:.63rem;font-weight:700;border-radius:4px;border:1px solid var(--blue-lt);background:#f0f7ff;color:var(--blue);cursor:pointer;transition:all .12s;white-space:nowrap}
+    .pb:hover{background:var(--blue-mid);color:#fff;border-color:var(--blue-mid);transform:translateY(-1px)}
+
+    .nc-edit-btn{display:flex;align-items:center;gap:4px;width:100%;padding:5px 10px;background:none;border:none;border-top:1px solid var(--g200);color:var(--g400);font-size:.68rem;cursor:pointer;transition:all .14s}
+    .nc-edit-btn:hover{background:var(--g100);color:var(--g700)}
+    .nc-add-btn{display:flex;align-items:center;gap:4px;width:100%;padding:5px 10px;background:none;border:none;border-top:1px dashed var(--g300);color:var(--g400);font-size:.68rem;cursor:pointer;transition:all .14s}
+    .nc-add-btn:hover{background:#f0f7ff;color:var(--blue-mid)}
+
+    /* SIDEBAR */
+    .sidebar{width:270px;background:#fff;border-left:1px solid var(--g300);display:flex;flex-direction:column;flex-shrink:0}
+    .sb-head{padding:13px 15px;border-bottom:1px solid var(--g300);display:flex;align-items:center;justify-content:space-between}
+    .sb-head h3{font-size:.86rem;font-weight:700}
+    .sb-clear{background:none;border:none;cursor:pointer;font-size:.7rem;color:#ef4444}
+    .sb-log{flex:1;overflow-y:auto;padding:8px}
+    .log-empty{text-align:center;padding:36px 14px;color:var(--g400);font-size:.76rem;line-height:1.6}
+    .log-empty-icon{font-size:1.8rem;margin-bottom:8px}
+    .log-entry{background:var(--g100);border-radius:8px;padding:10px 11px;margin-bottom:7px;border-left:3px solid var(--blue-mid)}
+    .le-hdr{font-size:.76rem;font-weight:700;color:var(--g700);margin-bottom:1px}
+    .le-prod{font-size:.68rem;color:var(--g400);margin-bottom:6px}
+    .le-lines{display:flex;flex-direction:column;gap:2px}
+    .le-line{display:flex;justify-content:space-between;font-size:.69rem}
+    .le-line .ln{color:var(--g500)} .le-line .amt{font-weight:700;color:var(--green)}
+    .le-line.ea .amt{color:var(--orange)}
+    .le-line.ul .amt{color:var(--blue)}
+    .le-total{margin-top:6px;padding-top:5px;border-top:1px solid var(--g300);display:flex;justify-content:space-between;font-size:.73rem;font-weight:700;color:var(--g700)}
+    .sb-totals{padding:11px 15px;border-top:2px solid var(--g300);background:var(--g100)}
+    .sb-totals-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .st-label{font-size:.62rem;color:var(--g500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+    .st-value{font-size:1rem;font-weight:800;color:var(--blue)}
+    .rank-toggle{width:100%;padding:9px 15px;background:none;border:none;border-top:1px solid var(--g300);cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:.73rem;font-weight:600;color:var(--g500)}
+    .rank-toggle:hover{color:var(--blue)}
+    .rank-body{display:none;padding:2px 15px 10px;font-size:.65rem;color:var(--g500);line-height:1.7}
+    .rank-body.open{display:block}
+    .rrow{display:flex;justify-content:space-between;border-bottom:1px solid var(--g200);padding:2px 0}
+    .rrow:last-child{border:none} .rrow .rk{font-weight:700;color:var(--g700)}
+
+    /* MODALS */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.42);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .18s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:#fff;border-radius:12px;padding:22px;width:340px;max-width:calc(100vw - 24px);box-shadow:0 20px 60px rgba(0,0,0,.22);transform:scale(.96);transition:transform .18s}
+    .overlay.open .modal{transform:scale(1)}
+    .modal h3{font-size:.98rem;font-weight:700;margin-bottom:14px}
+    .fg{margin-bottom:12px}
+    .fg label{display:block;font-size:.76rem;font-weight:600;color:var(--g500);margin-bottom:4px}
+    .fg input,.fg select{width:100%;padding:7px 10px;border:1px solid var(--g300);border-radius:6px;font-size:.86rem;outline:none;color:var(--g900)}
+    .fg input:focus,.fg select:focus{border-color:var(--blue-mid);box-shadow:0 0 0 2px rgba(0,119,212,.12)}
+    .modal-note{font-size:.69rem;color:var(--g500);background:#f0f7ff;border-radius:6px;padding:8px 10px;margin-bottom:12px;border:1px solid var(--blue-lt);line-height:1.5}
+    .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(6px);background:var(--g700);color:#fff;padding:8px 18px;border-radius:8px;font-size:.8rem;font-weight:600;opacity:0;transition:all .22s;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.22);pointer-events:none}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  </style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-title">Team True North</div>
+    <div class="hdr-sub">Enagic 8-Point Commission Calculator</div>
+  </div>
+  <div class="hdr-btns">
+    <button class="btn btn-glass" onclick="clearHighlights()">Clear Highlights</button>
+    <button class="btn btn-white" onclick="resetTree()">Reset Tree</button>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="tree-panel" id="treePanel">
+
+    <!-- UPLINE PANEL -->
+    <div class="upline-box">
+      <div>
+        <div class="upline-label">↑ Upline</div>
+        <div class="upline-recent" id="ulRecent">$0</div>
+        <div class="upline-pts" id="ulPts">0 pts flowed above you</div>
+      </div>
+      <div class="upline-divider"></div>
+      <div>
+        <div class="upline-label">Total Upline Earnings</div>
+        <div class="upline-total"><span id="ulTotal">$0</span></div>
+        <div class="upline-pts" id="ulSales">from 0 sales</div>
+      </div>
+      <div class="upline-divider"></div>
+      <div style="font-size:.68rem;color:var(--g400);max-width:130px;line-height:1.5">
+        Points remaining after your 6-point share flow to your upline chain
+      </div>
+    </div>
+
+    <div id="treeWrap" style="display:inline-flex;flex-direction:column;align-items:flex-start;min-width:100%;"></div>
+  </div>
+
+  <div class="sidebar">
+    <div class="sb-head">
+      <h3>Commission Log</h3>
+      <button class="sb-clear" onclick="clearLog()">Clear all</button>
+    </div>
+    <div class="sb-log" id="sbLog">
+      <div class="log-empty">
+        <div class="log-empty-icon">💰</div>
+        <p>Place an account or record a sale to see 8-point commissions flow up the chain</p>
+      </div>
+    </div>
+    <div class="sb-totals">
+      <div class="sb-totals-grid">
+        <div><div class="st-label">Sales</div><div class="st-value" id="statSales">0</div></div>
+        <div><div class="st-label">Total Paid Out</div><div class="st-value" id="statTotal">$0</div></div>
+      </div>
+    </div>
+    <button class="rank-toggle" onclick="toggleRank(this)">Rank Reference <span>▸</span></button>
+    <div class="rank-body" id="rankBody">
+      <div class="rrow"><span class="rk">1A</span><span>2 individual direct sales fill both 1A slots</span></div>
+      <div class="rrow"><span class="rk">2A</span><span>After 2A threshold — 1 lane slot (can hold multiple sales)</span></div>
+      <div class="rrow"><span class="rk">3A</span><span>10 total pts (direct + indirect) + direct sale placed in lane</span></div>
+      <div class="rrow"><span class="rk">4A</span><span>20 total pts + direct sale unlocks lane</span></div>
+      <div class="rrow"><span class="rk">5A</span><span>50 total pts + direct sale unlocks lane</span></div>
+      <div class="rrow"><span class="rk">6A</span><span>101 direct sales + $300K retail volume</span></div>
+      <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--g200)">Lane placement locks commission rate permanently.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD ACCOUNT MODAL -->
+<div class="overlay" id="addOverlay">
+  <div class="modal">
+    <h3>Place a New Account</h3>
+    <div class="modal-note">
+      Each purchase/account is a separate lane placement. For a quad, add 3 accounts: K8 → 1A, Anespa → 1A, UKON → 2A. The initial purchase is automatically recorded as a sale.
+    </div>
+    <div class="fg">
+      <label>Person's Name</label>
+      <input type="text" id="addName" placeholder="e.g. Taylor" />
+    </div>
+    <div class="fg">
+      <label>Entry Product (what they purchased)</label>
+      <select id="addProduct">
+        <option value="K8">K8 — $351/pt</option>
+        <option value="SD">SD501 — $290/pt</option>
+        <option value="PLT">SD501 Platinum — $290/pt</option>
+        <option value="S501">Super 501 — $420/pt</option>
+        <option value="JIV">JRIV — $200/pt</option>
+        <option value="ANE">Anespa DX — $195/pt</option>
+        <option value="SDU">SD501 U — $320/pt</option>
+        <option value="UKN">UKON Σ NEW — $115/pt</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Lane Placement</label>
+      <select id="addLane">
+        <option value="1">1A Lane — you earn 1 pt per sale · $351 (K8)</option>
+        <option value="2">2A Lane — you earn 2 pts per sale · $702 (K8)</option>
+        <option value="3">3A Lane — you earn 3 pts per sale · $1,053 (K8)</option>
+        <option value="4">4A Lane — you earn 4 pts per sale · $1,404 (K8)</option>
+        <option value="5">5A Lane — you earn 5 pts per sale · $1,755 (K8)</option>
+        <option value="6">6A Lane — you earn 6 pts per sale · $2,106 (K8)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeAdd()">Cancel</button>
+      <button class="btn btn-blue" onclick="confirmAdd()">Place Account + Record Purchase</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="overlay" id="editOverlay">
+  <div class="modal">
+    <h3>Edit Account</h3>
+    <div class="fg">
+      <label>Person's Name</label>
+      <input type="text" id="editName" />
+    </div>
+    <div class="fg">
+      <label>Entry Product</label>
+      <select id="editProduct">
+        <option value="K8">K8</option>
+        <option value="SD">SD501</option>
+        <option value="PLT">SD501 Platinum</option>
+        <option value="S501">Super 501</option>
+        <option value="JIV">JRIV</option>
+        <option value="ANE">Anespa DX</option>
+        <option value="SDU">SD501 U</option>
+        <option value="UKN">UKON Σ NEW</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Lane Value (your commission per sale in this branch)</label>
+      <select id="editLane">
+        <option value="1">1A — 1 point</option>
+        <option value="2">2A — 2 points</option>
+        <option value="3">3A — 3 points</option>
+        <option value="4">4A — 4 points</option>
+        <option value="5">5A — 5 points</option>
+        <option value="6">6A — 6 points</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost"  onclick="closeEdit()">Cancel</button>
+      <button class="btn btn-red"    onclick="deleteNode()">Delete</button>
+      <button class="btn btn-blue"   onclick="confirmEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ── PRODUCTS ──────────────────────────────────────────────────────────────
+const PRODS = {
+  K8:   {short:'K8',    name:'LeveLuk K8',        p1:351},
+  SD:   {short:'SD501', name:'LeveLuk SD501',      p1:290},
+  PLT:  {short:'Plat',  name:'SD501 Platinum',     p1:290},
+  S501: {short:'S501',  name:'LeveLuk Super 501',  p1:420},
+  JIV:  {short:'JRIV',  name:'LeveLuk JRIV',       p1:200},
+  ANE:  {short:'Anes',  name:'Anespa DX',           p1:195},
+  SDU:  {short:'SD-U',  name:'SD501 U',             p1:320},
+  UKN:  {short:'UKON',  name:'UKON Σ NEW',          p1:115},
+};
+
+// Educational Allowance for 6A nodes after 8 points exhausted (D1+SP max, from official PDF)
+const EA = {
+  K8:{first:200,other:50}, SD:{first:200,other:50}, PLT:{first:200,other:50},
+  S501:{first:220,other:55}, JIV:{first:110,other:30}, ANE:{first:125,other:30},
+  SDU:{first:210,other:50}, UKN:{first:0,other:0},
+};
+
+// ── TREE STATE ────────────────────────────────────────────────────────────
+let uid = 1;
+
+// Root node = You (6A). Children = accounts placed in your lanes.
+const mkNode = (id, name, entryProd, lane, parent) =>
+  ({id, name, entryProd, lane, parent, children:[], earned:0, sales:0});
+
+const DEFAULT = () => {
+  uid = 10;
+  return {
+    '0': mkNode('0','You','K8',1,null),
+  };
+};
+
+let nodes   = DEFAULT();
+let saleLog = [];
+let pendingParent = null;
+let editTarget    = null;
+let uplineTotals  = {pts:0, amt:0, sales:0, lastAmt:0};
+
+// ── COMMISSION ENGINE ─────────────────────────────────────────────────────
+// Rule: the purchase/sale node earns NOTHING.
+// Each parent earns the CHILD'S lane value (not its own).
+// This matches Enagic's structure: lane placement locks what the PARENT earns
+// from that branch. K8 in 1A lane → parent earns 1pt. UKON in 2A → parent earns 2pt.
+function calcCommission(fromId, prodKey) {
+  const p1 = PRODS[prodKey].p1;
+  let rem  = 8;
+  const out = [];
+
+  let childId  = fromId;                   // purchase node — earns 0
+  let parentId = nodes[fromId].parent;     // first earner
+
+  while (parentId !== null && rem > 0) {
+    const pts = Math.min(nodes[childId].lane, rem);
+    out.push({id:parentId, name:nodes[parentId].name, pts, amt:pts*p1, ea:false});
+    rem     -= pts;
+    childId  = parentId;
+    parentId = nodes[parentId].parent;
+  }
+
+  // After tree is exhausted, check for EA on any remaining 6A nodes in upline.
+  // We don't model the upline chain, so just track the dollar flow.
+  const ulAmt = rem * p1;
+
+  return {commissions: out, ulAmt, remPts: rem};
+}
+
+// ── RECORD SALE ───────────────────────────────────────────────────────────
+function recordSale(nodeId, prodKey, isEntryPurchase) {
+  const {commissions, ulAmt, remPts} = calcCommission(nodeId, prodKey);
+  const prod   = PRODS[prodKey];
+  const seller = nodes[nodeId];
+  const total  = commissions.reduce((s,r) => s+r.amt, 0);
+
+  // Update node stats
+  commissions.forEach(r => {
+    nodes[r.id].earned += r.amt;
+    if (!r.ea) nodes[r.id].sales++;
+  });
+
+  // Update upline tracker (always fires — even 0 shows the sale was recorded)
+  uplineTotals.pts     += remPts;
+  uplineTotals.amt     += ulAmt;
+  uplineTotals.sales   += 1;
+  uplineTotals.lastAmt  = ulAmt;
+
+  // Log entry
+  saleLog.unshift({
+    seller: seller.name,
+    prod:   prod.name,
+    short:  prod.short,
+    prodKey,
+    isEntry: !!isEntryPurchase,
+    commissions,
+    ulAmt,
+    remPts,
+    total: total + ulAmt,
+  });
+
+  // Redraw tree, then highlight
+  renderTree();
+
+  commissions.forEach(r => {
+    const card = document.getElementById('node-'+r.id);
+    if (!card) return;
+    card.classList.add(r.ea ? 'ea-earn' : 'earn');
+    const flash = card.querySelector('.nc-flash');
+    if (flash) {
+      flash.className = 'nc-flash show ' + (r.ea ? 'of' : 'gf');
+      flash.querySelector('.flash-pts').textContent  = r.ea ? 'EA' : r.pts+'pt';
+      flash.querySelector('.flash-amt').textContent  = '$'+r.amt.toLocaleString();
+      flash.querySelector('.flash-from').textContent = `from ${esc(seller.name)}'s ${prod.short} ${isEntryPurchase?'entry purchase':'sale'}`;
+    }
+  });
+
+  renderLog();
+  updateStats();
+  updateUpline(ulAmt, remPts);
+  toast(`${commissions.length} account${commissions.length!==1?'s':''} earned commissions.`);
+}
+
+// ── RENDER TREE ───────────────────────────────────────────────────────────
+function renderTree() {
+  const wrap = document.getElementById('treeWrap');
+  wrap.innerHTML = '';
+  wrap.appendChild(buildTree('0', true));
+  requestAnimationFrame(drawHBars);
+}
+
+function buildTree(id, isRoot) {
+  const n  = nodes[id];
+  const nw = mk('div','nw');
+  if (!isRoot) nw.appendChild(mk('div','vc'));
+  nw.appendChild(buildCard(n));
+  if (n.children.length > 0) {
+    nw.appendChild(mk('div','vc'));
+    const cr = mk('div','cr');
+    cr.id = 'cr-'+id;
+    n.children.forEach(cid => cr.appendChild(buildTree(cid, false)));
+    nw.appendChild(cr);
+  }
+  return nw;
+}
+
+function buildCard(n) {
+  const laneLabels = ['','1A','2A','3A','4A','5A','6A'];
+  const laneCls    = ['','l1','l2','l3','l4','l5','l6'];
+  const isRoot = n.parent === null;
+  const prod   = PRODS[n.entryProd] || PRODS.K8;
+
+  const card = mk('div','nc');
+  card.id = 'node-'+n.id;
+
+  // Build product buttons
+  const pbHTML = Object.entries(PRODS).map(([k,p]) =>
+    `<button class="pb" onclick="recordSale('${n.id}','${k}',false)" title="${p.name} · $${p.p1}/pt">${p.short}</button>`
+  ).join('');
+
+  card.innerHTML = `
+    <div class="nc-head">
+      <span class="lane-badge ${laneCls[n.lane]}">${laneLabels[n.lane]}${isRoot?' · You':''}</span>
+      <span class="entry-badge">${prod.short}</span>
+    </div>
+    <div class="nc-name">${esc(n.name)}</div>
+    <div class="nc-stats">
+      <span>${n.sales} sale${n.sales!==1?'s':''}</span>
+      <span class="earned">${fmt(n.earned)}</span>
+    </div>
+    <div class="nc-flash">
+      <div class="flash-main"><span class="flash-pts"></span><span class="flash-amt"></span></div>
+      <div class="flash-from"></div>
+    </div>
+    <div class="nc-sales-label">Record a sale from this account:</div>
+    <div class="nc-prods">${pbHTML}</div>
+    <button class="nc-edit-btn" onclick="openEdit('${n.id}')">✎ Edit account</button>
+    <button class="nc-add-btn"  onclick="openAdd('${n.id}')">+ Place account below</button>
+  `;
+
+  return card;
+}
+
+function drawHBars() {
+  document.querySelectorAll('.cr').forEach(cr => {
+    const kids = Array.from(cr.children).filter(c => c.classList.contains('nw'));
+    if (kids.length < 2) return;
+    const crR = cr.getBoundingClientRect();
+    const fc  = kids[0].querySelector('.nc');
+    const lc  = kids[kids.length-1].querySelector('.nc');
+    if (!fc||!lc) return;
+    const fR = fc.getBoundingClientRect();
+    const lR = lc.getBoundingClientRect();
+    const left  = fR.left + fR.width/2 - crR.left;
+    const right = lR.left + lR.width/2 - crR.left;
+    cr.querySelectorAll(':scope>.hbar').forEach(b=>b.remove());
+    const bar = mk('div','hbar');
+    bar.style.left  = left+'px';
+    bar.style.width = (right-left)+'px';
+    cr.insertBefore(bar, cr.firstChild);
+  });
+}
+
+// ── UPLINE PANEL ──────────────────────────────────────────────────────────
+function updateUpline(lastAmt, lastPts) {
+  document.getElementById('ulRecent').textContent  = lastAmt > 0 ? '+$'+lastAmt.toLocaleString() : '$0';
+  document.getElementById('ulPts').textContent     = lastPts+' pt'+(lastPts!==1?'s':'')+' flowed above you this sale';
+  document.getElementById('ulTotal').textContent   = '$'+uplineTotals.amt.toLocaleString();
+  document.getElementById('ulSales').textContent   = 'from '+uplineTotals.sales+' sale'+(uplineTotals.sales!==1?'s':'');
+}
+
+// ── SALE LOG ──────────────────────────────────────────────────────────────
+function renderLog() {
+  const el = document.getElementById('sbLog');
+  if (!saleLog.length) {
+    el.innerHTML = `<div class="log-empty"><div class="log-empty-icon">💰</div><p>Place an account or record a sale to see 8-point commissions flow up the chain</p></div>`;
+    return;
+  }
+  el.innerHTML = saleLog.map(e => `
+    <div class="log-entry">
+      <div class="le-hdr">${esc(e.seller)} — ${e.short}${e.isEntry?' (entry purchase)':' sale'}</div>
+      <div class="le-prod">${e.prod}</div>
+      <div class="le-lines">
+        ${e.commissions.map(r=>`
+          <div class="le-line ${r.ea?'ea':''}">
+            <span class="ln">${esc(r.name)}${r.ea?' (EA)':' · '+r.pts+'pt'}</span>
+            <span class="amt">$${r.amt.toLocaleString()}</span>
+          </div>`).join('')}
+        ${e.ulAmt>0?`
+          <div class="le-line ul">
+            <span class="ln">↑ Upline (${e.remPts}pt remaining)</span>
+            <span class="amt">$${e.ulAmt.toLocaleString()}</span>
+          </div>`:''}
+      </div>
+      <div class="le-total"><span>Total paid out</span><span>$${e.total.toLocaleString()}</span></div>
+    </div>`).join('');
+}
+
+function updateStats() {
+  document.getElementById('statSales').textContent = saleLog.length;
+  const total = saleLog.reduce((s,e)=>s+e.total,0);
+  document.getElementById('statTotal').textContent = '$'+total.toLocaleString();
+}
+
+// ── HIGHLIGHTS ────────────────────────────────────────────────────────────
+function clearHighlights() {
+  document.querySelectorAll('.nc.earn,.nc.ea-earn').forEach(c=>c.classList.remove('earn','ea-earn'));
+  document.querySelectorAll('.nc-flash.show').forEach(f=>f.classList.remove('show','gf','of'));
+}
+
+// ── MODALS: ADD ───────────────────────────────────────────────────────────
+function openAdd(parentId) {
+  pendingParent = parentId;
+  document.getElementById('addName').value    = '';
+  document.getElementById('addProduct').value = 'K8';
+  document.getElementById('addLane').value    = '1';
+  document.getElementById('addOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('addName').focus(), 80);
+}
+function closeAdd() {
+  document.getElementById('addOverlay').classList.remove('open');
+  pendingParent = null;
+}
+function confirmAdd() {
+  const name    = document.getElementById('addName').value.trim();
+  const prodKey = document.getElementById('addProduct').value;
+  const lane    = parseInt(document.getElementById('addLane').value);
+  if (!name) { document.getElementById('addName').focus(); return; }
+
+  const id = String(uid++);
+  nodes[id] = mkNode(id, name, prodKey, lane, pendingParent);
+  nodes[pendingParent].children.push(id);
+  closeAdd();
+
+  // Auto-record the entry purchase as a sale
+  recordSale(id, prodKey, true);
+  toast(`${name}'s ${PRODS[prodKey].short} account placed — entry purchase recorded.`);
+}
+
+// ── MODALS: EDIT ──────────────────────────────────────────────────────────
+function openEdit(nodeId) {
+  editTarget = nodeId;
+  const n = nodes[nodeId];
+  document.getElementById('editName').value    = n.name;
+  document.getElementById('editProduct').value = n.entryProd;
+  document.getElementById('editLane').value    = String(n.lane);
+  document.getElementById('editOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('editName').focus(), 80);
+}
+function closeEdit() {
+  document.getElementById('editOverlay').classList.remove('open');
+  editTarget = null;
+}
+function confirmEdit() {
+  const name = document.getElementById('editName').value.trim();
+  if (!name) return;
+  nodes[editTarget].name     = name;
+  nodes[editTarget].entryProd = document.getElementById('editProduct').value;
+  nodes[editTarget].lane     = parseInt(document.getElementById('editLane').value);
+  closeEdit();
+  renderTree();
+}
+function deleteNode() {
+  if (editTarget==='0') { toast("Can't delete your root account."); return; }
+  const pid = nodes[editTarget].parent;
+  nodes[pid].children = nodes[pid].children.filter(id=>id!==editTarget);
+  function purge(id){ nodes[id].children.forEach(purge); delete nodes[id]; }
+  purge(editTarget);
+  closeEdit(); renderTree();
+  toast('Account removed.');
+}
+
+// ── RESET & CLEAR ─────────────────────────────────────────────────────────
+function resetTree() {
+  if (!confirm('Reset to a blank tree? All placements and sales history will be cleared.')) return;
+  nodes = DEFAULT(); saleLog = []; uplineTotals = {pts:0,amt:0,sales:0,lastAmt:0};
+  renderLog(); updateStats(); updateUpline(0,0); renderTree();
+}
+function clearLog() {
+  saleLog = []; uplineTotals = {pts:0,amt:0,sales:0,lastAmt:0};
+  Object.values(nodes).forEach(n=>{n.earned=0;n.sales=0;});
+  renderLog(); updateStats(); updateUpline(0,0); renderTree();
+}
+function toggleRank(btn) {
+  const body = document.getElementById('rankBody');
+  const open = body.classList.toggle('open');
+  btn.querySelector('span').textContent = open ? '▾' : '▸';
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────
+function mk(tag,cls){const e=document.createElement(tag);if(cls)e.className=cls;return e}
+function fmt(n){return n?'$'+n.toLocaleString('en-US'):'$0'}
+function esc(s){const d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
+let toastT;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800)}
+
+// ── KEYBOARD ──────────────────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAdd();closeEdit()}});
+document.getElementById('addOverlay').addEventListener('keydown',e=>{if(e.key==='Enter')confirmAdd()});
+document.getElementById('editOverlay').addEventListener('keydown',e=>{if(e.key==='Enter')confirmEdit()});
+document.getElementById('addOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('addOverlay'))closeAdd()});
+document.getElementById('editOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('editOverlay'))closeEdit()});
+window.addEventListener('resize',()=>requestAnimationFrame(drawHBars));
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+renderTree();
+</script>
+</body>
+</html>
