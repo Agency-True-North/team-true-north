@@ -604,9 +604,10 @@ function confirmEdit() {
       uplineTotals.pts   -= old.remPts;
       uplineTotals.amt   -= old.ulAmt;
       uplineTotals.sales -= 1;
+      const targetId = editTarget;
       saleLog.splice(entryIdx, 1);
       closeEdit();
-      recordSale(editTarget, newProd, true);
+      recordSale(targetId, newProd, true);
       return;
     }
   }
