@@ -73,6 +73,15 @@
     .nc-name{font-size:.86rem;font-weight:700;padding:0 10px 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .nc-stats{display:flex;justify-content:space-between;padding:0 10px 6px;font-size:.67rem;color:var(--g400)}
     .nc-stats .earned{color:var(--green);font-weight:700}
+    .nc-vol{padding:0 10px 7px;font-size:.63rem;color:var(--g500);font-weight:600}
+
+    /* PIE CHART */
+    .pie-box{display:inline-flex;align-items:flex-start;gap:16px;background:#fff;border:2px solid #fed7aa;border-radius:var(--r);padding:14px 18px;margin-bottom:28px;margin-left:20px;box-shadow:0 2px 8px rgba(200,80,0,.1)}
+    .pie-title{font-size:.68rem;font-weight:700;color:#c2410c;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+    .pie-content{display:flex;align-items:center;gap:14px}
+    .pie-legend{display:flex;flex-direction:column;gap:5px;font-size:.68rem;color:var(--g700)}
+    .pie-legend-item{display:flex;align-items:center;gap:6px}
+    .pie-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
     .nc-flash{padding:6px 10px;display:none;flex-direction:column;gap:2px;border-top:2px solid}
     .nc-flash.show{display:flex}
@@ -137,6 +146,15 @@
     /* TOAST */
     .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(6px);background:var(--g700);color:#fff;padding:8px 18px;border-radius:8px;font-size:.8rem;font-weight:600;opacity:0;transition:all .22s;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.22);pointer-events:none}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media print {
+    .hdr-btns, .sidebar { display: none !important; }
+    .hdr { position: static; box-shadow: none; }
+    .layout { display: block; height: auto; }
+    .tree-panel { overflow: visible; padding: 20px; }
+    body { background: white; }
+    .nc-edit-btn, .nc-add-btn { display: none; }
+    .overlay { display: none !important; }
+  }
   </style>
 </head>
 <body>
@@ -148,6 +166,8 @@
   </div>
   <div class="hdr-btns">
     <button class="btn btn-glass" onclick="clearHighlights()">Clear Highlights</button>
+    <button class="btn btn-glass" id="pieToggleBtn" onclick="togglePie()">● Show Pie</button>
+    <button class="btn btn-glass" onclick="printTree()">⎙ Save PDF</button>
     <button class="btn btn-white" onclick="resetTree()">Reset Tree</button>
   </div>
 </div>
@@ -171,6 +191,15 @@
       <div class="upline-divider"></div>
       <div style="font-size:.68rem;color:var(--g400);max-width:130px;line-height:1.5">
         Points remaining after your 6-point share flow to your upline chain
+      </div>
+    </div>
+
+    <!-- PIE CHART -->
+    <div class="pie-box" id="pieBox" style="display:none">
+      <div class="pie-title">Last Sale — 8pt Breakdown</div>
+      <div class="pie-content">
+        <div id="pieSvg"></div>
+        <div class="pie-legend" id="pieLegend"><em style="color:var(--g400);font-size:.72rem">Record a sale to see the pie</em></div>
       </div>
     </div>
 
@@ -296,14 +325,14 @@
 
 // ── PRODUCTS ──────────────────────────────────────────────────────────────
 const PRODS = {
-  K8:   {short:'K8',    name:'LeveLuk K8',        p1:351},
-  SD:   {short:'SD501', name:'LeveLuk SD501',      p1:290},
-  PLT:  {short:'Plat',  name:'SD501 Platinum',     p1:290},
-  S501: {short:'S501',  name:'LeveLuk Super 501',  p1:420},
-  JIV:  {short:'JRIV',  name:'LeveLuk JRIV',       p1:200},
-  ANE:  {short:'Anes',  name:'Anespa DX',           p1:195},
-  SDU:  {short:'SD-U',  name:'SD501 U',             p1:320},
-  UKN:  {short:'UKON',  name:'UKON Σ NEW',          p1:115},
+  K8:   {short:'K8',    name:'LeveLuk K8',        p1:351, retail:4980},
+  SD:   {short:'SD501', name:'LeveLuk SD501',      p1:290, retail:3280},
+  PLT:  {short:'Plat',  name:'SD501 Platinum',     p1:290, retail:3680},
+  S501: {short:'S501',  name:'LeveLuk Super 501',  p1:420, retail:5980},
+  JIV:  {short:'JRIV',  name:'LeveLuk JRIV',       p1:200, retail:1980},
+  ANE:  {short:'Anes',  name:'Anespa DX',           p1:195, retail:2890},
+  SDU:  {short:'SD-U',  name:'SD501 U',             p1:320, retail:3980},
+  UKN:  {short:'UKON',  name:'UKON Σ NEW',          p1:115, retail:1580},
 };
 
 // Educational Allowance for 6A nodes after 8 points exhausted (D1+SP max, from official PDF)
@@ -318,7 +347,7 @@ let uid = 1;
 
 // Root node = You (6A). Children = accounts placed in your lanes.
 const mkNode = (id, name, entryProd, lane, parent) =>
-  ({id, name, entryProd, lane, parent, children:[], earned:0, sales:0, rank:1});
+  ({id, name, entryProd, lane, parent, children:[], earned:0, sales:0, rank:1, volume:0});
 
 const DEFAULT = () => {
   uid = 10;
@@ -413,6 +442,7 @@ function recordSale(nodeId, prodKey, isEntryPurchase) {
   renderLog();
   updateStats();
   updateUpline(ulAmt, remPts);
+  updatePie(commissions, remPts, prod.p1);
   toast(`${commissions.length} account${commissions.length!==1?'s':''} earned commissions.`);
 }
 
@@ -460,6 +490,7 @@ function buildCard(n) {
       <span>${n.sales} sale${n.sales!==1?'s':''}</span>
       <span class="earned">${fmt(n.earned)}</span>
     </div>
+    ${(n.volume||0)>0 ? `<div class="nc-vol">Vol. $${(n.volume).toLocaleString()}</div>` : ''}
     <div class="nc-flash">
       <div class="flash-main"><span class="flash-pts"></span><span class="flash-amt"></span></div>
       <div class="flash-from"></div>
@@ -562,6 +593,7 @@ function confirmAdd() {
   nodes[pendingParent].children.push(id);
   // Placing a child in lane X ranks the parent up to X
   nodes[pendingParent].rank = Math.max(nodes[pendingParent].rank, lane);
+  nodes[pendingParent].volume = (nodes[pendingParent].volume || 0) + (PRODS[prodKey].retail || 0);
   closeAdd();
 
   // Auto-record the entry purchase as a sale
@@ -618,6 +650,11 @@ function confirmEdit() {
       uplineTotals.amt   -= old.ulAmt;
       uplineTotals.sales -= 1;
       const targetId = editTarget;
+      const parentId = nodes[editTarget].parent;
+      // Reverse old retail volume on parent, add new
+      if (parentId !== null) {
+        nodes[parentId].volume = Math.max(0, (nodes[parentId].volume || 0) - (PRODS[oldProd].retail || 0) + (PRODS[newProd].retail || 0));
+      }
       saleLog.splice(entryIdx, 1);
       closeEdit();
       recordSale(targetId, newProd, true);
@@ -646,7 +683,7 @@ function resetTree() {
 }
 function clearLog() {
   saleLog = []; uplineTotals = {pts:0,amt:0,sales:0,lastAmt:0};
-  Object.values(nodes).forEach(n=>{n.earned=0;n.sales=0;});
+  Object.values(nodes).forEach(n=>{n.earned=0;n.sales=0;n.volume=0;});
   renderLog(); updateStats(); updateUpline(0,0); renderTree();
 }
 function toggleRank(btn) {
@@ -661,6 +698,51 @@ function fmt(n){return n?'$'+n.toLocaleString('en-US'):'$0'}
 function esc(s){const d=document.createElement('div');d.appendChild(document.createTextNode(s));return d.innerHTML}
 let toastT;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800)}
+
+// ── PIE CHART ─────────────────────────────────────────────────────────────
+const PIE_COLORS = ['#0055b3','#0d9488','#15803d','#7c3aed','#c2410c','#0891b2','#b45309','#be185d'];
+let pieVisible = false;
+
+function togglePie() {
+  pieVisible = !pieVisible;
+  document.getElementById('pieBox').style.display = pieVisible ? 'inline-flex' : 'none';
+  document.getElementById('pieToggleBtn').textContent = pieVisible ? '● Hide Pie' : '● Show Pie';
+}
+
+function updatePie(commissions, ulPts, p1) {
+  const size = 130;
+  const cx = size/2, cy = size/2, r = size/2 - 4;
+  const segments = [
+    ...commissions.map((c,i) => ({pts:c.pts, color:PIE_COLORS[i % PIE_COLORS.length], label:c.name})),
+    ...(ulPts > 0 ? [{pts:ulPts, color:'#94a3b8', label:'Upline'}] : [])
+  ];
+  let startAngle = -Math.PI / 2;
+  let paths = '';
+  let legend = '';
+  segments.forEach(seg => {
+    const pct  = seg.pts / 8;
+    const ang  = pct * 2 * Math.PI;
+    const end  = startAngle + ang;
+    const x1 = cx + r * Math.cos(startAngle);
+    const y1 = cy + r * Math.sin(startAngle);
+    const x2 = cx + r * Math.cos(end);
+    const y2 = cy + r * Math.sin(end);
+    const lg = ang > Math.PI ? 1 : 0;
+    if (pct >= 1) {
+      paths += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${seg.color}"/>`;
+    } else {
+      paths += `<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${lg},1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${seg.color}"/>`;
+    }
+    legend += `<div class="pie-legend-item"><span class="pie-dot" style="background:${seg.color}"></span><span>${esc(seg.label)} · ${seg.pts}pt · $${(seg.pts*p1).toLocaleString()}</span></div>`;
+    startAngle = end;
+  });
+  document.getElementById('pieSvg').innerHTML =
+    `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${paths}</svg>`;
+  document.getElementById('pieLegend').innerHTML = legend;
+}
+
+// ── PRINT ─────────────────────────────────────────────────────────────────
+function printTree() { window.print(); }
 
 // ── KEYBOARD ──────────────────────────────────────────────────────────────
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAdd();closeEdit()}});
