@@ -162,7 +162,7 @@
 <div class="hdr">
   <div>
     <div class="hdr-title">Team True North</div>
-    <div class="hdr-sub">Enagic 8-Point Commission Calculator</div>
+    <div class="hdr-sub">Enagic 8-Point Commission Calculator · v2</div>
   </div>
   <div class="hdr-btns">
     <button class="btn btn-glass" onclick="clearHighlights()">Clear Highlights</button>
@@ -310,6 +310,17 @@
         <option value="6">6A — 6 points</option>
       </select>
     </div>
+    <div class="fg" id="editRankGroup">
+      <label>Current Rank (overrides auto-calculated rank)</label>
+      <select id="editRank">
+        <option value="1">1A</option>
+        <option value="2">2A</option>
+        <option value="3">3A</option>
+        <option value="4">4A</option>
+        <option value="5">5A</option>
+        <option value="6">6A</option>
+      </select>
+    </div>
     <div class="modal-actions">
       <button class="btn btn-ghost"  onclick="closeEdit()">Cancel</button>
       <button class="btn btn-red"    onclick="deleteNode()">Delete</button>
@@ -400,6 +411,7 @@ function recordSale(nodeId, prodKey, isEntryPurchase) {
   // Update node stats
   commissions.forEach(r => {
     nodes[r.id].earned += r.amt;
+    nodes[r.id].volume = (nodes[r.id].volume || 0) + (prod.retail || 0);
     if (!r.ea) nodes[r.id].sales++;
   });
 
@@ -435,7 +447,7 @@ function recordSale(nodeId, prodKey, isEntryPurchase) {
       flash.className = 'nc-flash show ' + (r.ea ? 'of' : 'gf');
       flash.querySelector('.flash-pts').textContent  = r.ea ? 'EA' : r.pts+'pt';
       flash.querySelector('.flash-amt').textContent  = '$'+r.amt.toLocaleString();
-      flash.querySelector('.flash-from').textContent = `from ${esc(seller.name)}'s ${prod.short} ${isEntryPurchase?'entry purchase':'sale'}`;
+      flash.querySelector('.flash-from').textContent = `from ${esc(seller.name)}'s ${prod.short} ${isEntryPurchase?'entry purchase':'sale'} · +$${(prod.retail||0).toLocaleString()} vol`;
     }
   });
 
@@ -593,7 +605,6 @@ function confirmAdd() {
   nodes[pendingParent].children.push(id);
   // Placing a child in lane X ranks the parent up to X
   nodes[pendingParent].rank = Math.max(nodes[pendingParent].rank, lane);
-  nodes[pendingParent].volume = (nodes[pendingParent].volume || 0) + (PRODS[prodKey].retail || 0);
   closeAdd();
 
   // Auto-record the entry purchase as a sale
@@ -608,6 +619,7 @@ function openEdit(nodeId) {
   document.getElementById('editName').value    = n.name;
   document.getElementById('editProduct').value = n.entryProd;
   document.getElementById('editLane').value    = String(n.lane);
+  document.getElementById('editRank').value    = String(n.rank || 1);
   document.getElementById('editOverlay').classList.add('open');
   setTimeout(()=>document.getElementById('editName').focus(), 80);
 }
@@ -626,6 +638,7 @@ function confirmEdit() {
   nodes[editTarget].name      = name;
   nodes[editTarget].entryProd = newProd;
   nodes[editTarget].lane      = newLane;
+  nodes[editTarget].rank      = parseInt(document.getElementById('editRank').value);
 
   // If placement lane changed, recalculate parent's rank from all children
   if (newLane !== oldLane) {
@@ -643,6 +656,7 @@ function confirmEdit() {
       old.commissions.forEach(r => {
         if (nodes[r.id]) {
           nodes[r.id].earned -= r.amt;
+          nodes[r.id].volume = Math.max(0, (nodes[r.id].volume || 0) - (PRODS[old.prodKey].retail || 0));
           if (!r.ea) nodes[r.id].sales--;
         }
       });
@@ -650,11 +664,6 @@ function confirmEdit() {
       uplineTotals.amt   -= old.ulAmt;
       uplineTotals.sales -= 1;
       const targetId = editTarget;
-      const parentId = nodes[editTarget].parent;
-      // Reverse old retail volume on parent, add new
-      if (parentId !== null) {
-        nodes[parentId].volume = Math.max(0, (nodes[parentId].volume || 0) - (PRODS[oldProd].retail || 0) + (PRODS[newProd].retail || 0));
-      }
       saleLog.splice(entryIdx, 1);
       closeEdit();
       recordSale(targetId, newProd, true);
@@ -667,11 +676,38 @@ function confirmEdit() {
 }
 function deleteNode() {
   if (editTarget==='0') { toast("Can't delete your root account."); return; }
+
+  // Collect every node ID being removed (the target + all descendants)
+  const toDelete = new Set();
+  function collectIds(id) { toDelete.add(id); nodes[id].children.forEach(collectIds); }
+  collectIds(editTarget);
+
+  // Reverse every sale log entry that originated from a deleted node
+  saleLog = saleLog.filter(entry => {
+    if (!toDelete.has(entry.nodeId)) return true;
+    entry.commissions.forEach(r => {
+      if (nodes[r.id] && !toDelete.has(r.id)) {
+        nodes[r.id].earned -= r.amt;
+        nodes[r.id].volume  = Math.max(0, (nodes[r.id].volume || 0) - (PRODS[entry.prodKey].retail || 0));
+        if (!r.ea) nodes[r.id].sales--;
+      }
+    });
+    uplineTotals.pts   -= entry.remPts;
+    uplineTotals.amt   -= entry.ulAmt;
+    uplineTotals.sales -= 1;
+    return false;
+  });
+
   const pid = nodes[editTarget].parent;
   nodes[pid].children = nodes[pid].children.filter(id=>id!==editTarget);
   function purge(id){ nodes[id].children.forEach(purge); delete nodes[id]; }
   purge(editTarget);
-  closeEdit(); renderTree();
+
+  closeEdit();
+  renderLog();
+  updateStats();
+  updateUpline(uplineTotals.lastAmt, uplineTotals.pts);
+  renderTree();
   toast('Account removed.');
 }
 
