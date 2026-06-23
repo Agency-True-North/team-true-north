@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Series 1: Welcome Email / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .callout, .phase, .email-preview { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover h1 { font-size: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    h3 { font-size: 22px; margin: 22px 0 8px; }
+    .email-preview .email-body { padding: 16px 18px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p { margin-bottom: 12px; color: var(--cacao); font-size: 16px; }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; font-size: 15px; line-height: 1.65; color: var(--cacao); }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.65; font-family: 'Cormorant Garamond', serif; }
+  .callout p + p { margin-top: 10px; }
+  .callout a { color: var(--honey-deep); font-weight: 600; }
+
+  /* EMAIL PREVIEW */
+  .email-preview {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+  .email-preview .email-header {
+    background: var(--pearl-deep);
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .email-preview .email-header .meta-row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .email-preview .email-header .meta-row:last-child { margin-bottom: 0; }
+  .email-preview .email-header .meta-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    font-weight: 600;
+    min-width: 80px;
+  }
+  .email-preview .email-header .meta-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cacao);
+  }
+  .email-preview .email-header .meta-value.locked {
+    color: var(--honey-deep);
+  }
+  .email-preview .email-body {
+    padding: 24px 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--cacao);
+  }
+  .email-preview .email-body p { margin-bottom: 16px; font-size: 17px; }
+  .email-preview .email-body p:last-child { margin-bottom: 0; }
+  .placeholder {
+    background: var(--honey-light);
+    color: var(--honey-deep);
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .email-link {
+    color: var(--sky-deep);
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* PHASE BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase ul { margin: 0; }
+  .phase li { font-size: 15px; }
+
+  /* NEXT-STEP CARD */
+  .next-step {
+    background: var(--espresso);
+    color: var(--pearl);
+    border-radius: 4px;
+    padding: 32px 36px;
+    margin: 36px 0;
+  }
+  .next-step .label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .next-step h3 {
+    font-family: 'Forum', serif;
+    color: var(--pearl);
+    font-size: 34px;
+    margin: 0 0 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+  }
+  .next-step p { color: #DDD2BF; font-size: 16px; line-height: 1.7; margin-bottom: 14px; font-family: 'Cormorant Garamond', serif; }
+  .next-step a { color: var(--honey); font-weight: 600; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Series 1<br>Welcome Email</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">One email. Sends immediately. The first impression your lead has of you as a communicator.</div>
+  <div class="pills">
+    <span class="pill sky">GHL</span>
+    <span class="pill honey">Series 1</span>
+    <span class="pill">1 Email</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Before you build this</strong>
+  <p>This guide covers Series 1 only — the Welcome Email. It is one email that sends the moment someone opts in. Read the <a href="Email Automation Overview.html">Email Automation Overview</a> first if you haven't already. That guide explains how all six series connect before you build any single one.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>What's Inside</h3>
+  <ol>
+    <li><span class="num">01</span> What this series does</li>
+    <li><span class="num">02</span> The email</li>
+    <li><span class="num">03</span> How to personalize it</li>
+    <li><span class="num">04</span> GHL setup</li>
+    <li><span class="num">05</span> Swipe file</li>
+  </ol>
+</div>
+
+
+<!-- 01 -->
+<h2>01 / What This Series Does</h2>
+
+<p class="lead">Someone just opted in. They gave you their email. This is the first thing they hear from you. Make it count.</p>
+
+<p>The Welcome Email does three things: confirms they made the right call signing up, delivers the link to watch, and opens a two-way conversation by asking them to reply. That last part matters more than it looks — replies train the inbox to treat your emails as wanted, which protects your deliverability for everything that follows.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge honey">At a glance</span>
+    <span class="phase-title">Series 1 overview</span>
+  </div>
+  <ul>
+    <li><strong>Number of emails:</strong> 1</li>
+    <li><strong>Trigger:</strong> Contact submits opt-in form</li>
+    <li><strong>Send time:</strong> Immediately</li>
+    <li><strong>Links to:</strong> Urgency Webclass page</li>
+    <li><strong>Goal:</strong> Get them to click and watch before the 3-day timer runs out</li>
+  </ul>
+</div>
+
+
+<!-- 02 -->
+<h2>02 / The Email</h2>
+
+<p class="lead">The subject line is tested and proven. Do not change it. Everything else — the body copy, the tone, the language — needs to sound like you.</p>
+
+<div class="callout honey">
+  <strong>Subject line is locked</strong>
+  <p>"Congrats, You're In! (Open up)" has been tested and performs. Do not rewrite it, shorten it, or make it "your own." Use it exactly as shown. Add your preview text in GHL when you upload — keep it short and curiosity-driven.</p>
+</div>
+
+<div class="callout cacao">
+  <strong>Rewrite the body in your voice</strong>
+  <p>The template below was written in a specific style that may not match yours or your audience's language. Before you fill in the brackets, copy the full template into Claude or ChatGPT and ask it to rewrite the body copy in your voice for your ICP. Give it context: who you are, who you serve, what language resonates with them, and what they're trying to avoid. The structure stays the same. The words should sound like you said them.</p>
+  <p>The subject line is the only thing that does not get rewritten.</p>
+</div>
+
+<div class="email-preview">
+  <div class="email-header">
+    <div class="meta-row">
+      <span class="meta-label">Send time</span>
+      <span class="meta-value">Immediately at opt-in</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Subject</span>
+      <span class="meta-value locked">Congrats, You're In! (Open up)</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Preview</span>
+      <span class="meta-value">Your preview text here — keep it short and curiosity-driven</span>
+    </div>
+  </div>
+  <div class="email-body">
+    <p>Hey congrats on locking in your seat for my webclass.</p>
+    <p>I'm not leaving this up much longer so make sure you grab it before it's gone.</p>
+    <p>Inside you'll discover how I went from <span class="placeholder">your pain</span> to <span class="placeholder">your outcome</span> in less than <span class="placeholder">your timeframe</span>.</p>
+    <p>All WITHOUT <span class="placeholder">ICP avoid 1</span>, <span class="placeholder">ICP avoid 2</span>, or <span class="placeholder">ICP avoid 3</span>.</p>
+    <p>I break down the entire system so you know exactly how you can copy, paste, and deploy this for yourself, too.</p>
+    <p><span class="email-link">Watch it here &raquo;</span></p>
+    <p>- <span class="placeholder">Your name</span></p>
+    <p>P.S. I'd love to know more about you.</p>
+    <p>What has you wanting to take back your independence?</p>
+    <p>Hit reply and let me know ;-)</p>
+    <p>P.S.S. Also, watch this before it's too late</p>
+  </div>
+</div>
+
+
+<!-- 03 -->
+<h2>03 / How to Personalize It</h2>
+
+<p class="lead">Every bracket is a place to tell your story. Once you've rewritten the body in your voice, fill each placeholder with something true and specific to you.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">The placeholders</span>
+    <span class="phase-title">What goes in each bracket</span>
+  </div>
+  <ul>
+    <li><strong>Your pain.</strong> The specific feeling or situation your ideal client is living right now — and that you were living too before this. Be concrete. Not "stressed" but "running on empty and resenting the life I'd worked so hard to build."</li>
+    <li><strong>Your outcome.</strong> What changed for you. Specific and true. Not a promise of what they'll get — what actually happened for you.</li>
+    <li><strong>Your timeframe.</strong> Honest and real. Do not inflate it.</li>
+    <li><strong>ICP avoid 1, 2, 3.</strong> The three things your ideal client is tired of, burned by, or unwilling to try. Common examples: cold outreach, quitting their job, pitching friends and family. Write the ones that are true for your audience.</li>
+    <li><strong>Your name.</strong> Sign off as yourself.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <strong>Why the P.S. matters</strong>
+  <p>The reply prompt at the end of this email is not filler. When a lead replies, their email provider learns that your emails are wanted. That one reply improves your deliverability for every email in every series that follows. It also tells you exactly what your audience is feeling — use those answers to inform your content and your calls.</p>
+</div>
+
+<div class="callout cacao">
+  <strong>Both links go to the same place</strong>
+  <p>"Watch it here" and the P.S.S. at the bottom both link to your Urgency Webclass page. That is intentional — two entry points to the same destination. Make sure both links are correct before the workflow goes live.</p>
+</div>
+
+
+<!-- 04 -->
+<h2>04 / GHL Setup</h2>
+
+<p class="lead">One email, no delay. This is the simplest workflow in your funnel to build.</p>
+
+<div class="callout cacao">
+  <strong>Write first, upload second</strong>
+  <p>Write and finalize your email in Google Docs before you touch GHL. Do not draft inside GHL. Once it reads exactly the way you want it, then open the workflow and paste it in.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Step by step</span>
+    <span class="phase-title">Uploading Series 1 in GHL</span>
+  </div>
+  <p>The workflow already exists. You are not building from scratch — you are adding your email content into the action that is already set up.</p>
+  <ul>
+    <li><strong>Go to Automations &gt; Workflows in GHL.</strong></li>
+    <li><strong>Open:</strong> 2. Pipeline 1 &amp; 2 (The True North Method)</li>
+    <li><strong>Open:</strong> THE TRUE NORTH METHOD WEBCLASS - LEAD TO SIGN UP</li>
+    <li><strong>Open:</strong> 1 - Webclass Form Submitted</li>
+    <li><strong>Find the action:</strong> 1. FORMS LEAD (ALL) - FIRST MESSAGE. This is where you upload your email.</li>
+    <li><strong>Paste in your subject line.</strong> Congrats, You're In! (Open up) — do not change it.</li>
+    <li><strong>Add your preview text.</strong> Keep it short and curiosity-driven.</li>
+    <li><strong>Paste in your personalized body copy.</strong> All placeholders filled, rewritten in your voice, links set to your Urgency Webclass URL.</li>
+    <li><strong>Send yourself a test.</strong> Open it on your phone. Confirm both links work and the email looks clean.</li>
+    <li><strong>Save in two places:</strong>
+      <ul>
+        <li>Click <strong>Save Action</strong> inside the email action itself.</li>
+        <li>Click <strong>Save</strong> in the top right corner of the workflow.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="callout honey">
+  <strong>Important</strong>
+  <p>Do not send people through this series until Series 2 (Push to Attend) is also built and ready. A lead who gets the Welcome Email and then hears nothing for days has already gone cold. Build the sequences in order before running any leads through them.</p>
+</div>
+
+
+<!-- 05 -->
+<h2>05 / Swipe File</h2>
+
+<p class="lead">Real examples from real affiliates. Read them before you write. Study the tone, not just the structure.</p>
+
+<p>The swipe file folder contains full email sequences written by Shannon and other Team True North affiliates. These are tested emails that have gone out to real leads. Use them to understand how the template translates into a real, personal email — then write your own version in your voice.</p>
+
+<div class="callout honey">
+  <strong>Swipe File Folder</strong>
+  <p>Access the full email swipe file library here:<br><br>
+  <a href="https://drive.google.com/drive/folders/1PzrPEiYPOSerdmfRNrCRF__ooLfvTstB" target="_blank">drive.google.com &rarr; Email Automation &rarr; Email Swipe</a></p>
+</div>
+
+
+<div class="next-step">
+  <div class="label">Next Step</div>
+  <h3>Build Series 2: Push to Attend</h3>
+  <p>Once your email is uploaded and saved, move directly to Series 2. The Push to Attend series runs for the three days following the Welcome Email and is responsible for getting leads back to watch the webclass before the timer expires.</p>
+</div>
+
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;&middot;&nbsp; <strong>Series 1: Welcome Email</strong> &nbsp;&middot;&nbsp; Version 1.0</div>
+</div>
+
+</body>
+</html>
