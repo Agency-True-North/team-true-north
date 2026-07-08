@@ -1,6 +1,6 @@
 ---
 name: setup
-description: One-time onboarding for the Masterclass Build System. Interviews the user to capture THEIR voice, THEIR ideal client, and THEIR offer, then writes a small calibration layer the build skills read. Refuses to build from nothing. Ends with a short dress rehearsal so they see it work in their own voice. Run this once before /build-icp and /build-masterclass.
+description: One-time onboarding for the Masterclass Build System. FIRST gathers everything it can already find about the person — their files, prior work, connected accounts — so they don't re-explain their business. THEN interviews only on what's still missing, to capture THEIR voice, ideal client, and offer, and writes a small calibration layer the build skills read. Ends with a short dress rehearsal. Run this once before /build-icp and /build-masterclass.
 ---
 
 # SKILL: setup
@@ -13,36 +13,54 @@ Run it once. After it's done, they run `/build-icp` and `/build-masterclass` and
 
 ---
 
-## THE FIRST RULE — Refuse to build from nothing
+## THE FIRST RULE — Gather before you ask. Never make them re-explain what you can already find.
 
-Do not invent this person's voice. Do not guess their audience. Do not write a single calibration line from a blank page.
+Do not open with a blank-page interview. If you already have — or can reach — information about this person, it is disrespectful of their time to make them type it out again. Your first move is always to **harvest what already exists**, show them what you found, and interview *only on the gaps*.
 
-Before anything else, ask them to point you at **real writing they have already published** — emails, social captions, a sales page, a newsletter, DMs, anything in their own words that got a real reaction from a real reader. Two or three samples is enough. If web/file access is available, read them; if they paste text, use that.
+There is still a floor: you cannot invent a voice. But you look for their real writing yourself before you ask them to hand it over — most of the time it's already in front of you.
 
-If they have nothing written, stop and say so plainly: *"I can't calibrate to a voice that isn't on the page yet. Write me even one honest email to one real person, then come back and we'll build from that."* No samples, no setup.
+Do this in an explicit **Pass 0**, before a single interview question.
 
-The same holds for the audience and the offer: if they don't yet know who they serve or what they sell, say that has to come first, and help them name it in plain language before you write anything down.
+### PASS 0 — Harvest what you already know (do this first, silently, then report)
+
+Inventory every resource available to you and pull from it. Depending on where this skill is running, that can include:
+
+- **The working directory and its files.** Read what's there: any about / bio / brand / voice docs, a `CLAUDE.md` or project notes, past emails, captions, posts, sales pages, drafts, prior deliverables, a website export, an existing ICP or offer note. Their real writing is very often already sitting here — which satisfies the voice floor without asking.
+- **Git history**, if it's a repo — commit messages and file names reveal what they work on.
+- **Connected accounts and tools,** if any are available to you (email, docs/drive, calendar, socials, a site). Search them for their own writing, their offer, their audience. Never assume — check what's actually connected before relying on it.
+- **Anything the person already said** earlier in this conversation.
+
+Extract, from all of it, a first draft of the three things: their **voice** (with real sample lines you found), their **ideal client**, and their **offer**.
+
+Then **report back before asking anything:**
+
+> *"Before I ask you anything — here's what I already pieced together about you and your business, so you're not repeating yourself. Tell me what's wrong."*
+
+List what you found, plainly, grouped as Voice / Ideal Client / Offer, and mark each item as **confident**, **guessing**, or **missing**. That summary is the spine of the interview: you only ask about the *guessing* and *missing* items.
+
+If Pass 0 genuinely turns up nothing — no files, no connected tools, no writing anywhere — then and only then fall back to the floor: ask them to point you at two or three pieces of real writing. If they have nothing written at all, stop and say so plainly: *"I can't calibrate to a voice that isn't on the page yet. Write me even one honest email to one real person, then come back and we'll build from that."* No writing anywhere, no setup.
 
 ---
 
-## HOW YOU RUN THE INTERVIEW
+## HOW YOU RUN THE INTERVIEW — fill the gaps only
 
+- **Confirm and fill, don't re-collect.** For anything Pass 0 already found and you're confident about, just confirm it in one line. Spend your questions on what's missing or uncertain.
 - One question at a time. Wait for the answer. Never dump a list.
 - Plain prose, not a form. This is a conversation.
 - When an answer is thin, ask the follow-up that gets under it.
 - You are the same interviewer as `/build-icp` — warm, specific, unafraid to go one layer deeper.
 
-Move through three passes. Do not start writing files until all three are done.
+Cover the three passes below — but only the parts Pass 0 left open. Do not start writing files until all three are settled (found or asked).
 
 ### Pass 1 — Their voice
 
-1. Ask for the writing samples (per the first rule). Read them.
-2. Reflect back what you hear: the rhythm, the sentence length, the words they reach for, the ones they'd never use, how they open, how they close. Name it as a voice, not a checklist.
-3. Ask the few things the samples can't tell you: How do they want a reader to *feel* reading them? What's a word or phrase they're sick of seeing in everyone else's marketing? Any hard rules (no exclamation marks? no hype? no emojis?)?
+1. You likely already have samples from Pass 0. Reflect back what you hear in them: the rhythm, the sentence length, the words they reach for, the ones they'd never use, how they open, how they close. Name it as a voice, not a checklist — and let them correct you.
+2. Only if Pass 0 found no usable writing, ask for two or three samples now.
+3. Ask the few things writing alone can't tell you: How do they want a reader to *feel* reading them? What's a word or phrase they're sick of seeing in everyone else's marketing? Any hard rules (no exclamation marks? no hype? no emojis?)?
 
 ### Pass 2 — Their ideal client
 
-Enough to seed the real work `/build-icp` will finish later. Ask:
+Enough to seed the real work `/build-icp` will finish later. Confirm what Pass 0 suggested, then fill gaps:
 - Who is the one person they most want to reach — role, life stage, what a real ordinary day looks like for them?
 - What is that person quietly tired of, afraid of, or aching for?
 - If the person you're interviewing IS their own ideal client (common in personal brands), go there gently — their honest answer about themselves is usually the truest picture.
@@ -51,6 +69,7 @@ Keep this to a sketch. `/build-icp` does the deep version with research. You're 
 
 ### Pass 3 — Their offer
 
+Confirm what Pass 0 found, then fill gaps:
 - What do they actually sell — name, what's in it, who it's for?
 - Price, terms, bonuses, and the checkout/CTA — as they stand *today*.
 - The one transformation the buyer is really paying for, stated as a feeling.
@@ -95,7 +114,8 @@ Then hand them the map:
 
 ## GUARDRAILS
 
-- **Never build from nothing.** No real writing, no setup. This is the whole reason the skill exists.
+- **Harvest before you interview.** Always run Pass 0 first. Never make someone re-explain a business you can already see. Ask only about the gaps.
+- **Never build from nothing.** If Pass 0 finds no writing anywhere and they have none, no setup. This is the floor, not the opening move.
 - **One question at a time.** It's an interview, not a form.
 - **Approval gate on every file.** Show it, get a yes, then save. Their edit always wins.
 - **Capture, don't invent.** You are transcribing a real person, not designing a persona.
