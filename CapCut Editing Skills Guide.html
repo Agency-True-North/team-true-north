@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CapCut Editing Skills Guide / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .callout, .phase, .code-block { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover h1 { font-size: 36px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover .subtitle { font-size: 17px; line-height: 1.45; }
+    .toc { padding: 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    .checklist li { padding: 10px 14px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.65; font-family: 'Cormorant Garamond', serif; }
+  .callout p + p { margin-top: 10px; }
+  .callout ul { margin: 8px 0 0; padding-left: 22px; }
+  .callout li { font-size: 14px; margin-bottom: 4px; }
+
+  /* STEP BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase p:last-child { margin-bottom: 0; }
+  .phase ul, .phase ol { margin: 0 0 4px; }
+  .phase li { font-size: 15px; }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--pearl);
+  }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--espresso);
+    color: #ECE4D4;
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .code-block .label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: var(--honey);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  /* DOWNLOAD BUTTON */
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--pearl);
+    background: var(--honey-deep);
+    border: none;
+    border-radius: 4px;
+    padding: 14px 26px;
+    text-decoration: none;
+    margin: 8px 0 6px;
+  }
+  .dl-btn:hover { background: var(--cacao); color: var(--pearl); }
+  .dl-btn:active { transform: translateY(1px); }
+  .dl-note {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin: 4px 0 18px;
+  }
+
+  /* LINKS */
+  a { color: var(--honey-deep); text-decoration: underline; }
+  a:hover { color: var(--cacao); }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--rule); margin: 36px 0; }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>CapCut Editing<br>Skills</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">Turn a raw video into a finished CapCut draft — captions, hook, sounds, and b-roll for shorts, filler cut for long form. Download, unzip, drag, paste. Claude does the rest.</div>
+  <div class="pills">
+    <span class="pill sky">Claude Code</span>
+    <span class="pill honey">One Setup Session</span>
+    <span class="pill">Download Included</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Read this first</strong>
+  <p>This is a kit, not a single skill file. It installs two Claude Code commands, <strong>/rough-cut</strong> and <strong>/long-cut</strong>, that turn a video you drag into chat into a ready-to-open CapCut draft. You never touch code and you never open Terminal. Claude does that part. Your job is four actions: download, unzip, drag, paste. Everything technical happens on Claude's side of the line.</p>
+  <p>There's a one-time setup session (30 minutes or so), and after that it's just drag a video in and type a command.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>What's Inside</h3>
+  <ol>
+    <li><span class="num">01</span> What you're installing</li>
+    <li><span class="num">02</span> Before you start</li>
+    <li><span class="num">03</span> Get Claude Code (if you don't have it)</li>
+    <li><span class="num">04</span> Download the kit</li>
+    <li><span class="num">05</span> Install it (Claude does the work)</li>
+    <li><span class="num">06</span> The one-time style setup</li>
+    <li><span class="num">07</span> Daily use</li>
+    <li><span class="num">08</span> Make the style yours</li>
+    <li><span class="num">09</span> If something breaks</li>
+  </ol>
+</div>
+
+
+<!-- 01 -->
+<h2>01 / What You're Installing</h2>
+
+<p class="lead">Two editing helpers that live inside Claude Code. You drag in a video, Claude drags out a finished draft.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge honey">/rough-cut</span>
+    <span class="phase-title">Short talking-head videos</span>
+  </div>
+  <p>Full treatment: word-level captions, a typed-in hook, timed on-screen annotations with sounds, optional hot-take labels, pop words, and b-roll pulled from your own library. You approve every text layer in chat before anything gets built.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge sky">/long-cut</span>
+    <span class="phase-title">Long 16:9 videos (masterclass style)</span>
+  </div>
+  <p>Cuts filler words, dead pauses, flubs, and retakes. Plain draft, no captions or overlays — you add those yourself. Built for cleaning up long-form footage fast.</p>
+</div>
+
+<div class="callout">
+  <strong>You never touch code</strong>
+  <p>You never open Terminal and you never edit a settings file. Claude runs every command. Your part is clicking around CapCut and answering a couple of plain-language questions the first time you set it up.</p>
+</div>
+
+
+<!-- 02 -->
+<h2>02 / Before You Start</h2>
+
+<ul class="checklist">
+  <li><span class="box"></span> <strong>A Mac.</strong> This kit is Mac only.</li>
+  <li><span class="box"></span> <strong>The CapCut desktop app</strong>, installed from capcut.com. Open it once after installing so it creates its own folders.</li>
+  <li><span class="box"></span> <strong>Claude Code, on a paid Claude plan.</strong> Section 03 below covers this if you don't have it yet.</li>
+  <li><span class="box"></span> <strong>About 30 minutes</strong> for the one-time setup. You only do it once.</li>
+  <li><span class="box"></span> <strong>A free Deepgram account</strong> for transcription — Claude walks you through creating it during setup. A typical video costs about a cent to transcribe.</li>
+</ul>
+
+
+<!-- 03 -->
+<h2>03 / Get Claude Code (If You Don't Have It)</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Get Set Up</span>
+    <span class="phase-title">claude.com/code</span>
+  </div>
+  <p>Go to <a href="https://claude.com/code">claude.com/code</a> and sign in with a paid Claude plan. Use the <strong>desktop app</strong> version — it's the non-technical-friendly option for this kit. No Terminal and no code editor required; the app gives you a chat window where you open a folder and talk to Claude directly.</p>
+</div>
+
+<div class="callout honey">
+  <strong>Already using Claude Code for something else?</strong>
+  <p>Same login. This kit lives in its own folder and doesn't depend on any other Claude setup you've built — it works standalone.</p>
+</div>
+
+
+<!-- 04 -->
+<h2>04 / Download The Kit</h2>
+
+<a class="dl-btn" href="CapCut%20Editing%20Skills.zip" download>&#8681;&nbsp; Download the Kit (.zip)</a>
+<p class="dl-note">Contains rough-cut + long-cut + the setup script Claude runs</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Step 1</span>
+    <span class="phase-title">Unzip it</span>
+  </div>
+  <p>Double-click the downloaded file. You get a folder called <strong>capcut-kit</strong>.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Step 2</span>
+    <span class="phase-title">Drag the folder into your Claude folder</span>
+  </div>
+  <p>Move the whole <strong>capcut-kit</strong> folder into your Claude folder — the same one that holds your ABOUT ME and PROJECTS folders — and keep the name exactly as it is. That's the entire manual part of this install.</p>
+</div>
+
+<div class="callout honey">
+  <strong>Don't have a Claude folder yet?</strong>
+  <p>Create one anywhere you'll remember on your computer, called exactly <strong>Claude</strong>, and put capcut-kit inside it. It doesn't matter whether it's on your Desktop or in Documents — what matters is that it's a folder you'll open Claude Code in every time.</p>
+</div>
+
+
+<!-- 05 -->
+<h2>05 / Install It (Claude Does The Work)</h2>
+
+<p class="lead">You do not move any more files from here. Claude installs its own kit.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Step 1</span>
+    <span class="phase-title">Open Claude Code in the capcut-kit folder</span>
+  </div>
+  <p>Open Claude Code and open the <strong>capcut-kit</strong> folder you just placed inside your Claude folder.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Step 2</span>
+    <span class="phase-title">Paste this, exactly as written</span>
+  </div>
+  <p>Claude will take it from here: checking your Mac, installing a couple of free helper tools, and walking you through the rest one step at a time.</p>
+</div>
+
+<div class="code-block"><span class="label">Copy and paste this into Claude Code</span>Read SETUP.md in this folder and set everything up for me. I am not technical. Go slow, one step at a time, and tell me exactly what to click.</div>
+
+<div class="callout">
+  <strong>A couple of things Claude will ask you to do</strong>
+  <ul>
+    <li>Create a free Deepgram account (the transcription service) and paste one key into the chat. Claude gives you the exact steps.</li>
+    <li>Your Mac may ask for your computer password once, while Claude installs a free helper tool. That's normal.</li>
+    <li>Build one special CapCut project, covered next in Section 06. Claude walks you through this too, in plain language.</li>
+  </ul>
+</div>
+
+
+<!-- 06 -->
+<h2>06 / The One-Time Style Setup</h2>
+
+<p class="lead">This is the one CapCut project you build by hand. It teaches the kit your CapCut's exact format and, for rough-cut, loads the fonts and sounds it uses. Do it once. Never delete it afterward.</p>
+
+<p>Claude walks you through this checklist live and checks your work when you say "done": a new CapCut project with a short video dragged onto the timeline first, one text box, and — if you want the full rough-cut treatment — a few fonts, animations, sound effects, and a sticker. The project gets renamed exactly <strong>STYLE_SETUP</strong> and CapCut gets closed completely before Claude checks it.</p>
+
+<div class="callout honey">
+  <strong>Just want long-cut for now?</strong>
+  <p>Tell Claude that during setup. Long-cut only needs the short version of this checklist — one clip, one text box. You can come back and add the rest for rough-cut any time later.</p>
+</div>
+
+
+<!-- 07 -->
+<h2>07 / Daily Use</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Every Time</span>
+    <span class="phase-title">Open Claude Code, run the command, drag your video in</span>
+  </div>
+  <p>Type <strong>/rough-cut</strong> or <strong>/long-cut</strong>, then drag your video file into the chat. Claude asks a question or two, shows you what it wants to do, and only builds after you say yes. Then it opens CapCut for you with the draft ready.</p>
+</div>
+
+<div class="callout">
+  <strong>Two habits</strong>
+  <ul>
+    <li><strong>Close CapCut before a build.</strong> Claude reminds you every time.</li>
+    <li><strong>Keep a "B Roll" folder in Documents</strong> with short clips of yourself, named by what they show ("me pouring water.mp4"). Rough-cut uses it to suggest cutaways.</li>
+  </ul>
+</div>
+
+<p>USER-GUIDE.md inside the kit is the full daily-use manual, including how to ask for changes ("rewrite the hook," "captions up a smidge").</p>
+
+
+<!-- 08 -->
+<h2>08 / Make The Style Yours</h2>
+
+<p class="lead">The kit ships with one proven look. You don't have to keep it.</p>
+
+<p>Find your own style inspiration, creators whose captions and text you love, and tell Claude what you want changed: fonts, colors, text positions, sounds. Claude updates the style for every video after that.</p>
+
+
+<!-- 09 -->
+<h2>09 / If Something Breaks</h2>
+
+<ul>
+  <li><strong>A video that worked last week suddenly fails.</strong> CapCut updates itself sometimes, and an update can confuse the kit's format matching. Just tell Claude: <em>"this worked before, CapCut updated."</em> There's a repair guide built into the kit and Claude follows it. Your videos and your existing drafts are never at risk.</li>
+  <li><strong>Claude says it doesn't know /rough-cut or /long-cut.</strong> Make sure setup finished and start a fresh Claude Code session — skills load when a session starts.</li>
+  <li><strong>Still stuck.</strong> Bring it to the weekly call — two minutes of screen share solves what an hour of guessing won't.</li>
+</ul>
+
+<div class="callout cacao">
+  <strong>The point of all this</strong>
+  <p>Thirty minutes of setup buys you an editor that already knows your CapCut, your style, and your footage. Your job stays the human part: shoot your life, pick your videos, and make the final call on what ships.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>CapCut Editing Skills Guide</strong> &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; July 2026</div>
+</div>
+
+</body>
+</html>
