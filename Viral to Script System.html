@@ -570,6 +570,22 @@
     vertical-align: top;
   }
 
+  /* COMMAND BLOCKS */
+  .cmd {
+    background: var(--pearl-deep);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 12px 0 18px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--cacao);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
   /* LINKS */
   a { color: var(--honey-deep); text-decoration: underline; }
   a:hover { color: var(--cacao); }
@@ -644,6 +660,7 @@
     <li><span class="num">12</span> The voice check</li>
     <li><span class="num">13</span> The content tracker</li>
     <li><span class="num">14</span> Weekly batch checklist</li>
+    <li><span class="num">15</span> Install the Claude Code skill</li>
   </ol>
 </div>
 
@@ -1002,7 +1019,32 @@
   <p>Ten scripts that sound like you beat a hundred that sound like the internet. The viral gave you the skeleton. The voice, the woman, and the table are ours. Protect all three.</p>
 </div>
 
-<!-- FOOTER -->
+<div class="ornament">· · ·</div>
+
+
+<!-- 15 -->
+<h2>15 / Install the Claude Code Skill</h2>
+
+<p class="lead">This whole system is packaged as a Claude Code skill. Once it's installed, you hand Claude your SortFeed batch and it runs every section of this guide for you — extraction, kill list, re-anchor, both formats, voice check, tracker rows.</p>
+
+<h4>Option One — Let Claude Install It (Easiest)</h4>
+<p>Open Claude Code and paste this message. Works on Mac and Windows:</p>
+<div class="cmd">Create the file ~/.claude/skills/viral-to-script/SKILL.md with the exact contents of https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/viral-to-script/SKILL.md — download it, don't rewrite it.</div>
+
+<h4>Option Two — Terminal One-Liner (Mac)</h4>
+<div class="cmd">mkdir -p ~/.claude/skills/viral-to-script &amp;&amp; curl -fsSL -o ~/.claude/skills/viral-to-script/SKILL.md "https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/viral-to-script/SKILL.md"</div>
+
+<h4>Then Use It</h4>
+<ol>
+  <li>Start a new Claude Code session (the skill loads at startup).</li>
+  <li>Check it took: ask <em>"what skills do you have available?"</em> — viral-to-script should be on the list.</li>
+  <li>Run a batch: say <em>"turn these virals into scripts"</em> and paste your SortFeed notes — hook, format, view count, and source page for each reel.</li>
+</ol>
+
+<div class="callout">
+  <strong>Why the personal folder</strong>
+  <p>Installing under <strong>~/.claude/skills/</strong> makes the skill available in every project on your machine, not just one folder. Install it once and it follows you.</p>
+</div>
 <div class="footer">
   <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Viral to Script System</strong> &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; July 2026</div>
 </div>
