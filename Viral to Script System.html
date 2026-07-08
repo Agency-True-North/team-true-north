@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viral to Script System / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+    --danger: #C0392B;
+    --danger-light: #FDECEA;
+    --success: #2E7D5E;
+    --success-light: #E8F5EE;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .rule-card, .callout, .phase, .compare-row, .script-section, .tracker-table { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover h1 { font-size: 36px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover .subtitle { font-size: 17px; line-height: 1.45; }
+    .toc { padding: 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    h3 { font-size: 22px; margin: 22px 0 8px; }
+    .compare-row { flex-direction: column; gap: 0; }
+    .compare-col { border-radius: 0 !important; }
+    .compare-col + .compare-col { border-top: none; border-left: none !important; }
+    .checklist li { padding: 10px 14px; }
+    .script-content { padding: 14px 16px; }
+    .tracker-scroll { margin: 0 -18px; padding: 0 18px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.65; font-family: 'Cormorant Garamond', serif; }
+  .callout p + p { margin-top: 10px; }
+  .callout ul { margin: 8px 0 0; padding-left: 22px; }
+  .callout li { font-size: 14px; margin-bottom: 4px; }
+
+  /* PHASE BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase p:last-child { margin-bottom: 0; }
+  .phase ul, .phase ol { margin: 0; }
+  .phase li { font-size: 15px; }
+
+  /* RULE CARDS */
+  .rule-card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: #FFFFFF;
+    margin: 22px 0;
+    overflow: hidden;
+  }
+  .rule-card-header {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--rule);
+  }
+  .rule-num-block {
+    background: var(--cacao);
+    color: var(--pearl);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .rule-num {
+    font-family: 'Forum', serif;
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 400;
+  }
+  .rule-num-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 5px;
+    opacity: 0.7;
+  }
+  .rule-title-block {
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+  }
+  .rule-title {
+    font-family: 'Forum', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+  }
+  .rule-card-body {
+    padding: 18px 22px 20px;
+  }
+  .rule-card-body > p {
+    font-size: 15px;
+    color: var(--cacao-soft);
+    margin-bottom: 14px;
+  }
+
+  /* DO / DON'T COMPARISONS */
+  .compare { margin: 14px 0 6px; }
+  .compare-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .compare-col {
+    flex: 1;
+    padding: 12px 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .compare-col.dont {
+    background: var(--danger-light);
+    border-right: 1px solid #F5C6C2;
+  }
+  .compare-col.do {
+    background: var(--success-light);
+  }
+  .compare-icon {
+    font-size: 14px;
+    line-height: 1.7;
+    flex-shrink: 0;
+  }
+  .compare-col.dont .compare-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--danger);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .compare-col.do .compare-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--success);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .compare-col p {
+    margin: 0;
+    font-size: 14.5px;
+    color: var(--cacao);
+  }
+
+  /* SCRIPT BLOCKS */
+  .script-section {
+    margin: 12px 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .script-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .script-label.hook    { background: var(--sky-deep); color: var(--pearl); }
+  .script-label.content { background: var(--cacao); color: var(--pearl); }
+  .script-label.relate  { background: var(--honey); color: var(--cacao); }
+  .script-label.cta1    { background: var(--sky-deep); color: var(--pearl); }
+  .script-label.twist   { background: var(--cacao-soft); color: var(--pearl); }
+  .script-label.cta2    { background: var(--espresso); color: var(--pearl); }
+  .script-content {
+    padding: 16px 20px;
+    background: #FFFFFF;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cacao);
+  }
+  .script-content em {
+    color: var(--cacao-muted);
+    font-size: 13.5px;
+    font-style: italic;
+    display: block;
+    margin-top: 8px;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.3px;
+  }
+  .script-content p { margin: 0 0 10px; font-size: 16px; }
+  .script-content p:last-child { margin-bottom: 0; }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--pearl);
+  }
+
+  /* TRACKER TABLE */
+  .tracker-scroll { overflow-x: auto; }
+  .tracker-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    margin: 16px 0 8px;
+    min-width: 640px;
+  }
+  .tracker-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--pearl);
+    background: var(--cacao);
+    padding: 10px 12px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .tracker-table td {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14.5px;
+    color: var(--cacao);
+    padding: 10px 12px;
+    border-top: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  /* LINKS */
+  a { color: var(--honey-deep); text-decoration: underline; }
+  a:hover { color: var(--cacao); }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--rule); margin: 36px 0; }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Viral to<br>Script System</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">How to turn what's already working on Instagram into scripts that sound like you, speak to her, and never import the wrong audience.</div>
+  <div class="pills">
+    <span class="pill sky">Instagram</span>
+    <span class="pill honey">Short-Form</span>
+    <span class="pill">Scripting</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Read this before you script anything</strong>
+  <p>Viral content is research, not source material. The video that stopped your thumb earned its views through mechanics — the hook shape, the structure, the way it held attention to the last second. Those mechanics transfer. The topic does not. The moment you borrow the topic, you inherit its audience — and its audience is not your buyer.</p>
+  <p>This guide is the whole system: collect, extract the mechanic, screen it, re-anchor it on the woman we serve, script it in one of two formats, log it in the tracker. Up to ten scripts per batch.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>What's Inside</h3>
+  <ol>
+    <li><span class="num">01</span> Find the virals — SortFeed setup</li>
+    <li><span class="num">02</span> Work your niche</li>
+    <li><span class="num">03</span> How the system works</li>
+    <li><span class="num">04</span> The one rule that outranks everything</li>
+    <li><span class="num">05</span> The kill list</li>
+    <li><span class="num">06</span> Re-anchor on her</li>
+    <li><span class="num">07</span> The Kallaway 8 pass</li>
+    <li><span class="num">08</span> Two formats — VO and TH</li>
+    <li><span class="num">09</span> What every script includes</li>
+    <li><span class="num">10</span> Sample script (VO)</li>
+    <li><span class="num">11</span> CTA rules</li>
+    <li><span class="num">12</span> The voice check</li>
+    <li><span class="num">13</span> The content tracker</li>
+    <li><span class="num">14</span> Weekly batch checklist</li>
+  </ol>
+</div>
+
+
+<!-- 01 -->
+<h2>01 / Find the Virals — SortFeed Setup</h2>
+
+<p class="lead">SortFeed is a free Chrome extension that sorts any Instagram profile, hashtag, or saved collection by what actually performed. It's how the batch gets built. Set it up once, then it's a two-minute step in the weekly rhythm.</p>
+
+<h4>One-Time Setup</h4>
+<ul class="checklist">
+  <li><span class="box"></span> Go to <a href="https://www.sortfeed.com/" target="_blank" rel="noopener">sortfeed.com</a> and click the button at the top right — "Add to Chrome"</li>
+  <li><span class="box"></span> Install it from the Chrome Web Store — the listing is "Sort Feed — works on Instagram, TikTok &amp; Facebook"</li>
+  <li><span class="box"></span> Open Instagram in Chrome like normal — that's it, the extension rides along</li>
+</ul>
+
+<h4>Every Run</h4>
+<ol>
+  <li>Go to a creator's profile in your niche — or search a hashtag, or open a collection you've saved.</li>
+  <li>Click the SortFeed icon in your browser toolbar. A control panel opens right on the page.</li>
+  <li>Sort by <strong>Views</strong> — or by <strong>Outlier Score</strong>, which surfaces the reels that beat that creator's own average. Outlier is often the more useful sort.</li>
+  <li>Set the range — a number of posts or a date window — so it loads enough of the feed to sort deep.</li>
+  <li>Export the sorted list to Google Sheets or CSV, or transcribe the top reels so you can read the hooks.</li>
+</ol>
+
+<div class="callout">
+  <strong>What comes out of this step</strong>
+  <p>The transcript is the handoff. For each reel that makes the batch: the hook, the format, the view count, and the source page. That's the raw material everything below runs on.</p>
+</div>
+
+
+<!-- 02 -->
+<h2>02 / Work Your Niche</h2>
+
+<p class="lead">There's no global search in SortFeed — you build the niche yourself. That's not a limitation. The list you build becomes an asset you run every single week.</p>
+
+<ol>
+  <li><strong>Make your niche map.</strong> A list of 10–20 creators who are crushing it in your space, plus 5–10 hashtags. Keep it in one doc.</li>
+  <li><strong>Run SortFeed on each one.</strong> Sort by views or outlier score, and skim the top 5–10 reels per creator.</li>
+  <li><strong>Let the giants surface themselves.</strong> The 10M-view reels rise to the top on their own. You don't filter for 10M — you sort descending and eyeball the cutoff. A hard "only show me 10M+" threshold isn't a feature.</li>
+</ol>
+
+<div class="callout honey">
+  <strong>Outlier score beats raw views</strong>
+  <p>A reel that did 2M on an account that normally gets 40K taught the algorithm something repeatable — that's a mechanic worth extracting. A 10M reel on a famous account is often just fame being famous, and fame doesn't transfer. When in doubt, sort by outlier.</p>
+</div>
+
+
+<!-- 03 -->
+<h2>03 / How the System Works</h2>
+
+<p class="lead">Once a week, collect a batch of viral videos — the SortFeed run from sections 01 and 02, plus anything in your saved folder. For each one, capture four things: the hook, the format, the view count, and the source page. That batch goes in. Shoot-ready scripts come out.</p>
+
+<p>The flow is always the same, one video at a time:</p>
+<ol>
+  <li><strong>Extract the mechanic</strong> — what made it work, in one line. Never the topic.</li>
+  <li><strong>Screen it</strong> — would this mechanic drag in the wrong audience? If yes, skip the video.</li>
+  <li><strong>Re-anchor it</strong> — rebuild the mechanic on our world and our woman.</li>
+  <li><strong>Script it</strong> — voiceover or talking head, tagged, with everything needed to film.</li>
+  <li><strong>Log it</strong> — one row in the tracker, so you learn which mechanics work on <em>your</em> audience.</li>
+</ol>
+
+<div class="callout honey">
+  <strong>The creative is the targeting</strong>
+  <p>Instagram and Meta show your content to people who resemble the people it sounds like. Script like a money-channel and the algorithm will hand you the money-crowd — viewers who will never buy, and who crowd out the woman who would. The words in your script decide who sees your reel. Treat every line as targeting.</p>
+</div>
+
+
+<!-- 04 -->
+<h2>04 / The One Rule That Outranks Everything</h2>
+
+<div class="rule-card">
+  <div class="rule-card-header">
+    <div class="rule-num-block">
+      <div class="rule-num">1</div>
+      <div class="rule-num-label">The Rule</div>
+    </div>
+    <div class="rule-title-block">
+      <div class="rule-title">Model the format and the hook mechanics. Never the topic.</div>
+    </div>
+  </div>
+  <div class="rule-card-body">
+    <p>The mechanic is portable — an open loop, a countdown structure, a payoff held to the last line, a contrast hook. The topic is not portable. A topic arrives carrying its own audience, its own vocabulary, and its own expectations. Take the skeleton. Leave the skin.</p>
+    <div class="compare">
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't</span><p>Rewrite a "$400 a day side hustle" viral with your own spin on the numbers.</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do</span><p>Take its open-loop hook shape and aim it at her Tuesday — the morning that doesn't belong to her.</p></div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't</span><p>Copy a screenshot-reveal video and swap in your own dashboard.</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do</span><p>Copy the reveal <em>timing</em> — hold the payoff to the final beat so she watches to the end.</p></div>
+        </div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-col dont">
+          <span class="compare-icon">✕</span>
+          <div><span class="compare-label">Don't</span><p>Borrow a "day in the life of a 22-year-old founder" premise.</p></div>
+        </div>
+        <div class="compare-col do">
+          <span class="compare-icon">✓</span>
+          <div><span class="compare-label">Do</span><p>Borrow the time-stamped structure and fill it with a morning that runs on a system instead of a person.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>Naming the mechanic is the skill. Practice writing it in one line: <em>"question hook + numbered list + payoff at the end"</em> — <em>"silent b-roll + one text line that lands twice"</em> — <em>"contrast open: what they think vs. what it is."</em> If you can't name the mechanic without describing the topic, you haven't found the mechanic yet.</p>
+
+
+<!-- 05 -->
+<h2>05 / The Kill List</h2>
+
+<p class="lead">Some language attracts an audience that will never buy — and pushes away the one who would. No view count justifies it. If modeling a viral pulls any of this into your script, cut the line or skip the video.</p>
+
+<ul>
+  <li><strong>Money-hype dialect</strong> — "make money online," "side hustle," "$X a day," "passive income" as a hype phrase, screenshots-of-earnings energy</li>
+  <li><strong>Marketer vocabulary</strong> — affiliate links, funnels, agencies, day-trading, crypto, "scale to six figures"</li>
+  <li><strong>Hustle-bro framing</strong> — grind worship, 4 a.m. flexing, "while everyone else sleeps"</li>
+  <li><strong>Bait mechanics</strong> — "comment WORD below," "DM me for info," follow-for-part-two, emoji bait</li>
+  <li><strong>Income numbers of any kind</strong> — no earnings claims, no "typical results," ever, in public content</li>
+</ul>
+
+<div class="callout cacao">
+  <strong>When the mechanic can't leave its topic behind</strong>
+  <p>Some virals only work because of what they're about — the mechanic and the topic are the same thing. Skip those and note why. A skipped viral costs you nothing. The wrong audience costs you the right one.</p>
+</div>
+
+
+<!-- 06 -->
+<h2>06 / Re-Anchor on Her</h2>
+
+<p class="lead">Every script is rebuilt for one person: a woman in her 30s to 50s with the markers of success and none of the ease. She's on the couch after the kids are down, scrolling, tired, still hoping. She is who the mechanic gets aimed at — no one else.</p>
+
+<p>Anchor every script in our world:</p>
+<ul>
+  <li><strong>The choice.</strong> She doesn't have to do anything. She gets to choose everything. That certainty is the spine.</li>
+  <li><strong>Health, money, relationships, freedom.</strong> The four proofs. Concrete, sensory, hers — never vague aspiration.</li>
+  <li><strong>Systems over grinding.</strong> The life runs on a system, not on her sprinting.</li>
+  <li><strong>Build a Bigger Table.</strong> Everyone has a seat. Nothing we publish should make her feel she has to earn hers first.</li>
+</ul>
+
+<div class="callout">
+  <strong>Lead from certainty</strong>
+  <p>Never name the doubt — not to deny it, not to joke about it, not to defang it. Naming it plants it. Stand in the positive opposite: choice, proof, systems. Say what is true and let it be enough.</p>
+</div>
+
+
+<!-- 07 -->
+<h2>07 / The Kallaway 8 Pass</h2>
+
+<p class="lead">Once the script is re-anchored, run it through these eight principles. They're layered on top of the voice — they never override it.</p>
+
+<ol>
+  <li><strong>Curiosity &amp; contrast</strong> — pop a question in her head, answer it, pop the next one. The strongest hooks put expectation and reality side by side.</li>
+  <li><strong>Speed to value</strong> — three seconds to earn the next ten. Cut every line of throat-clearing.</li>
+  <li><strong>Value density</strong> — every line pays or it goes.</li>
+  <li><strong>Clarity</strong> — one idea per beat, active voice. Say the key point twice: once precise, once stupid-simple with a picture.</li>
+  <li><strong>Absorption</strong> — make it easy for her to see herself inside it. Shrink the distance between watching and recognizing.</li>
+  <li><strong>Anticipation</strong> — tease the payoff early, deliver it at the end. That's what holds her past second seven.</li>
+  <li><strong>Emotional resonance</strong> — pick the one emotion the script transfers, then choose every word for it.</li>
+  <li><strong>Rhythm</strong> — mostly short beats, varied length. Read it out loud before you film it. If you stumble, she scrolls.</li>
+</ol>
+
+
+<!-- 08 -->
+<h2>08 / Two Formats — VO and TH</h2>
+
+<p class="lead">Every script gets tagged one of two ways before it's finished. The split is roughly 70/30 — voiceover is the workhorse, talking head is the weekly exception.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">VO</span>
+    <span class="phase-title">Voiceover Over Life Footage — the workhorse</span>
+  </div>
+  <p>A scripted voiceover laid over 20–30 seconds of real footage from your actual day — the coffee pour, the drive, the desk, the kitchen, the porch. Shot in passing, on your phone, no setup. If a shot list requires lighting, a hair decision, or a scheduled shoot, it's written wrong.</p>
+  <p>A VO script includes: the hook line, the voiceover beats, the caption, and a b-roll shot list — one shot per beat, all capturable during a normal day.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge cacao">TH</span>
+    <span class="phase-title">Talking Head — one per week, at most</span>
+  </div>
+  <p>You, to camera. Reserved for messages that lose weight without a face on them — contrarian beliefs, hard truths, the named frameworks. If the message survives as a voiceover, it's a VO.</p>
+  <p>A TH script includes: the spoken hook, the body beats, on-screen text cues, and the caption.</p>
+</div>
+
+
+<!-- 09 -->
+<h2>09 / What Every Script Includes</h2>
+
+<ul class="checklist">
+  <li><span class="box"></span> <strong>Format tag</strong> — VO or TH, decided before scripting, not after</li>
+  <li><span class="box"></span> <strong>Modeled from</strong> — the source page and the mechanic, each in one line</li>
+  <li><span class="box"></span> <strong>Hook, first three seconds</strong> — the spoken version and the on-screen version, written separately</li>
+  <li><span class="box"></span> <strong>Beat-by-beat body</strong> — numbered, one idea per beat</li>
+  <li><span class="box"></span> <strong>On-screen text cues</strong> — which beat gets which text</li>
+  <li><span class="box"></span> <strong>B-roll shot list</strong> — VO only; one real-life shot per beat</li>
+  <li><span class="box"></span> <strong>Caption</strong> — short, second person, opens a door</li>
+  <li><span class="box"></span> <strong>CTA</strong> — or a deliberate decision to run without one</li>
+  <li><span class="box"></span> <strong>Tracker row</strong> — pre-filled, ready to paste</li>
+</ul>
+
+
+<!-- 10 -->
+<h2>10 / Sample Script (VO)</h2>
+
+<p class="lead">One finished script, front to back. Mechanic modeled: a hold-the-payoff structure from a viral with 2.1M views — the last line is the reason to stay. Topic left behind.</p>
+
+<div class="script-section">
+  <div class="script-label hook">Hook &nbsp;—&nbsp; 0–3 Seconds</div>
+  <div class="script-content">
+    <p>No one warned you that the hardest part of success is that it needs you every single day.</p>
+    <em>On-screen: "the part no one says out loud" — b-roll: coffee pouring, slow.</em>
+  </div>
+</div>
+
+<div class="script-section">
+  <div class="script-label content">Beats</div>
+  <div class="script-content">
+    <p>1. You built the thing. The income, the title, the calendar that fills itself.</p>
+    <p>2. And somewhere in there, the mornings stopped belonging to you.</p>
+    <p>3. The women who got them back didn't work harder. They changed what the work runs on — a system that doesn't need them standing in the middle of it.</p>
+    <p>4. Not busy. Free.</p>
+    <em>B-roll: 1 — laptop open on a full inbox. 2 — car door closing in the dark. 3 — porch, sunrise, both hands on the mug. 4 — laptop closing.</em>
+  </div>
+</div>
+
+<div class="script-section">
+  <div class="script-label relate">Caption</div>
+  <div class="script-content">
+    <p>The morning is the tell. If it starts with everyone else's needs, the system is running you. There's a version where the coffee is still hot and the morning is still yours.</p>
+  </div>
+</div>
+
+<div class="script-section">
+  <div class="script-label cta2">CTA</div>
+  <div class="script-content">
+    <p>None on this one. Recognition is the job — the door stays visible in the bio.</p>
+  </div>
+</div>
+
+
+<!-- 11 -->
+<h2>11 / CTA Rules</h2>
+
+<p class="lead">A door opens. It never closes on her. Most scripts carry no hard CTA at all — if she sees herself in it, feels less alone, and feels a door open, the reel did its work.</p>
+
+<ul>
+  <li>When a CTA earns its place, it points to the <strong>True North Masterclass</strong> — thirty minutes, linked in bio, when she's ready. Calm, specific, zero urgency.</li>
+  <li>Never "DM me." Never a countdown. Never a pitch. Anything that sounds like a funnel gets cut.</li>
+  <li>Naming matters: the <strong>True North Masterclass</strong> is the class. The <strong>True North Method</strong> is the app. Don't swap them.</li>
+</ul>
+
+<div class="callout honey">
+  <strong>The test</strong>
+  <p>Read the last line and ask: does it open a door or reach for her wallet? If it reaches, rewrite it or delete it. She can feel the difference from across the room — and so can the algorithm.</p>
+</div>
+
+
+<!-- 12 -->
+<h2>12 / The Voice Check</h2>
+
+<p class="lead">Run every finished script through this list before it's marked ready. One miss sends it back.</p>
+
+<ul class="checklist">
+  <li><span class="box"></span> Second person, all the way through. The picture lives in her eyes, not yours.</li>
+  <li><span class="box"></span> No exclamation marks. No all-caps lines. No emoji bait.</li>
+  <li><span class="box"></span> None of the words that break the voice — manifest, transform, unlock, empower, journey, abundance, boss babe, side hustle, "this opportunity."</li>
+  <li><span class="box"></span> No guilt as a motivator — especially around motherhood, health, or success.</li>
+  <li><span class="box"></span> No income numbers. That conversation lives inside the masterclass, never in a reel.</li>
+  <li><span class="box"></span> The doubt is never named. The script stands in certainty and choice.</li>
+  <li><span class="box"></span> Read out loud once. If it sounds like a funnel, kill it and start from the mechanic again.</li>
+</ul>
+
+
+<!-- 13 -->
+<h2>13 / The Content Tracker</h2>
+
+<p class="lead">One running table, one row per script, kept forever. This is how you find out which mechanics work on your audience — not the viral's audience. Keep it in one place: a markdown file, a doc, or a sheet. Never one tracker per batch.</p>
+
+<div class="tracker-scroll">
+<table class="tracker-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Source Page</th>
+      <th>Source Link</th>
+      <th>Views</th>
+      <th>Mechanic Modeled</th>
+      <th>Format</th>
+      <th>Status</th>
+      <th>Posted</th>
+      <th>Performance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Jul 7</td>
+      <td>@examplepage</td>
+      <td>link</td>
+      <td>2.1M</td>
+      <td>Hold-the-payoff, last line lands it</td>
+      <td>VO</td>
+      <td>scripted</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Jul 7</td>
+      <td>@examplepage2</td>
+      <td>link</td>
+      <td>840K</td>
+      <td>Contrast open — what they think vs. what it is</td>
+      <td>TH</td>
+      <td>shot</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>Status moves in one direction:</strong> scripted → shot → posted. When a reel goes up, fill the posted date. A week later, log the performance — views, saves, follows, and whether the right woman showed up in the comments. That last column is the whole reason the tracker exists.</p>
+
+
+<!-- 14 -->
+<h2>14 / Weekly Batch Checklist</h2>
+
+<ul class="checklist">
+  <li><span class="box"></span> Collect up to 10 virals — hook, format, view count, source page for each</li>
+  <li><span class="box"></span> Write the mechanic for each in one line, topic-free</li>
+  <li><span class="box"></span> Run the kill list — skip anything that can't leave its topic behind</li>
+  <li><span class="box"></span> Re-anchor each survivor on her — choice, the four proofs, systems, the bigger table</li>
+  <li><span class="box"></span> Draft — VO by default, at most one TH in the batch</li>
+  <li><span class="box"></span> Kallaway 8 pass on every draft</li>
+  <li><span class="box"></span> Voice check on every draft — one miss sends it back</li>
+  <li><span class="box"></span> Add tracker rows, status "scripted"</li>
+  <li><span class="box"></span> Pull the b-roll shot lists into one film list for the week</li>
+</ul>
+
+<div class="callout cacao">
+  <strong>The standard</strong>
+  <p>Ten scripts that sound like you beat a hundred that sound like the internet. The viral gave you the skeleton. The voice, the woman, and the table are ours. Protect all three.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Viral to Script System</strong> &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; July 2026</div>
+</div>
+
+</body>
+</html>
