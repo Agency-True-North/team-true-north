@@ -570,6 +570,34 @@
     vertical-align: top;
   }
 
+  /* DOWNLOAD BUTTON */
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--pearl);
+    background: var(--honey-deep);
+    border: none;
+    border-radius: 4px;
+    padding: 14px 26px;
+    text-decoration: none;
+    margin: 8px 0 6px;
+  }
+  .dl-btn:hover { background: var(--cacao); color: var(--pearl); }
+  .dl-note {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin: 4px 0 18px;
+  }
+
   /* COMMAND BLOCKS */
   .cmd {
     background: var(--pearl-deep);
@@ -1032,11 +1060,16 @@
   <p>The full walkthrough — every step, every copy-paste in its own labeled box, plus troubleshooting — lives in its own guide: <a href="Viral%20to%20Script%20Skill%20Install.html">Viral to Script Skill Install</a>. Send new team members there. The short version stays below.</p>
 </div>
 
-<h4>Option One — Let Claude Install It (Easiest)</h4>
+<h4>Option One — Download the Skill</h4>
+<p>Grab the zip, unzip it, and copy the <strong>viral-to-script</strong> folder into your own <strong>~/.claude/skills/</strong> folder. The included <strong>README</strong> walks you through it.</p>
+<a class="dl-btn" href="Viral%20to%20Script%20Skill.zip" download>&#8681;&nbsp; Download Skill (.zip)</a>
+<p class="dl-note">Contains viral-to-script + install README</p>
+
+<h4>Option Two — Let Claude Install It</h4>
 <p>Open Claude Code and paste this message. Works on Mac and Windows:</p>
 <div class="cmd">Create the file ~/.claude/skills/viral-to-script/SKILL.md with the exact contents of https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/viral-to-script/SKILL.md — download it, don't rewrite it.</div>
 
-<h4>Option Two — Terminal One-Liner (Mac)</h4>
+<h4>Option Three — Terminal One-Liner (Mac)</h4>
 <div class="cmd">mkdir -p ~/.claude/skills/viral-to-script &amp;&amp; curl -fsSL -o ~/.claude/skills/viral-to-script/SKILL.md "https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/viral-to-script/SKILL.md"</div>
 
 <h4>Then Use It</h4>
