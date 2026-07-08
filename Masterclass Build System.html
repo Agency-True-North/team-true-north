@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masterclass Build System / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+    --danger: #C0392B;
+    --danger-light: #FDECEA;
+    --success: #2E7D5E;
+    --success-light: #E8F5EE;
+    --violet: #6B5B9A;
+    --violet-light: #EDEBF7;
+    --amber: #B45309;
+    --amber-light: #FEF3C7;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { padding: 24px 36px; font-size: 12px; background: #fff; max-width: 100%; orphans: 3; widows: 3; }
+    .no-print { display: none !important; }
+    .cover { page-break-after: always; padding: 24px 0 16px; }
+    .cover h1 { font-size: 38px; }
+    .cover .subtitle { font-size: 14px; }
+    #phase-1 { page-break-before: always; }
+    .phase-section { page-break-before: auto; }
+    .phase-header { page-break-after: avoid; }
+    .say-block, .coaching-block, .dont-block, .listen-block, .move-on-block, .if-then-block, .notes-card { page-break-inside: avoid; }
+    h2 { page-break-after: avoid; }
+    .lead, .callout { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover h1 { font-size: 36px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover .subtitle { font-size: 17px; line-height: 1.45; }
+    .toc { padding: 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    .phase-header { padding: 18px 20px; }
+    .say-content { font-size: 16px; }
+    .legend-grid { grid-template-columns: 1fr; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 54px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+  .pill.success { background: var(--success); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin-bottom: 7px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 2px;
+  }
+  .toc li .time {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    color: var(--cacao-muted);
+    font-weight: 400;
+    white-space: nowrap;
+    padding-top: 3px;
+    letter-spacing: 0.3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 52px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 24px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--cacao-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 20px 0 10px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--cacao-soft);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 24px;
+    padding-left: 20px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* LEGEND */
+  .legend-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 20px 0 32px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    background: #fff;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 36px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .legend-text strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 3px;
+    font-weight: 600;
+  }
+  .legend-text span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--cacao-soft);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 16px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.65; font-family: 'Cormorant Garamond', serif; }
+  .callout p + p { margin-top: 10px; }
+  .callout ul { margin: 8px 0 0; padding-left: 20px; }
+  .callout li { font-size: 14px; margin-bottom: 4px; }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--pearl);
+  }
+
+  /* PHASE SECTION */
+  .phase-section {
+    margin: 48px 0 0;
+  }
+  .phase-header {
+    background: var(--cacao);
+    color: var(--pearl);
+    padding: 22px 28px;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .phase-header-left {}
+  .phase-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sky);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .phase-name {
+    font-family: 'Forum', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--pearl);
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+  }
+  .phase-purpose {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14.5px;
+    color: rgba(250,248,245,0.65);
+    margin-top: 8px;
+    line-height: 1.5;
+    font-style: italic;
+    max-width: 520px;
+  }
+  .phase-time {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--honey);
+    font-weight: 600;
+    white-space: nowrap;
+    padding-top: 4px;
+    text-align: right;
+  }
+  .phase-conditional {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(250,248,245,0.45);
+    font-weight: 500;
+    margin-top: 2px;
+    text-align: right;
+  }
+  .phase-body {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 24px 28px 28px;
+  }
+
+  /* SUB-SECTION LABEL */
+  .sub-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin: 24px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sub-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .sub-label:first-child { margin-top: 4px; }
+
+  /* SAY BLOCKS — Blue */
+  .say-block {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #B8D9E8;
+    margin: 10px 0;
+  }
+  .say-tag {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    padding: 7px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .say-tag .say-icon {
+    font-size: 11px;
+    opacity: 0.8;
+  }
+  .say-content {
+    background: var(--sky-light);
+    padding: 16px 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--espresso);
+  }
+  .say-content .alt {
+    font-size: 14.5px;
+    color: var(--cacao-muted);
+    font-style: italic;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #C5DCE8;
+    font-weight: 400;
+  }
+  .say-content .alt strong {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .say-note {
+    background: #EFF6FB;
+    padding: 10px 20px;
+    border-top: 1px solid #C5DCE8;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.5px;
+    color: var(--cacao-soft);
+    font-style: italic;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+
+  /* COACHING BLOCKS — Green */
+  .coaching-block {
+    border-left: 3px solid var(--success);
+    background: var(--success-light);
+    padding: 14px 20px;
+    margin: 14px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .coaching-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--success);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .coaching-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .coaching-block p + p { margin-top: 8px; }
+  .coaching-block ul { margin: 6px 0 0; padding-left: 20px; }
+  .coaching-block li { font-size: 14.5px; margin-bottom: 4px; }
+
+  /* DON'T SAY BLOCKS — Red */
+  .dont-block {
+    border-left: 3px solid var(--danger);
+    background: var(--danger-light);
+    padding: 14px 20px;
+    margin: 14px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .dont-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--danger);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .dont-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .dont-block ul { margin: 6px 0 0; padding-left: 20px; }
+  .dont-block li { font-size: 14.5px; margin-bottom: 4px; }
+
+  /* LISTEN FOR BLOCKS — Violet */
+  .listen-block {
+    border-left: 3px solid var(--violet);
+    background: var(--violet-light);
+    padding: 14px 20px;
+    margin: 14px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .listen-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .listen-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .listen-block ul { margin: 6px 0 0; padding-left: 20px; }
+  .listen-block li { font-size: 14.5px; margin-bottom: 6px; }
+
+  /* MOVE ON WHEN — Gold/Amber */
+  .move-on-block {
+    background: var(--amber-light);
+    border: 1px solid #FCD34D;
+    border-left: 3px solid var(--amber);
+    padding: 14px 20px;
+    margin: 20px 0 4px;
+    border-radius: 0 4px 4px 0;
+  }
+  .move-on-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .move-on-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    margin: 0;
+    line-height: 1.65;
+  }
+  .move-on-block ul { margin: 6px 0 0; padding-left: 20px; }
+  .move-on-block li { font-size: 14.5px; margin-bottom: 5px; }
+
+  /* IF / THEN BLOCKS */
+  .if-then-block {
+    background: var(--pearl-deep);
+    border: 1px solid var(--rule);
+    padding: 16px 20px;
+    margin: 14px 0;
+    border-radius: 4px;
+  }
+  .if-then-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .if-then-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--cacao);
+  }
+  .if-then-row:last-child { margin-bottom: 0; }
+  .if-arrow {
+    color: var(--honey-deep);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    padding-top: 2px;
+  }
+
+  /* STEP BLOCKS (for Phase 9) */
+  .step-list {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0;
+    counter-reset: steps;
+  }
+  .step-list li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 13px 16px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.55;
+    counter-increment: steps;
+  }
+  .step-list li:first-child { border-radius: 4px 4px 0 0; }
+  .step-list li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .step-num {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0;
+  }
+  .step-list .warning-step { background: var(--danger); }
+
+  /* DIVIDERS */
+  hr { border: none; border-top: 1px solid var(--rule); margin: 36px 0; }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+
+  a { color: var(--honey-deep); text-decoration: underline; }
+  a:hover { color: var(--cacao); }
+
+  /* NOTES CARDS */
+  .notes-card {
+    background: #FFFEF0;
+    border: 1px solid var(--honey);
+    border-left: 3px solid var(--honey-deep);
+    border-radius: 0 4px 4px 0;
+    padding: 16px 20px;
+    margin: 0 0 22px;
+  }
+  .notes-card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+  }
+  .note-field { display: flex; flex-direction: column; gap: 5px; }
+  .note-field.span-2 { grid-column: span 2; }
+  .note-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+  }
+  .note-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--cacao);
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    background: transparent;
+    padding: 3px 2px;
+    outline: none;
+    min-height: 26px;
+    line-height: 1.5;
+  }
+  .note-line[data-tall] { min-height: 46px; }
+  .note-line:focus { border-bottom-color: var(--honey-deep); }
+  @media print {
+    .notes-card { background: #fff; border-color: #ccc; }
+    .note-line { border-bottom-color: #ccc; }
+  }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    padding: 11px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    z-index: 999;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: var(--cacao-soft); }
+</style>
+</head>
+<body>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn no-print" onclick="window.print()">&#128438; Print</button>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Masterclass Build System</h1>
+  <div class="version">ICP &rarr; Script &rarr; Slides</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">Two skills, one pipeline. Build the Ideal Client Profile first, then feed it to the masterclass builder. Same spine and voice every time &mdash; a different emotional core for every audience.</div>
+  <div class="pills">
+    <span class="pill sky">ICP Research</span>
+    <span class="pill honey">17-Part Formula</span>
+    <span class="pill">Slide Map</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>How to run this system</strong>
+  <p>Paste Part 1 below into an AI chat that can browse the web (Claude or ChatGPT with search) and answer the questions as they come. When the dossier is done, paste Part 2 into a fresh chat along with the dossier. If you work in Claude Code, ask Jane for the skills package instead &mdash; you'll type /build-icp and /build-masterclass and get the same flow.</p>
+  <p>Always run Part 1 first. The masterclass builder needs a finished ICP &mdash; it will not invent one.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>Contents</h3>
+  <ol>
+    <li><span class="num">01</span> The Governing Law</li>
+    <li><span class="num">02</span> Part 1 &mdash; Interview</li>
+    <li><span class="num">03</span> Part 1 &mdash; Research</li>
+    <li><span class="num">04</span> The ICP Dossier</li>
+    <li><span class="num">05</span> The Handoff Block</li>
+    <li><span class="num">06</span> Part 2 &mdash; Inputs</li>
+    <li><span class="num">07</span> The Emotional Core</li>
+    <li><span class="num">08</span> The 17-Part Build Guide</li>
+    <li><span class="num">09</span> The Proven Open</li>
+    <li><span class="num">10</span> Close Selection</li>
+    <li><span class="num">11</span> The Two-Phase Output</li>
+    <li><span class="num">12</span> The Canva Deck</li>
+    <li><span class="num">13</span> Voice &amp; Compliance</li>
+    <li><span class="num">14</span> Quality Checklist &amp; Guardrails</li>
+  </ol>
+</div>
+
+<!-- GOVERNING LAW -->
+<h2>01 &mdash; The Governing Law</h2>
+
+<h3>Sell the Emotion, Not the Thing</h3>
+
+<p class="lead">Nike doesn't sell shoes. They sell empowerment. Disney doesn't sell a theme park. They sell magic and memories with your family. Volvo doesn't sell cars. They sell the feeling of safety.</p>
+
+<p>The masterclass never sells the product, the system, or the information. It sells the EMOTION underneath the audience's pains, desires, and fears &mdash; the relief, the freedom, the pride, the safety, the belonging they're actually chasing.</p>
+
+<p>Every instruction in this guide serves this law. Before a single word of script is written, name the emotional core in one sentence:</p>
+
+<div class="callout honey">
+  <strong>The Spine Sentence</strong>
+  <p>&ldquo;We are not selling [the thing]. We are selling [the deep emotion].&rdquo;</p>
+  <p>That sentence is the spine. Every beat of the script hangs on it. If a line doesn't connect to that feeling, cut it or rewrite it until it does.</p>
+</div>
+
+<!-- PART 1 -->
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Part 1</div>
+      <div class="phase-name">Build the ICP</div>
+      <div class="phase-purpose">You are a consumer psychologist who thinks like a world-class direct-response copywriter and researches like a Voice-of-Customer analyst. The job is not to describe a market. It is to make the user feel ONE real human so vividly they could write straight to them.</div>
+    </div>
+    <div class="phase-time">Run First &mdash; Always</div>
+  </div>
+  <div class="phase-body">
+
+    <p>Emotion over demographics. The quiet, unspoken internal script over the surface answer. Fears, desires, and objections matter because those are what move someone to act. Run in two phases. Do not build any part of the profile until the interview is done.</p>
+
+    <div class="sub-label">02 &mdash; Phase One &middot; Interview</div>
+
+    <ul>
+      <li>Ask ONE question at a time. Wait for the answer before the next.</li>
+      <li>Never dump a list of questions. This is a conversation, not a form.</li>
+      <li>If an answer is vague, ask the follow-up that gets underneath it: the fear behind the frustration, the desire behind the goal.</li>
+    </ul>
+
+    <p>First understand: the business, the offer, the target audience, and the change the user helps someone achieve. Then go deeper until you can feel the ideal client:</p>
+
+    <ul>
+      <li>their daily reality and what a real Tuesday looks like</li>
+      <li>what exhausts them</li>
+      <li>what they secretly want most</li>
+      <li>what they are afraid of and would never say out loud</li>
+      <li>what they have already tried and why it failed</li>
+      <li>what they are trying to avoid</li>
+      <li>the exact words they use in their own head</li>
+    </ul>
+
+    <p>Push past the obvious. You are after the things they say in their head but would never admit out loud &mdash; and the underlying layers they did not know were there. Get to the point where you can speak their pain better than they can.</p>
+
+    <div class="coaching-block">
+      <span class="coaching-tag">The Mirror Move</span>
+      <p>Often the person being interviewed IS the ICP. In personal, relationship-driven businesses, the ideal client is usually a version of themselves, and it takes a moment to realize it. It is not always comfortable to look at. Go there gently: ask about their own deepest pains and fears and the thoughts they carry but never say out loud. When someone finally speaks their own unspoken thoughts, that is exactly when their audience connects most.</p>
+      <p>If the user gets stuck or keeps giving vague, surface-level answers, turn the questions on them directly: ask what THEIR own biggest pains, fears, and desires are. Their honest answer about themselves is almost always the truest picture of the ICP. Keep going until you have real emotional texture, not just facts.</p>
+    </div>
+
+    <div class="sub-label">03 &mdash; Phase Two &middot; Research</div>
+
+    <p>Once the interview is done, research real people who match this profile and pull their ACTUAL language from Reddit, reviews (Google, Yelp, Amazon, app stores), forums, Facebook groups, and YouTube comments. Quote them directly.</p>
+
+    <p>Use it to sharpen the profile &mdash; and say plainly wherever the research contradicts what the user assumed. If web access isn't available, say so and build from the interview alone.</p>
+
+    <div class="sub-label">04 &mdash; Deliver &middot; The ICP Dossier</div>
+
+    <p>Open with a vivid snapshot and their Tuesday. Then:</p>
+
+    <ol>
+      <li>Demographics</li>
+      <li>Psychographics</li>
+      <li>Daily frustrations</li>
+      <li>Hidden fears</li>
+      <li>Emotional desires</li>
+      <li>What they believe will solve their problem</li>
+      <li>What they have already tried</li>
+      <li>Why those attempts failed</li>
+      <li>Their biggest objections</li>
+      <li>What they are trying to avoid</li>
+    </ol>
+
+    <p>Then ranked, most-felt first, in their real language: <strong>Top 10 pains. Top 10 fears. Top 10 desires. Top 10 objections.</strong></p>
+
+    <div class="callout honey">
+      <strong>The Emotion Rule &mdash; applies to all four lists</strong>
+      <p>Every item must be emotion based, not behavior based. Name the feeling underneath the behavior, never the behavior itself.</p>
+      <ul>
+        <li>Not &ldquo;avoids working away from home&rdquo; but &ldquo;feels guilty for being away from their family.&rdquo;</li>
+        <li>Not &ldquo;hates social media&rdquo; but &ldquo;fears being judged and rejected if they put themselves out there.&rdquo;</li>
+      </ul>
+      <p>If an item names a behavior or preference, dig one layer down to the emotion driving it.</p>
+    </div>
+
+    <h4>Messaging Insight</h4>
+    <p>Emotional triggers, language they naturally use (quote the research), phrases that land, and phrases to never use.</p>
+
+    <h4>Built From All of It</h4>
+    <p>10 ad hooks &middot; 10 content ideas &middot; 5 webinar or masterclass titles &middot; 5 headline angles. Close with one line: <strong>the moment that tips them to yes.</strong></p>
+
+    <p><em>How the dossier is written:</em> specific, never generic. Grounded and real, never inspirational-poster copy. Stir the feeling, do not describe it. No hype, no urgency, no &ldquo;secrets&rdquo; framing. Every hook and phrase should read like a real person wrote it, not AI.</p>
+
+    <div class="sub-label">05 &mdash; The Handoff Block</div>
+
+    <p>End every dossier with this block &mdash; it is the exact input contract Part 2 reads. Fill it from the dossier above. Each pain, desire, and fear pairs the surface line with the emotion beneath it. A dossier without this block is unfinished.</p>
+
+    <div class="notes-card" style="font-family: 'Montserrat', sans-serif; font-size: 12px; line-height: 1.9; padding: 18px 22px;">
+      === ICP HANDOFF &rarr; MASTERCLASS BUILDER ===<br>
+      IDENTITY: role, life stage, what &ldquo;success&rdquo; looks like from outside<br>
+      THEIR TUESDAY: the day, beat by beat<br>
+      SURFACE PAINS &rarr; EMOTION BENEATH: top 5, each pain + the feeling under it<br>
+      DESIRES &rarr; EMOTION BENEATH: top 5, each want + the feeling it promises<br>
+      FEARS &rarr; EMOTION BENEATH: top 5, each fear + the feeling under it<br>
+      FAILED FIXES: what they tried, why each didn't hold<br>
+      THEIR LANGUAGE: verbatim phrases from the interview and the research<br>
+      THE REAL TRANSFORMATION: the emotional end-state, as a feeling, not a metric
+    </div>
+
+  </div>
+</div>
+
+<!-- PART 2 -->
+<div class="phase-section">
+  <div class="phase-header">
+    <div class="phase-header-left">
+      <div class="phase-num">Part 2</div>
+      <div class="phase-name">Build the Masterclass</div>
+      <div class="phase-purpose">Takes the finished ICP and turns it into a deeply personal, emotionally driven presentation &mdash; a full spoken script, then a slide-by-slide map. A brand-new team member with zero copywriting skill should get both in one sitting.</div>
+    </div>
+    <div class="phase-time">Needs the Dossier</div>
+  </div>
+  <div class="phase-body">
+
+    <div class="sub-label">06 &mdash; Inputs</div>
+
+    <h4>The ICP Contract</h4>
+    <p>The handoff block from Part 1, field for field. A hand-written ICP in the same shape works too. Where a field is thin, ask ONE plain targeted question to fill it, then proceed. If there's no ICP at all, stop and run Part 1 first &mdash; never invent one.</p>
+
+    <h4>The Presenter Intake &mdash; fewest questions possible</h4>
+    <p>The ICP covers the audience. This covers the speaker:</p>
+    <ol>
+      <li><strong>Before-story and turning point</strong> &mdash; who they were before, and the moment it changed.</li>
+      <li><strong>Proof</strong> &mdash; results, story, or evidence they can honestly stand on.</li>
+      <li><strong>The ONE big promise</strong> of the class.</li>
+      <li><strong>The 3 discoveries</strong> they'll teach.</li>
+      <li><strong>The offer + CTA</strong> &mdash; name, contents, price, terms, bonuses, checkout link. Confirm against the CURRENT live offer before presenting. Never use a remembered price.</li>
+    </ol>
+
+    <div class="sub-label">07 &mdash; Step One &middot; Name the Emotional Core</div>
+
+    <p>Read the ICP's pains, desires, and fears. Ignore the surface line. Find the one feeling that repeats &mdash; the thing every pain, want, and fear points at. Write the sentence and put it at the top of the working doc. Check every section against it as you write.</p>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">&#9998;</span> The Move</div>
+      <div class="say-content">We are not selling a business system. We are selling the feeling of getting your own life back.
+        <div class="alt"><strong>Different ICP, same move</strong>We are not selling a fitness program. We are selling proof that she still gets a turn.</div>
+      </div>
+    </div>
+
+    <div class="sub-label">08 &mdash; Step Two &middot; The 17-Part Build Guide</div>
+
+    <div class="callout">
+      <strong>How a masterclass renders</strong>
+      <p>It's a slide deck. Each slide carries ONE short beat &mdash; a single punchy line, sometimes three words. The full spoken script lives in the presenter notes. A real masterclass runs 300&ndash;440 slides because each sentence often gets its own slide. One idea, one slide. Never cram.</p>
+      <p>Write the script straight through these 17 parts, in this order. Never reorder.</p>
+    </div>
+
+    <h3>The Open &mdash; Parts 1&ndash;9</h3>
+
+    <h4>1 &middot; Title</h4>
+    <p>Intrigue, don't explain. Two to five punchy words, not a description.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">The Space You Lost</div></div>
+
+    <h4>2 &middot; Sub-Headline</h4>
+    <p>The big benefit of attending. &ldquo;How to [benefit] without [pain].&rdquo;</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">How to build income that runs without you &mdash; without adding one hour to your week.</div></div>
+
+    <h4>3 &middot; Hook / Anchor</h4>
+    <p>Earn them staying to the end with an open loop &mdash; a bonus, surprise, or unexplained benefit paid off only at the end.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">Stay to the end. There's something waiting there you won't find anywhere else &mdash; and it's not what you think.</div></div>
+
+    <h4>4 &middot; Differentiator</h4>
+    <p>Answer &ldquo;how is this different from everything I've tried?&rdquo; Name what they're used to &mdash; pull from FAILED FIXES &mdash; then say why this isn't that.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">You've bought the course. Joined the program. Watched it gather dust by Thursday. This isn't more information to keep up with. It's less.</div></div>
+
+    <h4>5 &middot; Dissect</h4>
+    <p>Attract your person, repel the wrong one. Good marketing repels on purpose. Who this is for, who this is not for.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">If you're tired and still willing &mdash; stay. If you want someone to blame, this isn't your room.</div></div>
+
+    <h4>6 &middot; No Surprises</h4>
+    <p>Disarm the &ldquo;you're just going to sell me&rdquo; wall. This template is near-verbatim because it works.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Say</div><div class="say-content">At the end, there will be something you can buy &mdash; if you love what you learn and want results faster. No obligation. Deal?</div></div>
+
+    <h4>7 &middot; Reverse Authority</h4>
+    <p>Get off the pedestal. Relatable beats impressive. &ldquo;I wasn't always ___. Not long ago I was ___.&rdquo; Use the presenter's real before-story.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">I wasn't always the woman with the calm mornings. Three years ago I was reheating the same coffee at 4 p.m., wondering when my life had become a to-do list.</div></div>
+
+    <h4>8 &middot; Future Pace</h4>
+    <p>Put them inside the finished life. &ldquo;What would it be like if&hellip;&rdquo; &mdash; paint the ICP's REAL TRANSFORMATION in sensory detail, then close the loop.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">What would it be like if the alarm went off&hellip; and nothing in you braced? That's what's possible if you stay with me to the end.</div></div>
+
+    <h4>9 &middot; Attention</h4>
+    <p>Ask for full presence, with specific asks.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">Let's make a deal. Phone face-down, kids in the other room, tabs closed. Give me thirty minutes that are actually yours.</div></div>
+
+    <div class="sub-label">09 &mdash; The Proven Open &middot; run it across parts 7&ndash;8</div>
+
+    <p>Before the presenter introduces themselves, mirror the audience's real day back to them &mdash; pulled straight from THEIR TUESDAY &mdash; one ordinary beat at a time, until they feel SEEN. Then lift the shame off them. The shape:</p>
+
+    <div class="say-block">
+      <div class="say-tag"><span class="say-icon">&#9998;</span> The Shape, In Sequence</div>
+      <div class="say-content">
+        &ldquo;Before I introduce myself, I want to take a guess at what I think your Tuesday looks like.&rdquo;
+        <div class="alt"><strong>Then walk their Tuesday, concrete and sensory</strong>The alarm and the body already tired&hellip; the coffee gone cold, reheated, forgotten again&hellip; the whole day performed without dropping a thing.</div>
+        <div class="alt"><strong>Then land their quiet line &mdash; verbatim from Their Language</strong>&ldquo;And somewhere in the quiet you think: someday. Someday it won't feel like this. But tomorrow looked exactly the same.&rdquo;</div>
+        <div class="alt"><strong>Then lift the shame</strong>&ldquo;And you started to wonder if the problem was you. Let me be clear &mdash; it was never you. You didn't lose ambition. You lost space.&rdquo;</div>
+        <div class="alt"><strong>Then bridge to Reverse Authority</strong>&ldquo;And if you're anything like me, you already tried to fix it.&rdquo;</div>
+      </div>
+      <div class="say-note">That's Reverse Authority + Future Pace fused with their real pain and the emotion beneath it. The whole open earns the right to teach. Reproduce this move from any ICP &mdash; the beats change, the shape doesn't.</div>
+    </div>
+
+    <h3>The Body &mdash; Parts 10&ndash;12</h3>
+
+    <h4>10 &middot; The 3 Discoveries</h4>
+    <p>Name the three things they're about to learn &mdash; and sink the hook deeper. Frame each as a belief-breaker: name the false belief keeping them stuck, promise the discovery that breaks it. Benefit-driven headlines.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">Discovery one &mdash; why working harder is the exact thing keeping you stuck. And what actually creates room to breathe.</div></div>
+
+    <h4>11 &middot; Body</h4>
+    <p>Deliver the three. Per discovery: false belief &rarr; the break (proof or story) &rarr; the benefit stated as a FEELING. Every point showcases the benefit and the feeling, not just the information.</p>
+    <div class="coaching-block">
+      <span class="coaching-tag">Keep It Simple</span>
+      <p>Do not overwhelm the audience with information &mdash; they don't need everything you know. Confused people don't buy.</p>
+    </div>
+
+    <h4>12 &middot; Recap</h4>
+    <p>Tell them what you told them, phrased as benefits. Three lines, one per discovery &mdash; &ldquo;How to [X] without [Y].&rdquo;</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Example</div><div class="say-content">How to build income that compounds &mdash; without giving it your evenings.</div></div>
+
+    <h3>The Close &mdash; Parts 13&ndash;17</h3>
+
+    <h4>13 &middot; Segway</h4>
+    <p>Bridge from teaching to offer.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Say</div><div class="say-content">This has been powerful, right? But here's the truth &mdash; information alone won't save you. What if you could [main benefit]?</div></div>
+
+    <h4>14 &middot; Reveal</h4>
+    <p>Reveal the offer as the answer to the feeling.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Say</div><div class="say-content">That's why we created [offer] &mdash; to help people like you [benefit] without [pain].</div></div>
+
+    <h4>15 &middot; Value Stack / Micro-Close</h4>
+    <p>Break the offer into parts and assign a value to each: Product &middot; Price &middot; Terms &middot; Bonuses. Name each component, what it does for them as a feeling, and its &ldquo;valued at.&rdquo; Weave one or two of the selected closes between components &mdash; start closing BEFORE the price is revealed.</p>
+
+    <h4>16 &middot; Justify / Price Drop</h4>
+    <p>Make the price feel small next to the feeling. Justify the full &ldquo;valued at,&rdquo; then drop.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Say</div><div class="say-content">If all it did was [one emotional result] &mdash; wouldn't it be worth it?
+      <div class="alt"><strong>Then the drop</strong>I wanted this in reach of anyone who's serious&hellip; so it's not [high anchor]. It's [real price].</div>
+    </div></div>
+
+    <h4>17 &middot; Checkout / Future Pace</h4>
+    <p>Remove every ounce of friction. Walk the exact clicks, then future-pace once more &mdash; them, on the other side, feeling the emotional core.</p>
+    <div class="say-block"><div class="say-tag"><span class="say-icon">&#9998;</span> Say</div><div class="say-content">When you click the button, you'll land on a page that looks like this. Fill in the usual details. And here's what happens the moment you say yes&hellip;</div></div>
+
+    <div class="sub-label">10 &mdash; Close Selection &middot; pick 4&ndash;6 of the 17</div>
+
+    <p>Never run all 17 closes. Read the ICP's fears and pick 4&ndash;6 that answer those specific fears. Weave them through parts 13&ndash;17.</p>
+
+    <table style="width:100%; border-collapse:collapse; margin:16px 0 20px; background:#fff; border:1px solid var(--rule); border-radius:4px; overflow:hidden;">
+      <thead>
+        <tr>
+          <th style="font-family:'Montserrat',sans-serif; font-size:9.5px; letter-spacing:2px; text-transform:uppercase; color:var(--sky-deep); text-align:left; padding:12px 16px; border-bottom:1px solid var(--rule); font-weight:600;">The Fear Underneath</th>
+          <th style="font-family:'Montserrat',sans-serif; font-size:9.5px; letter-spacing:2px; text-transform:uppercase; color:var(--sky-deep); text-align:left; padding:12px 16px; border-bottom:1px solid var(--rule); font-weight:600;">Closes That Answer It</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">Money guilt &mdash; &ldquo;spending on myself is selfish or risky&rdquo;</td><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">1. Money Is Good &middot; 2. Disposable Income &middot; 3. Money Replenishes</td></tr>
+        <tr><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">&ldquo;I've been burned &mdash; another thing that won't deliver&rdquo;</td><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">4. Break Old Habits &middot; 5. Information Alone &middot; 13. If You Only Get</td></tr>
+        <tr><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">Shame of hoping out loud again / &ldquo;the problem is me&rdquo;</td><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">7. Responsibility &middot; 14. Reluctant Hero &middot; 16. Parts Pattern</td></tr>
+        <tr><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">Fear of staying stuck &mdash; the years slipping by</td><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">12. Now / Later &middot; 9. Your 2 Choices &middot; 10. Say Goodbye</td></tr>
+        <tr><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">Identity &mdash; who they want to be vs. who they've been</td><td style="padding:10px 16px; border-bottom:1px solid var(--rule); font-size:15px;">11. Us vs. Them &middot; 15. Portal Close</td></tr>
+        <tr><td style="padding:10px 16px; font-size:15px;">Price resistance specifically</td><td style="padding:10px 16px; font-size:15px;">8. My 2 Choices &middot; 13. If You Only Get</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Full reference list:</strong> 1 Money Is Good &middot; 2 Disposable Income &middot; 3 Money Replenishes &middot; 4 Break Old Habits &middot; 5 Information Alone &middot; 6 Result or Excuses &middot; 7 Responsibility &middot; 8 My 2 Choices &middot; 9 Your 2 Choices &middot; 10 Say Goodbye &middot; 11 Us vs. Them &middot; 12 Now / Later &middot; 13 If You Only Get &middot; 14 Reluctant Hero &middot; 15 Portal Close &middot; 16 Parts Pattern &middot; 17 Close Close.</p>
+
+    <p><strong>Order to run them:</strong> dissolve the belief first (money and failed-fix closes, inside the value stack) &rarr; cost of inaction (at the price drop) &rarr; identity (after the price) &rarr; always end on 17, the Close Close &mdash; the final, direct call to action.</p>
+
+    <div class="coaching-block">
+      <span class="coaching-tag">Tone Check</span>
+      <p>Closes like Result or Excuses and Us vs. Them run hot. Soften them to the audience &mdash; invitation, not accusation. Never guilt, never shame.</p>
+    </div>
+
+    <div class="sub-label">11 &mdash; The Two-Phase Output &middot; always in this order, both shown</div>
+
+    <h4>Phase 1 &mdash; The Script</h4>
+    <p>First, print the emotional core sentence. Then write the FULL spoken masterclass, start to finish &mdash; every word the presenter says &mdash; as continuous readable script following the 17-part spine, driven entirely by the ICP's emotions. It reads like a story, not a slide list. It is the emotional draft, complete on its own.</p>
+
+    <h4>Phase 2 &mdash; The Slide Breakdown</h4>
+    <p>Take the finished script and break it into numbered slide beats. Every beat in this exact two-part format:</p>
+
+    <div class="notes-card" style="font-family:'Montserrat',sans-serif; font-size:12px; line-height:1.9; padding:18px 22px;">
+      &mdash;&mdash; [section name, e.g. OPEN &rsaquo; Future Pace] &mdash;&mdash;<br>
+      SLIDE: &nbsp;the one short line on screen &mdash; often 3&ndash;7 words<br>
+      SCRIPT: the spoken words for that beat, from Phase 1, that live in the presenter notes
+    </div>
+
+    <ul>
+      <li>One idea per slide. If a slide line carries two ideas, it's two slides.</li>
+      <li>The SLIDE line is the emotional punch or anchor &mdash; the heart of the beat, not a summary.</li>
+      <li>The SCRIPT is everything spoken around that line. Nothing spoken gets lost in the split.</li>
+      <li>Keep beats in script order. Number them straight through.</li>
+      <li>Expect volume: a full class lands around 300&ndash;440 beats. Short is a red flag that ideas got crammed.</li>
+    </ul>
+
+    <p>The result is a deck-ready map a person can build slide by slide.</p>
+
+    <div class="sub-label">12 &mdash; The Canva Deck &middot; optional, on request</div>
+
+    <p>The Canva connection in Claude can turn Phase 2 into an actual Canva presentation &mdash; SLIDE lines on the slides, SCRIPT in the presenter notes &mdash; via an HTML import. The import gives structure, not styling: fonts, backgrounds, and brand get applied in Canva afterward.</p>
+
+    <div class="callout honey">
+      <strong>Jane signs off first</strong>
+      <p>The import route requires the script to sit at a public web link for the few minutes Canva ingests it. Stop and get Jane's explicit OK before that step, every time &mdash; then take the page down right after. If the Canva build is skipped, the Phase 2 map is the deliverable, and the deck gets built by hand from it.</p>
+    </div>
+
+    <div class="sub-label">13 &mdash; Voice &amp; Compliance</div>
+
+    <h4>Voice Rules &mdash; non-negotiable</h4>
+    <ul>
+      <li><strong>Second person.</strong> Talk to one person, not a room.</li>
+      <li><strong>Short sentences. One idea per line.</strong> Rhythm over polish.</li>
+      <li><strong>Grounded, specific, human.</strong> No hype, no guru-speak, no woo, no jargon.</li>
+      <li><strong>Lead from certainty and the positive.</strong> Paint the desired life. Never name the doubt &mdash; naming it plants it.</li>
+      <li><strong>Concrete over abstract.</strong> &ldquo;Coffee went cold, you reheated it&rdquo; beats &ldquo;you felt overwhelmed.&rdquo; Then name the FEELING, not just the fact.</li>
+      <li><strong>Use their language.</strong> Quote the ICP's verbatim phrases at least three times across the script.</li>
+      <li>For Jane Box brand builds: her banned-word list applies to every line. No exclamation marks. No all-caps sentences. Ask her for the style file.</li>
+    </ul>
+
+    <div class="dont-block">
+      <span class="dont-tag">Compliance &mdash; hard rules</span>
+      <p>No income guarantees. No &ldquo;typical earnings.&rdquo; If income comes up, frame it as possibility with a clear results-vary disclaimer on the slide where it appears. Make the aspirational case honestly &mdash; proof and story, not hype. And the offer is a fill-in field: confirm product, price, terms, and bonuses against the CURRENT company offer before presenting. Never hardcode.</p>
+    </div>
+
+    <div class="sub-label">14 &mdash; Quality Checklist &middot; every item must pass</div>
+
+    <ul class="checklist">
+      <li><span class="box"></span>Is the emotional core named in one sentence before a word of script was written?</li>
+      <li><span class="box"></span>Does every beat connect to a feeling, not just a fact?</li>
+      <li><span class="box"></span>Does the open mirror their real Tuesday &mdash; beat by beat &mdash; before the speaker introduces themselves?</li>
+      <li><span class="box"></span>Does the open lift the shame off them (&ldquo;it was never you&rdquo;)?</li>
+      <li><span class="box"></span>Are all 17 parts present, in order, nothing reordered or skipped?</li>
+      <li><span class="box"></span>Is it second person throughout &mdash; one person, not a room?</li>
+      <li><span class="box"></span>One idea per slide, slide lines short and punchy (mostly 3&ndash;7 words)?</li>
+      <li><span class="box"></span>Is the ICP's verbatim language quoted at least three times?</li>
+      <li><span class="box"></span>Are the 3 discoveries framed as belief-breakers with benefit-driven headlines?</li>
+      <li><span class="box"></span>Are 4&ndash;6 closes matched to THIS audience's specific fears, ending on the Close Close?</li>
+      <li><span class="box"></span>Is income framed as possibility with a results-vary disclaimer &mdash; never guaranteed, never &ldquo;typical&rdquo;?</li>
+      <li><span class="box"></span>Does it lead from certainty, never naming the doubt &mdash; and is the offer confirmed against the current live offer?</li>
+    </ul>
+
+    <h4>Guardrails</h4>
+    <ul>
+      <li><strong>Sell the emotion, not the thing.</strong> The governing law wins every conflict.</li>
+      <li><strong>The 17-part spine is fixed.</strong> Fix the words inside it, never the structure.</li>
+      <li><strong>One idea, one slide.</strong> Never cram.</li>
+      <li><strong>Phase 1 before Phase 2, always both.</strong> The script is the source of truth.</li>
+      <li><strong>Voice and compliance rules are hard rules,</strong> not suggestions.</li>
+      <li><strong>Confirm the live offer before presenting.</strong> Every time.</li>
+      <li><strong>The two-ICP test:</strong> two different ICPs through this system should produce two classes with the same spine and voice but completely different emotional cores &mdash; each feeling like it was written for that one person alone. If the two drafts could swap audiences, the ICP wasn't used hard enough. Go back and name the core again.</li>
+    </ul>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;&middot;&nbsp; <strong>Masterclass Build System</strong> &nbsp;&middot;&nbsp; ICP &rarr; Script &rarr; Slides &nbsp;&middot;&nbsp; July 2026</div>
+</div>
+
+</body>
+</html>
