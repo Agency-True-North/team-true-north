@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Skills Skill Install / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+    --danger: #C0392B;
+    --danger-light: #FDECEA;
+    --success: #2E7D5E;
+    --success-light: #E8F5EE;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .callout, .phase, .cmd-card { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover h1 { font-size: 36px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover .subtitle { font-size: 17px; line-height: 1.45; }
+    .toc { padding: 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    .checklist li { padding: 10px 14px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.65; font-family: 'Cormorant Garamond', serif; }
+  .callout p + p { margin-top: 10px; }
+
+  /* STEP BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase p:last-child { margin-bottom: 0; }
+  .phase ul, .phase ol { margin: 0 0 4px; }
+  .phase li { font-size: 15px; }
+
+  /* COPY-PASTE CARDS */
+  .cmd-card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 14px 0 18px;
+    background: #FFFFFF;
+  }
+  .cmd-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    background: var(--honey);
+    color: var(--cacao);
+  }
+  .cmd-label.sky { background: var(--sky-deep); color: var(--pearl); }
+  .cmd {
+    background: var(--pearl-deep);
+    padding: 16px 20px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--cacao);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    -webkit-user-select: all;
+    user-select: all;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .checklist li:first-child { border-radius: 4px 4px 0 0; }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; }
+  .checklist li .box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--pearl);
+  }
+
+  /* DOWNLOAD BUTTON */
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--pearl);
+    background: var(--honey-deep);
+    border: none;
+    border-radius: 4px;
+    padding: 14px 26px;
+    text-decoration: none;
+    margin: 8px 0 6px;
+  }
+  .dl-btn:hover { background: var(--cacao); color: var(--pearl); }
+  .dl-note {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin: 4px 0 18px;
+  }
+
+  /* LINKS */
+  a { color: var(--honey-deep); text-decoration: underline; }
+  a:hover { color: var(--cacao); }
+
+  /* DIVIDER */
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Quick Start</div>
+  <h1>Find Skills<br>Skill Install</h1>
+  <div class="version">Claude Code Skill Kit</div>
+  <div class="subtitle">Never build from scratch when someone already packaged it. Ask Claude &ldquo;is there a skill for this?&rdquo; and it finds you the right one.</div>
+  <div class="pills">
+    <span class="pill honey">Download</span>
+    <span class="pill">Unzip</span>
+    <span class="pill sky">Drag</span>
+    <span class="pill cacao">Paste</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>What's Inside</h3>
+  <ol>
+    <li><span class="num">01</span> Get it — download, unzip, drag</li>
+    <li><span class="num">02</span> Turn it on — paste one message</li>
+    <li><span class="num">03</span> How to use it every day</li>
+    <li><span class="num">04</span> No Claude Code yet?</li>
+    <li><span class="num">05</span> Where the skill lives</li>
+    <li><span class="num">06</span> Good to know</li>
+  </ol>
+</div>
+
+<p class="lead">This is the skill that finds you other skills. When you're about to do something new in Claude &mdash; a task you haven't built a workflow for yet &mdash; this checks the open library first, vets what it finds, and hands you the exact install command. It always checks the skills you already have before it goes looking.</p>
+
+<div class="ornament">&#10022; &#10022; &#10022;</div>
+
+<!-- 01 -->
+<h2>01 / Get It — Download, Unzip, Drag</h2>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge honey">Download</span>
+    <span class="phase-title">Save the kit</span>
+  </div>
+  <p>Click the button. Your browser saves <strong>Find Skills Skill.zip</strong>. No account, no login &mdash; the kit is built right into this page.</p>
+  <a class="dl-btn" href="data:application/zip;base64,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" download="Find Skills Skill.zip">&#8681;&nbsp; Download the Skill (.zip)</a>
+  <div class="dl-note">If nothing happens, right-click the button &rarr; &ldquo;Save Link As&hellip;&rdquo;</div>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge honey">Unzip</span>
+    <span class="phase-title">Open it up</span>
+  </div>
+  <p>Double-click the downloaded file. You get a folder with a <strong>.claude</strong> folder and a README inside.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge sky">Drag</span>
+    <span class="phase-title">Drop it into your business folder</span>
+  </div>
+  <p>Drag the whole <strong>.claude</strong> folder into your <strong>Claude folder</strong> &mdash; the one you open in Claude Code. Don't open it, don't rearrange it. Claude handles the rest.</p>
+  <p>Already have a <strong>.claude</strong> folder? Good &mdash; just let it merge. The <strong>find-skills</strong> folder slots in next to your other skills.</p>
+</div>
+
+<!-- 02 -->
+<h2>02 / Turn It On — Paste One Message</h2>
+
+<p>Open your business folder in Claude Code and paste this:</p>
+
+<div class="cmd-card">
+  <div class="cmd-label sky">Paste into Claude Code</div>
+  <div class="cmd">Is there a skill for [the thing you're trying to do]? Use the find-skills skill.</div>
+</div>
+
+<p>Claude searches the open library, checks how many people trust each option, and recommends one &mdash; with the source and the install command. It only installs when you say go.</p>
+
+<!-- 03 -->
+<h2>03 / How To Use It Every Day</h2>
+
+<p>Any time you're about to ask Claude to do something new, ask this first:</p>
+
+<ul>
+  <li><strong>&ldquo;Is there a skill for editing my videos?&rdquo;</strong></li>
+  <li><strong>&ldquo;Find me a skill that turns a doc into a slide deck.&rdquo;</strong></li>
+  <li><strong>&ldquo;Can you do PDF form-filling? Check for a skill first.&rdquo;</strong></li>
+</ul>
+
+<div class="callout honey">
+  <strong>What it checks before it recommends</strong>
+  <p>How many people use the skill (it prefers the ones thousands trust), and who made it (official sources over unknowns). It'll warn you off anything unproven instead of installing it blind.</p>
+</div>
+
+<div class="callout">
+  <strong>It checks your own skills first</strong>
+  <p>Most of what you do every day already has a skill you built. This one only goes shopping when you need something genuinely new.</p>
+</div>
+
+<!-- 04 -->
+<h2>04 / No Claude Code Yet?</h2>
+
+<p>Get the <strong>Claude desktop app</strong> (Mac or Windows) &mdash; the non-technical-friendly version, no terminal required. Sign in, open your business folder, and paste the message above. If you prefer the command line, the CLI works the same way.</p>
+
+<!-- 05 -->
+<h2>05 / Where The Skill Lives</h2>
+
+<p>The kit puts it here:</p>
+
+<div class="cmd-card">
+  <div class="cmd-label">Folder map</div>
+  <div class="cmd">your-business-folder/
+&#9492;&#9472;&#9472; .claude/
+    &#9492;&#9472;&#9472; skills/
+        &#9492;&#9472;&#9472; find-skills/
+            &#9492;&#9472;&#9472; SKILL.md</div>
+</div>
+
+<p>Skills in a project's <strong>.claude/skills/</strong> load whenever you open that folder in Claude Code. To make it available in <em>every</em> project on your machine, drag the <strong>find-skills</strong> folder into <strong>~/.claude/skills/</strong> instead.</p>
+
+<!-- 06 -->
+<h2>06 / Good To Know</h2>
+
+<ul class="checklist">
+  <li><span class="box"></span><span>This finds <strong>general-purpose</strong> skills from the wider community. They won't know your brand voice or your funnel &mdash; keep using your own custom skills for anything brand- or content-facing.</span></li>
+  <li><span class="box"></span><span>Reach outside only for a genuinely new capability &mdash; a file format, a dev tool, a new integration.</span></li>
+  <li><span class="box"></span><span><strong>Nothing installs without your say-so.</strong> Claude shows you the option and the source first, every time.</span></li>
+</ul>
+
+<div class="footer">
+  <div class="ornament">&#10022;</div>
+  <div class="footer-meta">Find Skills &mdash; Claude Code Skill Kit &nbsp;&middot;&nbsp; <strong>Team True North</strong></div>
+</div>
+
+</body>
+</html>
