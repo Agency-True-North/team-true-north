@@ -515,6 +515,27 @@
     margin-top: 10px;
   }
   .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+
+  /* COPY BUTTON */
+  .code-block { position: relative; }
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--honey);
+    color: var(--cacao);
+    border: none;
+    border-radius: 100px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { background: var(--honey-light); }
+  @media print { .copy-btn { display: none; } }
 </style>
 </head>
 <body>
@@ -523,21 +544,21 @@
 <div class="cover">
   <div class="eyebrow">Team Training Guide</div>
   <h1>Claude<br>Setup Guide</h1>
-  <div class="version">Version 1.0</div>
+  <div class="version">Version 2.0</div>
   <div class="byline">Team True North</div>
-  <div class="subtitle">How to set up Claude the right way — so it knows who you are, who you serve, and how to sound like you every single time.</div>
+  <div class="subtitle">Set up Claude so it knows who you are, who you serve, and how to sound like you every single time. Claude now does most of this setup for you.</div>
   <div class="pills">
     <span class="pill sky">Claude</span>
     <span class="pill honey">VS Code</span>
-    <span class="pill">1–2 Hours</span>
+    <span class="pill">About 1 Hour</span>
   </div>
 </div>
 
 <!-- OPENING CALLOUT -->
 <div class="callout cacao">
   <strong>Read this first</strong>
-  <p>Most people use AI like a search engine — they type a question, get a generic answer, and wonder why it doesn't sound like them. This guide fixes that. You're going to build a foundation that teaches Claude who you are, who you serve, and how you write. Once it's built, every conversation starts informed. That's the difference between a tool you tolerate and a system that compounds.</p>
-  <p>Set aside 1 to 2 hours for the initial setup. You only do this once.</p>
+  <p>Most people use AI like a search engine. They type a question, get a generic answer, and wonder why it doesn't sound like them. This guide fixes that. You'll install two free apps, open one folder, and paste one box of text. Claude builds everything else itself, then interviews you like a person who wants to know you, not a form that wants your data.</p>
+  <p>Your hands-on part takes about 20 minutes. The interview takes 30 to 45. You only do this once.</p>
 </div>
 
 <!-- TOC -->
@@ -545,746 +566,318 @@
   <h3>What's Inside</h3>
   <ol>
     <li><span class="num">01</span> How this works</li>
-    <li><span class="num">02</span> Account setup</li>
-    <li><span class="num">03</span> Your folder system</li>
-    <li><span class="num">04</span> Where are you coming from?</li>
-    <li><span class="num">05</span> Your four core files</li>
-    <li><span class="num">06</span> Your CLAUDE.md file</li>
-    <li><span class="num">07</span> Verify and daily workflow</li>
-    <li><span class="num">08</span> Quick reference and troubleshooting</li>
-    <li><span class="num">09</span> Bring in existing assets (optional)</li>
-    <li><span class="num">10</span> Secure your API keys (optional)</li>
-    <li><span class="num">11</span> Access foundation files on mobile (optional)</li>
-    <li><span class="num">12</span> What's next: automations</li>
+    <li><span class="num">02</span> Accounts and apps (your part)</li>
+    <li><span class="num">03</span> Your Claude folder</li>
+    <li><span class="num">04</span> The one thing you paste</li>
+    <li><span class="num">05</span> What happens next</li>
+    <li><span class="num">06</span> Your daily workflow</li>
+    <li><span class="num">07</span> Troubleshooting</li>
+    <li><span class="num">08</span> When you're ready for more</li>
   </ol>
 </div>
 
-
-<!-- 01 -->
 <h2>01 / How This Works</h2>
 
-<p class="lead">Claude isn't one thing. There are several versions of it, and most people are using the one that forgets them the moment the tab closes. This guide sets you up with the version that remembers everything.</p>
-
-<p>Here's the difference between the options:</p>
+<p class="lead">Claude isn't one thing. There are several versions of it, and most people are using the one that forgets them the moment the tab closes.</p>
 
 <div class="phase">
   <div class="phase-header">
     <span class="phase-badge cacao">Not Recommended</span>
     <span class="phase-title">Claude Chat (claude.ai)</span>
   </div>
-  <p>The browser-based chat you've probably already used. Every new conversation starts blank. It doesn't know you, your business, or your voice unless you re-explain everything each time. Great for quick one-offs. Not suitable for building a business system.</p>
+  <p>The browser chat you've probably already used. Every new conversation starts blank. It doesn't know you, your business, or your voice unless you re-explain everything each time. Fine for quick one-offs. Not a place to build a business system.</p>
 </div>
 
 <div class="phase">
   <div class="phase-header">
-    <span class="phase-badge cacao">Not Recommended</span>
-    <span class="phase-title">Claude Cowork (Desktop App)</span>
-  </div>
-  <p>The desktop app version. Better than browser-based, but still limited in how deeply it can read and manage your files. If you're already using this with files, you can migrate easily — Section 04 tells you how.</p>
-</div>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="phase-badge honey">Recommended</span>
+    <span class="phase-badge">Recommended</span>
     <span class="phase-title">Claude Code in VS Code</span>
   </div>
-  <p>This is what this guide sets up. VS Code is a free workspace editor made by Microsoft — think of it as a smart filing cabinet where Claude lives alongside your documents. Claude can read your files, create new ones, edit existing ones, and run tasks for you, all while you watch and approve. It reads your foundation files at the start of every session, so it always knows who you are. This is the setup that compounds.</p>
+  <p>This is what this guide sets up. VS Code is a free workspace made by Microsoft. Think of it as a smart filing cabinet where Claude lives alongside your documents. Claude can read your files, create new ones, and run tasks for you while you watch and approve. It reads your foundation files at the start of every session, so it always knows who you are.</p>
 </div>
 
 <div class="callout">
   <strong>What "foundation files" means</strong>
-  <p>Foundation files are four documents you build once and keep updated. They teach Claude your voice, your audience, your business goals, and the writing patterns to avoid. Every session Claude reads them first — before it does anything else. That's what makes every output feel like you instead of a generic AI.</p>
+  <p>Four documents that teach Claude your voice, your audience, your business goals, and the writing patterns to avoid. Claude reads them before it does anything else, every session. In the old version of this guide, you built these by hand through six copied prompts. Now Claude builds them with you in one conversation. Your job is Sections 02 and 03, then one paste.</p>
 </div>
 
+<h2>02 / Accounts and Apps (Your Part)</h2>
 
-<!-- 02 -->
-<h2>02 / Account Setup</h2>
-
-<p class="lead">Four things to get in place before you build anything. Budget 20 minutes for this section.</p>
+<p>Three things Claude cannot do for you. Budget 20 minutes.</p>
 
 <div class="steps">
 
-  <div class="step">
-    <div class="step-num sky">1</div>
-    <div class="step-body">
-      <h4>Create a Claude Account</h4>
-      <p>Go to <strong>claude.ai</strong>, sign up using your Google email, and upgrade to Claude Pro. Pro is $20/month and required to use Claude Code. Without it, you'll hit usage limits within a few minutes.</p>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <h4>Create a Claude account</h4>
+    <p>Go to <a href="https://claude.ai">claude.ai</a>, sign up with your Google email, and upgrade to Claude Pro. Pro is $20/month and required for Claude Code. Without it you'll hit usage limits within minutes.</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <h4>Download VS Code</h4>
+    <p>Download it at <a href="https://code.visualstudio.com/download">code.visualstudio.com/download</a> and follow the instructions for your computer.</p>
+  </div>
+</div>
+
+</div>
+
+<div class="os-tabs">
+  <div class="os-block">
+    <div class="os-block-header mac">&#63743; &nbsp;Mac</div>
+    <div class="os-block-body">
+      <ol>
+        <li>Click the <strong>.dmg Apple Silicon</strong> button (or Intel if your Mac is older than 2020)</li>
+        <li>Open the downloaded file from your Downloads folder</li>
+        <li>Drag the VS Code icon into your <strong>Applications</strong> folder</li>
+        <li>Open VS Code from Applications or Launchpad</li>
+        <li>If you see a security warning, go to System Settings &rarr; Privacy &amp; Security and click <strong>Open Anyway</strong></li>
+      </ol>
     </div>
   </div>
-
-  <div class="step">
-    <div class="step-num sky">2</div>
-    <div class="step-body">
-      <h4>Download VS Code</h4>
-      <p>VS Code is a free editor made by Microsoft. It's the workspace where Claude will live alongside your files. Download it at <strong><a href="https://code.visualstudio.com/download">code.visualstudio.com/download</a></strong> and follow the instructions for your computer below.</p>
-
-      <div class="os-tabs">
-        <div class="os-block">
-          <div class="os-block-header mac">&#xF8FF; &nbsp; Mac</div>
-          <div class="os-block-body">
-            <ol>
-              <li>Go to <strong><a href="https://code.visualstudio.com/download">code.visualstudio.com/download</a></strong></li>
-              <li>Click the <strong>.dmg — Apple Silicon</strong> button (or <strong>Intel</strong> if your Mac is older than 2020)</li>
-              <li>Once downloaded, open the .dmg file from your Downloads folder</li>
-              <li>Drag the VS Code icon into your Applications folder</li>
-              <li>Open VS Code from your Applications folder or Launchpad</li>
-              <li>If you see a security warning, go to <strong>System Settings → Privacy &amp; Security</strong> and click <em>Open Anyway</em></li>
-            </ol>
-          </div>
-        </div>
-        <div class="os-block">
-          <div class="os-block-header pc">&#x229E; &nbsp; Windows (PC)</div>
-          <div class="os-block-body">
-            <ol>
-              <li>Go to <strong><a href="https://code.visualstudio.com/download">code.visualstudio.com/download</a></strong></li>
-              <li>Click the <strong>Windows — User Installer — x64</strong> button</li>
-              <li>Run the downloaded <strong>.exe</strong> file</li>
-              <li>Accept the license agreement and click <em>Next</em> through the setup</li>
-              <li><strong>Important:</strong> On the "Additional Tasks" screen, check <em>Add to PATH</em> — this is required for Claude Code to work correctly</li>
-              <li>Also check <em>Add "Open with Code" action</em> for easy folder access</li>
-              <li>Click <em>Install</em>, then <em>Finish</em></li>
-              <li>Open VS Code from your Start menu</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-
-      <div class="callout honey">
-        <strong>Windows users — also install Git</strong>
-        <p>Git is a tool Claude Code uses to manage files. Windows doesn't include it by default. Go to <strong><a href="https://git-scm.com/download/win">git-scm.com/download/win</a></strong>, download the installer, and run it with all the default settings. Restart VS Code after installation.</p>
-      </div>
+  <div class="os-block">
+    <div class="os-block-header pc">&#8862; &nbsp;Windows (PC)</div>
+    <div class="os-block-body">
+      <ol>
+        <li>Click the <strong>Windows User Installer x64</strong> button</li>
+        <li>Run the downloaded .exe file and click Next through the setup</li>
+        <li><strong>Important:</strong> on the "Additional Tasks" screen, check <strong>Add to PATH</strong></li>
+        <li>Also check <strong>Add "Open with Code" action</strong></li>
+        <li>Click Install, then Finish, then open VS Code from your Start menu</li>
+      </ol>
     </div>
   </div>
-
-  <div class="step">
-    <div class="step-num sky">3</div>
-    <div class="step-body">
-      <h4>Install the Claude Code Extension</h4>
-      <p>Inside VS Code:</p>
-      <ul>
-        <li>Click the <strong>Extensions</strong> icon in the left sidebar (it looks like four small squares)</li>
-        <li>Search for <strong>Claude Code</strong></li>
-        <li>Find the one by <strong>Anthropic</strong> and click <em>Install</em></li>
-        <li>Once installed, a Claude icon will appear in your left sidebar</li>
-        <li>Click it and sign in with the same account you used on claude.ai</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num sky">4</div>
-    <div class="step-body">
-      <h4>Create a GitHub Account</h4>
-      <p>GitHub is a free service that backs up your workspace files so they're never lost. Go to <strong><a href="https://github.com">github.com</a></strong> and create a free account using the same email you used for Claude. You'll use this in Section 12 — skip it for now and come back once your foundation is built.</p>
-    </div>
-  </div>
-
-</div>
-
-<div class="callout">
-  <strong>Optional: Download the Claude mobile app</strong>
-  <p>The Claude mobile app (iOS and Android) is useful for on-the-go conversations. Once you set up GitHub sync in Section 12, the app can reference your workspace files. For now, all the setup happens on your computer.</p>
-</div>
-
-
-<!-- 03 -->
-<h2>03 / Your Folder System</h2>
-
-<p class="lead">Before Claude can read your files, you need to create the folder where they'll live. This takes five minutes and you only do it once.</p>
-
-<div class="steps">
-
-  <div class="step">
-    <div class="step-num">1</div>
-    <div class="step-body">
-      <h4>Create your main Claude folder</h4>
-      <p>On your computer, create a new folder called <strong>Claude</strong>. Put it somewhere you'll remember — your Desktop or your Documents folder both work. This folder is your workspace. Everything Claude creates and reads will live here.</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">2</div>
-    <div class="step-body">
-      <h4>Create two subfolders inside it</h4>
-      <p>Inside your Claude folder, create two folders:</p>
-      <ul>
-        <li><strong>ABOUT ME</strong> — where your four foundation files will live</li>
-        <li><strong>PROJECTS</strong> — where project-specific folders and files will be saved</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">3</div>
-    <div class="step-body">
-      <h4>Open the folder in VS Code</h4>
-      <p>In VS Code, go to <strong>File → Open Folder</strong> and select your Claude folder. VS Code will now show your folder structure in the left panel. This left panel is called the <em>File Tree</em> — it's where all your files and folders are listed.</p>
-      <p>The Claude icon in the left sidebar is where you'll chat. The main editing area on the right is where files open when you click them.</p>
-    </div>
-  </div>
-
-</div>
-
-<div class="callout cacao">
-  <strong>Keep this folder open every time you work</strong>
-  <p>VS Code remembers your last opened folder, so it usually opens in the right place automatically. If Claude ever says it can't find a file, it's likely because the wrong folder is open. Go to File → Open Folder and select your Claude folder again to fix it.</p>
-</div>
-
-
-<!-- 04 -->
-<h2>04 / Where Are You Coming From?</h2>
-
-<p class="lead">Depending on how you've been using AI, you may already have useful information stored somewhere. This section helps you bring it into your new workspace so you're not starting from scratch.</p>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="phase-badge">Starting Fresh</span>
-    <span class="phase-title">New to AI tools</span>
-  </div>
-  <p>No migration needed. Jump straight to Section 05 and start building your foundation files from scratch.</p>
-</div>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="phase-badge honey">Migrating</span>
-    <span class="phase-title">Coming from ChatGPT</span>
-  </div>
-  <p>Your context is stored in ChatGPT — and you can extract it before you leave. Copy all four prompts below and paste them into ChatGPT at once. Save the responses into a single document on your computer.</p>
-  <div class="code-block"><span class="label">Copy and paste all four into ChatGPT</span>1. "Look back across our conversations and tell me what you've learned about me as a person and as a business owner."
-
-2. "Summarize what you know about my business."
-
-3. "Summarize what you know about my ideal client."
-
-4. "Pull out writing samples you've created for me that I responded to most positively."</div>
-  <p>Once you have all four responses saved, paste them into Claude Code when it begins the interview in Section 05. Then tell Claude:</p>
-  <div class="code-block"><span class="label">Paste this into Claude Code to start the interview</span>Here's context from my time using ChatGPT. Use this to draft my foundation files. Only ask me about gaps you can't fill from this material.</div>
-</div>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="phase-badge honey">Migrating</span>
-    <span class="phase-title">Coming from Claude Chat or the Claude desktop app</span>
-  </div>
-  <p>Claude Chat and the desktop app don't retain memory between conversations, so there's no stored context to extract. Start the interview in Section 05 from scratch. If you remember specific pieces of work Claude helped with, mention them during the interview — they can be used as voice examples to build from.</p>
-</div>
-
-<div class="phase">
-  <div class="phase-header">
-    <span class="phase-badge honey">Migrating</span>
-    <span class="phase-title">Coming from Claude Cowork with existing files</span>
-  </div>
-  <p>If you already have foundation files saved in Cowork, just copy them directly into your ABOUT ME folder inside your Claude workspace. You're already most of the way there — skip ahead to Section 06.</p>
-</div>
-
-
-<!-- 05 -->
-<h2>05 / Your Four Core Files</h2>
-
-<p class="lead">These four files are the foundation of your entire Claude setup. Build them once. Update them as your business evolves. Every session Claude reads them before doing anything else.</p>
-
-<p>Each file is built through a guided conversation with Claude. The process takes 30 to 45 minutes and works best when you treat it like an interview — answer thoroughly rather than rushing through it. The more honest and specific you are, the more useful every future output will be.</p>
-
-<div class="callout cacao">
-  <strong>Before you start</strong>
-  <p>Open a fresh conversation in VS Code. Make sure Claude Code is open in the sidebar. At the bottom of the chat panel, you can select your model — use <strong>Claude Opus</strong> for this foundational work. It's the most capable model in the Claude family and worth using when you're building files that will shape every future session. (Claude Sonnet is faster and works well for most day-to-day tasks once your foundation is in place.) You'll build all four files in this same session.</p>
 </div>
 
 <div class="callout honey">
-  <strong>Talk instead of type — Wispr Flow</strong>
-  <p><a href="https://wisprflow.ai">Wispr Flow</a> is a voice-to-text tool that works across every app, including VS Code. It types in real time as you speak — no copy-pasting, no switching windows. These interviews go significantly faster when you can just talk through your answers. Download it at <strong><a href="https://wisprflow.ai">wisprflow.ai</a></strong>, set it up in five minutes, and use it for the entire build process in this section.</p>
+  <strong>Windows users: also install Git</strong>
+  <p>Git is a tool Claude Code uses to manage files, and Windows doesn't include it. Go to <a href="https://git-scm.com/download/win">git-scm.com/download/win</a>, run the installer with all the default settings, and restart VS Code afterward. Mac users skip this.</p>
 </div>
 
-<hr>
+<div class="steps">
 
-<h3>File 1: about-me.md</h3>
-<p><em>Target length: under 2,000 words. Lives in your ABOUT ME folder.</em></p>
-<p>This file is your voice and your identity. It tells Claude who you are, how you work, what good work looks like to you, and what you absolutely won't tolerate. Every piece of writing Claude produces is filtered through this file.</p>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <h4>Install the Claude Code extension</h4>
+    <p>Inside VS Code: click the <strong>Extensions</strong> icon in the left sidebar (four small squares), search for <strong>Claude Code</strong>, find the one by Anthropic, and click Install. A Claude icon appears in your left sidebar. Click it and sign in with the same account you used on claude.ai.</p>
+  </div>
+</div>
 
-<p>Paste this prompt into a fresh Claude session to build it:</p>
+</div>
 
-<div class="code-block"><span class="label">Paste this prompt into Claude</span>You are going to help me build my about-me.md file for my ABOUT ME folder. This file will be read at the start of every session. Keep it clear, specific, and lean. Under 2,000 words.
+<h2>03 / Your Claude Folder</h2>
 
-Interview me, one question at a time. Cover:
+<p class="lead">One folder, two clicks. This is the last setup step you do by hand.</p>
 
-WHO I AM
-- What I do, my role, my industry
-- Who I serve and the relationship I have with them
-- What a meaningful week of work looks like
+<div class="steps">
 
-HOW I WORK
-- Tools I use day to day
-- How I move a task from idea to done
-- My review and editing standards
-- What "finished" looks like for me
+<div class="step">
+  <div class="step-num sky">1</div>
+  <div class="step-body">
+    <h4>Create a folder called Claude</h4>
+    <p>On your computer, make a new empty folder named <strong>Claude</strong>. Your Documents folder or Desktop both work. Everything Claude builds will live here.</p>
+  </div>
+</div>
 
-WHAT GOOD LOOKS LIKE
-- An example of recent work I'm proud of and why
-- What separates strong work from average work in my field
+<div class="step">
+  <div class="step-num sky">2</div>
+  <div class="step-body">
+    <h4>Open it in VS Code</h4>
+    <p>In VS Code, go to <strong>File &rarr; Open Folder</strong> and pick your Claude folder. The left panel now shows your (empty) folder. That's correct. Claude fills it in the next step.</p>
+  </div>
+</div>
 
-WHAT I AVOID
-- Patterns or shortcuts in my industry that bother me
-- When AI writes for me and it's wrong, what's usually off
-
-MY RULES
-- Hard lines I won't cross
-- The two or three things every piece of my work must have
-
-Push back gently if my answers are vague. Ask for examples. If I have existing files or context, use them and only ask about gaps.
-
-Once done, write the about-me.md file. Don't save the raw Q&A. Extract the patterns. End with a section called "Instructions for Claude" with 8 to 10 clear, actionable rules.
-
-Create the file as about-me.md in my ABOUT ME folder.</div>
-
-<hr>
-
-<h3>File 2: ideal-client.md</h3>
-<p><em>Target length: under 1,500 words. Lives in your ABOUT ME folder.</em></p>
-<p>This file tells Claude exactly who you serve — the language they use, what they're afraid of, what they want, and where they are in their awareness of the problem you solve. Without this file, Claude writes for a generic audience. With it, every output speaks directly to your person.</p>
-
-<div class="code-block"><span class="label">Paste this prompt into Claude (same session)</span>Now help me build my ideal-client.md file. This describes the one person my business is built to serve, in enough detail that Claude can write to them like a friend who knows them well.
-
-Interview me, one question at a time. Cover:
-
-WHO THEY ARE
-- Demographics: age, life stage, profession, income
-- Family or relationship situation
-- A snapshot of their daily life
-
-WHAT THEY WANT
-- The bigger life or feeling they're after
-- The version of themselves they're becoming
-- What "winning" looks like to them
-
-WHAT THEY STRUGGLE WITH
-- Their core pain points, in their own words
-- What keeps them up at night
-- What they've tried that hasn't worked
-
-WHAT THEY FEAR
-- The deeper fears under the surface frustration
-- What they don't want their life to look like in 5 years
-
-THEIR LANGUAGE
-- Phrases that resonate, the ones that make them say "this is for me"
-- Phrases to avoid because they feel like marketing
-
-THEIR AWARENESS
-- How aware they are of the problem and of solutions
-
-If I have a profile or avatar built, ask me to share it and use it as the starting point.
-
-Make the file scannable: short sections, real language, no fluff. Create the file as ideal-client.md in my ABOUT ME folder.</div>
-
-<hr>
-
-<h3>File 3: my-company.md</h3>
-<p><em>Target length: under 1,000 words. Lives in your ABOUT ME folder.</em></p>
-<p>This file captures what your business is focused on right now — your goals, your current priorities, and what you're deliberately saying no to. It gives Claude the strategic context so its suggestions stay relevant and don't pull you off course.</p>
-
-<div class="code-block"><span class="label">Paste this prompt into Claude (same session)</span>Now help me build my my-company.md file. About-me.md covers who I am. Ideal-client.md covers who I serve. This file is only about my business goals, current focus, and decisions. No overlap.
-
-Interview me, one question at a time, 6 to 8 questions:
-
-GOALS
-- My top 2 to 3 goals for this year, with specific numbers or milestones
-- The one metric that would make this year a success
-- Revenue, audience, or product targets
-
-FOCUS
-- What I'm spending most of my energy on this quarter
-- Platforms or channels that matter most right now
-
-DECISIONS
-- What I'm actively saying no to
-- What I recently stopped doing, and why
-- Anything I'm betting on that most people in my field aren't
-
-Output: short, scannable. Bullet points over paragraphs. Three sections: Goals, Focus right now, Saying no to. Under 1,000 words.
-
-Create the file as my-company.md in my ABOUT ME folder.</div>
-
-<hr>
-
-<h3>File 4: anti-ai-writing-style.md</h3>
-<p><em>Target length: under 800 words. Lives in your ABOUT ME folder.</em></p>
-<p>This is your calibration file. It's a list of everything that makes AI writing sound like AI writing — the filler words, the hollow phrases, the corporate formatting, the patterns that make people stop reading. The more specific you make this file, the harder Claude will work to sound like a real person.</p>
-
-<div class="code-block"><span class="label">Paste this prompt into Claude (same session)</span>Last file. Help me build my anti-ai-writing-style.md.
-
-Interview me, one question at a time. Cover:
-
-WORDS I DON'T USE
-- Common AI words I find hollow (delve, harness, tapestry, leverage, unlock). Ask which ones I want to ban.
-- Industry jargon I avoid
-- Marketing cliches that bother me
-
-PATTERNS I REJECT
-- The "this isn't X, this is Y" reframe pattern
-- Excessive sentence fragments
-- Overuse of bullet points where prose would work
-
-FORMATTING I CARE ABOUT
-- Preferred sentence length
-- Preferred paragraph length
-- Capitalization preferences
-- Informal vs formal punctuation
-
-WHAT MY WRITING SHOULD ALWAYS DO
-- The 2 to 3 things every piece should achieve
-- Voice qualities that have to be present
-
-Write the file as a clear list of rules under section headings. Make it actionable. Create the file as anti-ai-writing-style.md in my ABOUT ME folder.</div>
+</div>
 
 <div class="callout">
-  <strong>Update these files as your business evolves</strong>
-  <p>Your business will change. Your goals will shift. New things will belong in these files, and old things will become outdated. Review all four files monthly and update them. Any change you make applies immediately to the next conversation — Claude reads them fresh every time.</p>
+  <strong>Keep this folder open every time you work</strong>
+  <p>VS Code remembers your last opened folder, so it usually reopens in the right place. If Claude ever says it can't find a file, the wrong folder is open. File &rarr; Open Folder &rarr; Claude fixes it.</p>
 </div>
 
+<h2>04 / The One Thing You Paste</h2>
 
-<!-- 06 -->
-<h2>06 / Your CLAUDE.md File</h2>
+<p class="lead">Click the Claude icon in the sidebar, start a conversation, and paste this whole box. That's the entire install.</p>
 
-<p class="lead">CLAUDE.md is the master instruction file. It tells Claude what to read, what to ignore, and how to behave in every single session. It lives at the root of your Claude folder — not inside any subfolder.</p>
+<div class="code-block"><span class="label">Paste this into Claude (use the Copy button)</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>Set up my Claude workspace. Follow these steps exactly.
 
-<p>Create a new file called <strong>CLAUDE.md</strong> in your main Claude folder (not inside ABOUT ME or PROJECTS — directly in Claude). Then paste the following into it:</p>
+1. Download my team's setup system by running these two commands:
 
-<div class="code-block"><span class="label">Your CLAUDE.md file content</span># [Your Name]'s Workspace
+curl -fsSL "https://agency-true-north.github.io/team-true-north/skills/setup/SKILL.md" --create-dirs -o ".claude/skills/setup/SKILL.md"
 
-Before any task, read every file in the About Me folder:
-- about-me.md — who I am, how I work, what I value
-- ideal-client.md — who I serve, the language they use
-- my-company.md — my current goals, focus, what I'm saying no to
-- anti-ai-writing-style.md — words, patterns, and formatting to avoid
+curl -fsSL "https://agency-true-north.github.io/team-true-north/skills/build-icp/SKILL.md" --create-dirs -o ".claude/skills/build-icp/SKILL.md"
 
-Use these together. About-me sets my voice. Ideal-client sets my audience. My-company sets the strategic context. Anti-ai-writing-style is the calibration layer.
+2. Read the file .claude/skills/setup/SKILL.md and follow it exactly, step by step, starting now.</div>
 
-Do not read the Projects folder on your own. Only read it when I point you to a specific file or subfolder.
-
-For active workstreams, I'll tell you which project we're working on. Read the files inside that project folder. Save deliverables back into that same project folder.
-
-If a brief is unclear, ask me. Don't fill gaps with guesses. Don't pad responses. Deliver clean work.</div>
-
-<div class="callout cacao">
-  <strong>Why CLAUDE.md matters</strong>
-  <p>This file is what makes your setup automatic. Without it, you'd need to re-explain your context at the start of every session. With it, Claude reads your foundation files before it does anything else — every time. Edit it whenever your workflow changes. The changes take effect immediately in your next conversation.</p>
+<div class="callout">
+  <strong>Claude will ask your permission as it works</strong>
+  <p>The first few times Claude downloads a file or creates a folder, a small prompt appears asking you to allow it. Click <strong>Yes</strong> or <strong>Allow</strong>. That's the approval system working, not something going wrong. You are always in charge of what Claude does on your computer.</p>
 </div>
 
+<div class="callout honey">
+  <strong>Life happened and you closed your laptop mid-setup?</strong>
+  <p>Paste the same box again in a new conversation. Claude keeps a progress file, sees exactly where you stopped, and picks up from there. Nothing is lost and nothing repeats.</p>
+</div>
 
-<!-- 07 -->
-<h2>07 / Verify and Daily Workflow</h2>
+<h2>05 / What Happens Next</h2>
 
-<p class="lead">Before you start using Claude for real work, verify that the setup is working correctly. Then build the daily habits that make the system compound over time.</p>
+<p class="lead">From here, setup is a conversation. Claude asks. You answer. No more pasting.</p>
 
-<h3>Verifying Your Setup</h3>
+<p>Here's the shape of what Claude will walk you through, so nothing surprises you:</p>
 
-<p>Start a new conversation in VS Code and paste this prompt:</p>
+<ul>
+  <li><strong>It looks before it asks.</strong> Claude first checks what it can already learn about you, and asks if you're coming from ChatGPT or Claude on the web so it can bring your history over instead of making you repeat yourself.</li>
+  <li><strong>It interviews you, one question at a time.</strong> Who you are, how you work, your goals, and the writing patterns you can't stand. Answer like you're talking to a friend. Honest and specific beats polished.</li>
+  <li><strong>The ideal client interview goes deep.</strong> This is the longest part and the most valuable. Early on, Claude asks whether your buyer is buying <em>for their own life</em> (a mom investing in her family's health) or <em>for their job</em> (a manager choosing a vendor for their company). Answer honestly. The whole interview reshapes itself around your answer.</li>
+  <li><strong>You approve every file before it's saved.</strong> Claude drafts, shows you, and only saves when you say yes. Your edits always win.</li>
+  <li><strong>It ends with proof.</strong> Claude writes a few lines in your voice, to your person, and asks one question: does this sound like you?</li>
+</ul>
 
-<div class="code-block"><span class="label">Verification prompt</span>Read my CLAUDE.md file and all files in my ABOUT ME folder. Then tell me:
-1. What do you know about who I am and how I work?
-2. What do you know about who I serve?
-3. What are my current business goals and priorities?
-4. What writing patterns should you avoid?
+<div class="callout">
+  <strong>Talk instead of type</strong>
+  <p><a href="https://wisprflow.ai">Wispr Flow</a> is a free voice-to-text tool that types as you speak, in any app. The interview goes twice as fast when you can just talk through your answers. Five minutes to set up, worth it for this step alone.</p>
+</div>
 
-Flag anything that seems thin, missing, or unclear so I know what to strengthen.</div>
+<h4>What you'll have when it's done</h4>
 
-<p>If Claude comes back with accurate, detailed answers — your foundation is working. If it flags gaps or gets something wrong, update the relevant file and run it again.</p>
+<p>Four foundation files (your voice, your ideal client, your company, your anti-AI writing rules), a full ideal-client dossier with your buyer's real language, a CLAUDE.md instruction file that loads all of it automatically every session, and a built-in <code>/weekly-check-in</code> command that keeps it all current. You never explain yourself to Claude again.</p>
 
-<hr>
+<h2>06 / Your Daily Workflow</h2>
 
-<h3>How to Start a Session</h3>
+<p class="lead">Every new conversation starts with Claude already knowing you. Just say what you're working on.</p>
 
-<p>Every new conversation in VS Code starts with Claude reading your CLAUDE.md, which triggers it to read your foundation files. You don't need to paste context every time — just tell Claude what you're working on.</p>
+<h4>How to start a session</h4>
 
-<p>Examples of good session openers:</p>
+<div class="code-block"><span class="label">For a new project</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>I'm starting a new project called [name]. Create a folder for it inside my PROJECTS folder, then let's begin.</div>
 
-<div class="code-block"><span class="label">For a new project</span>I'm starting a new project called [name]. Create a folder for it inside my PROJECTS folder, then let's begin.</div>
+<div class="code-block"><span class="label">For an existing project</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>Open the [project name] folder in PROJECTS. Here's what we're working on today: [brief]</div>
 
-<div class="code-block"><span class="label">For an existing project</span>Read my CLAUDE.md and then open the [project name] folder in PROJECTS. Here's what we're working on today: [brief]</div>
+<div class="code-block"><span class="label">For a one-off piece of content</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>I need [type of content] for [purpose]. It's for [audience description]. Here are the key points to include: [list]</div>
 
-<div class="code-block"><span class="label">For a one-off piece of content</span>I need [type of content] for [purpose]. It's for [audience description]. Here are the key points to include: [list]</div>
+<div class="code-block"><span class="label">For strategy work</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>I want to think through [topic]. Read my foundation files first, then let's have a working conversation. I'll share my thinking and I want pushback, suggestions, and clarity.</div>
 
-<div class="code-block"><span class="label">For strategy work</span>I want to think through [topic]. Read my foundation files first, then let's have a working conversation about this — I'll share my thinking and I want pushback, suggestions, and clarity.</div>
+<h4>How to close a session</h4>
 
-<hr>
+<div class="code-block"><span class="label">Save session notes</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>Summarize what we decided and built today. Save a session-notes.md file in the [project name] folder so we have a record.</div>
 
-<h3>How to Close a Session</h3>
+<div class="code-block"><span class="label">Draft the next opener</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>Write an opening prompt I can paste at the start of our next session to pick up exactly where we left off.</div>
 
-<p>At the end of any important conversation, use one or more of these prompts before closing:</p>
+<h4>Once a week</h4>
 
-<div class="code-block"><span class="label">Save session notes</span>Summarize what we decided and built today. Save a session-notes.md file in the [project name] folder so we have a record.</div>
+<p>Type <code>/weekly-check-in</code> at the start of any session. Claude reviews your foundation files, flags what's gone stale, and asks what changed in your business. Ten minutes. Setup already installed this for you; there's nothing to create.</p>
 
-<div class="code-block"><span class="label">Draft the next opener</span>Write an opening prompt I can paste at the start of our next session to pick up exactly where we left off.</div>
+<h2>07 / Troubleshooting</h2>
 
-<hr>
-
-<h3>Weekly Maintenance</h3>
-
-<p>Your foundation files are only as useful as they are current. Set a recurring reminder to review them every week — 10 minutes is enough. To automate this, you can create a weekly check-in skill that reviews your files and flags what needs updating.</p>
-
-<p>To create the skill, paste this prompt into Claude:</p>
-
-<div class="code-block"><span class="label">Create the weekly check-in skill</span>Create a custom slash command called weekly-check-in. Save it as a markdown file at .claude/commands/weekly-check-in.md in my Claude workspace.
-
-The command should instruct Claude to:
-1. Read all four foundation files in my ABOUT ME folder
-2. Review each one for content that may be outdated, missing, or too thin
-3. Suggest specific edits or additions for each file, quoting the exact text to change
-4. Flag any file that has grown beyond its target length (about-me: 2,000 words / ideal-client: 1,500 words / my-company: 1,000 words / anti-ai: 800 words)
-5. Ask me one question: what has changed in your business since the last review?
-
-After creating the file, confirm the path so I can verify it exists.</div>
-
-<p>After creating it, type <code>/weekly-check-in</code> at the start of any session and Claude will run through all four files and surface what needs attention. If the command doesn't trigger, confirm the file was saved to <code>.claude/commands/weekly-check-in.md</code> — the folder and file name must match exactly.</p>
-
-
-<!-- 08 -->
-<h2>08 / Quick Reference and Troubleshooting</h2>
-
-<p class="lead">Common problems and how to fix them. If something feels off, check here first before assuming the setup is broken.</p>
+<p>Check here before assuming anything is broken.</p>
 
 <table>
-  <thead>
-    <tr>
-      <th>The Problem</th>
-      <th>What's Causing It</th>
-      <th>How to Fix It</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Writing sounds generic</strong></td>
-      <td>anti-ai-writing-style.md is too vague</td>
-      <td>Add more specific examples of words and patterns to avoid</td>
-    </tr>
-    <tr>
-      <td><strong>Claude keeps asking what it already knows</strong></td>
-      <td>CLAUDE.md isn't being read — likely a file path issue</td>
-      <td>Confirm CLAUDE.md is in the root Claude folder, not inside a subfolder</td>
-    </tr>
-    <tr>
-      <td><strong>Decisions or goals aren't reflected</strong></td>
-      <td>my-company.md is out of date</td>
-      <td>Update it to reflect your current focus and priorities</td>
-    </tr>
-    <tr>
-      <td><strong>File not found errors</strong></td>
-      <td>Wrong folder is open in VS Code</td>
-      <td>File → Open Folder → select your Claude folder</td>
-    </tr>
-    <tr>
-      <td><strong>Responses getting slow or confused</strong></td>
-      <td>Conversation has gotten too long</td>
-      <td>Start a fresh conversation — long threads degrade quality over time</td>
-    </tr>
-    <tr>
-      <td><strong>Output doesn't match your audience</strong></td>
-      <td>ideal-client.md needs more detail</td>
-      <td>Add specific language your clients use and update the awareness level</td>
-    </tr>
-    <tr>
-      <td><strong>Claude goes off-brief without asking</strong></td>
-      <td>Instruction was ambiguous</td>
-      <td>Be more specific in your prompt, or add "ask me if anything is unclear" at the end</td>
-    </tr>
-  </tbody>
+  <tr>
+    <th>The Problem</th>
+    <th>What's Causing It</th>
+    <th>How to Fix It</th>
+  </tr>
+  <tr>
+    <td>Setup got interrupted</td>
+    <td>Closed laptop, lost connection, ended the chat</td>
+    <td>Paste the Section 04 box again in a new conversation. It resumes where you stopped.</td>
+  </tr>
+  <tr>
+    <td>The download step fails</td>
+    <td>A hiccup reaching the team site</td>
+    <td>Tell Claude: "Try the downloads again, and if they still fail, use raw.githubusercontent.com/Agency-True-North/team-true-north/main/ instead of the team site address."</td>
+  </tr>
+  <tr>
+    <td>Claude keeps asking permission</td>
+    <td>Nothing. That's the approval system.</td>
+    <td>Click Yes or Allow. It settles down after the first few.</td>
+  </tr>
+  <tr>
+    <td>Writing sounds generic</td>
+    <td>anti-ai-writing-style.md is too vague</td>
+    <td>Run /weekly-check-in and add specific words and patterns to ban</td>
+  </tr>
+  <tr>
+    <td>Claude asks what it already knows</td>
+    <td>Wrong folder is open, so CLAUDE.md isn't being read</td>
+    <td>File &rarr; Open Folder &rarr; select your Claude folder</td>
+  </tr>
+  <tr>
+    <td>File not found errors</td>
+    <td>Same cause: wrong folder open</td>
+    <td>Same fix: File &rarr; Open Folder &rarr; Claude</td>
+  </tr>
+  <tr>
+    <td>Responses getting slow or confused</td>
+    <td>The conversation has gotten too long</td>
+    <td>Start a fresh conversation. Long threads degrade quality.</td>
+  </tr>
 </table>
 
-<div class="phase">
-  <div class="phase-header">
-    <span class="phase-badge">Reminders</span>
-    <span class="phase-title">Keep these habits in place</span>
-  </div>
-  <ul>
-    <li><strong>One task per conversation.</strong> Long, multi-topic threads produce worse output. Start fresh when you switch focus.</li>
-    <li><strong>CLAUDE.md runs every session.</strong> Any edits you make take effect immediately in the next conversation.</li>
-    <li><strong>Update foundation files monthly at minimum.</strong> Stale files produce stale output.</li>
-    <li><strong>You are always in authority.</strong> Claude proposes. You decide. That's the relationship.</li>
-  </ul>
-</div>
-
-
-<!-- 09 -->
-<h2>09 / Bring In Existing Assets (Optional)</h2>
-
-<p class="lead">If you have existing content — past campaigns, brand guidelines, scripts, email sequences — Claude can audit them and pull out what's worth keeping in your system.</p>
-
-<p>Drop relevant files into a BRAND folder inside your Claude workspace, then run this prompt:</p>
-
-<div class="code-block"><span class="label">Asset audit prompt</span>I've added some existing brand assets and content to my BRAND folder. Please review everything in there and tell me:
-
-1. What content is still relevant and worth keeping?
-2. What patterns do you notice in my existing work — voice, structure, recurring themes?
-3. What should be added to my foundation files based on what you found?
-4. Is there anything I should retire or stop doing?</div>
-
-<p>To set up a dedicated BRAND folder that Claude references before any visual or design work:</p>
-
-<div class="code-block"><span class="label">Brand folder setup prompt</span>Create a BRAND folder in my Claude workspace. Inside it, create a brand-basics.md file that documents:
-
-- My brand colors (I'll provide the hex codes)
-- My fonts
-- Logo usage rules
-- Voice and tone notes
-- Things that are off-brand
-
-Then update my CLAUDE.md to tell Claude to read brand-basics.md before any visual or design-related work.</div>
-
-
-<!-- 10 -->
-<h2>10 / Secure Your API Keys (Optional)</h2>
-
-<p class="lead">If you start using Claude to run automations or connect to other tools, you'll be working with API keys — private credentials that should never appear in your chat history or files. Doppler is the tool that keeps them safe.</p>
-
-<p>Doppler is a free secrets vault. Instead of pasting credentials into chat or saving them in your files, Doppler injects them securely at runtime — meaning Claude can use them without them ever being exposed.</p>
-
-<div class="callout honey">
-  <strong>Critical rule: never paste API keys into chat</strong>
-  <p>If an API key appears in a conversation, in a file, or anywhere Claude can see it in plain text, it is no longer secure. Rotate it immediately and set up Doppler before continuing.</p>
-</div>
-
-<div class="steps">
-  <div class="step">
-    <div class="step-num">1</div>
-    <div class="step-body">
-      <h4>Create a free Doppler account</h4>
-      <p>Go to <strong>doppler.com</strong> and sign up for free. No credit card required.</p>
-    </div>
-  </div>
-  <div class="step">
-    <div class="step-num">2</div>
-    <div class="step-body">
-      <h4>Ask Claude to install the Doppler CLI</h4>
-      <p>In your VS Code chat, paste: <em>"Install the Doppler CLI on my computer so I can use it to manage API keys securely."</em> Claude will walk you through the installation steps for your operating system.</p>
-    </div>
-  </div>
-  <div class="step">
-    <div class="step-num">3</div>
-    <div class="step-body">
-      <h4>Create a project in Doppler and add your keys</h4>
-      <p>In your Doppler dashboard, create a project. Add your API keys as environment variables with clear names in all-caps — for example: <code>OPENAI_API_KEY</code>, <code>GHL_API_KEY</code>. Never name them vaguely.</p>
-    </div>
-  </div>
-  <div class="step">
-    <div class="step-num">4</div>
-    <div class="step-body">
-      <h4>Run tools through Doppler</h4>
-      <p>When running scripts that need API keys, use this format: <code>doppler run -- python3 script.py</code>. Doppler injects the keys at runtime without exposing them in the command or in any file.</p>
-    </div>
-  </div>
-</div>
-
-<p>Once Doppler is set up, add this line to your CLAUDE.md:</p>
-
-<div class="code-block"><span class="label">Add to CLAUDE.md</span>Security rule: Never paste API keys, passwords, or credentials into the chat. If an automation requires a credential, retrieve it from Doppler using `doppler run --` and confirm with me before proceeding.</div>
-
-
-<!-- 11 -->
-<h2>11 / Access Your Foundation Files on Mobile (Optional)</h2>
-
-<p class="lead">Your foundation files live on your computer. But there are two ways to bring that same context into mobile Claude conversations so you're not starting from scratch on your phone.</p>
-
-<h3>Option A — Claude Projects (Simplest)</h3>
-
-<p>Claude Projects is a feature inside claude.ai that lets you upload files Claude will reference in every conversation within that project. It works on both desktop and mobile.</p>
-
-<div class="steps">
-  <div class="step">
-    <div class="step-num sky">1</div>
-    <div class="step-body">
-      <h4>Create a Project on claude.ai</h4>
-      <p>Go to <strong>claude.ai</strong>, click <em>Projects</em> in the left sidebar, and create a new project called <em>My Foundation</em>.</p>
-    </div>
-  </div>
-  <div class="step">
-    <div class="step-num sky">2</div>
-    <div class="step-body">
-      <h4>Upload your four foundation files</h4>
-      <p>Inside the project, upload <strong>about-me.md</strong>, <strong>ideal-client.md</strong>, <strong>my-company.md</strong>, and <strong>anti-ai-writing-style.md</strong>. These will be attached to every conversation in the project.</p>
-    </div>
-  </div>
-  <div class="step">
-    <div class="step-num sky">3</div>
-    <div class="step-body">
-      <h4>Use the project on mobile</h4>
-      <p>Download the Claude app (iOS or Android). Sign in with the same account. Open the project — Claude will have access to your foundation files in every conversation inside it.</p>
-    </div>
-  </div>
-  <div class="step">
-    <div class="step-num sky">4</div>
-    <div class="step-body">
-      <h4>Keep files current</h4>
-      <p>When you update a foundation file in VS Code, re-upload it to your Claude Project. Delete the old version and upload the new one. It takes under a minute.</p>
-    </div>
-  </div>
-</div>
-
-<hr>
-
-<h3>Option B — GitHub Backup (For Archiving and Safety)</h3>
-
-<p>Even if you don't need mobile access, backing your Claude workspace up to a private GitHub repository is a good habit. If you ever lose your computer or need to set up on a new machine, your entire foundation is recoverable in minutes.</p>
-
-<div class="callout honey">
-  <strong>Run this before your first push</strong>
-  <p>Before syncing to GitHub, ask Claude to check your workspace for sensitive content: <em>"Review all files in my Claude workspace and flag anything sensitive — passwords, personal details, private client info, or anything I'd be uncomfortable having stored online. Create a .gitignore file for anything that should be excluded."</em></p>
-</div>
-
-<div class="steps">
-  <div class="step">
-    <div class="step-num">1</div>
-    <div class="step-body">
-      <h4>Connect your workspace to a private GitHub repo</h4>
-      <p>In your VS Code chat, paste: <em>"Connect my local Claude folder to a new private GitHub repository and push the contents. Walk me through each step."</em> Claude will guide you through creating the repo and completing the first push.</p>
-    </div>
-  </div>
-  <div class="step">
-    <div class="step-num">2</div>
-    <div class="step-body">
-      <h4>Keep it updated</h4>
-      <p>After any significant update to your foundation files, push the changes. Open the terminal in VS Code and run: <code>git add . &amp;&amp; git commit -m "update files" &amp;&amp; git push</code>. Or just ask Claude to push for you.</p>
-    </div>
-  </div>
-</div>
-
-
-<!-- 12 -->
-<h2>12 / What's Next — Building Automations</h2>
-
-<p class="lead">Once your foundation is solid, you can start building automations — recurring tasks that Claude handles for you with minimal input. Campaign creation, data population, report formatting, content scheduling. The same Plan Mode approval process applies.</p>
-
-<p>The key to good automations is front-loading the context. A well-briefed Claude that understands your system fully will handle 90% of a task correctly. The remaining 10% — review, judgment calls, final approval — stays with you. That's not a limitation. That's the right division of labour.</p>
-
 <div class="callout cacao">
-  <strong>Train Claude to be resourceful</strong>
-  <p>The most common automation frustration is Claude stopping to ask questions you've already answered in your foundation files. If this happens, your files probably need updating. The more complete your context, the less Claude needs to interrupt you — and the more it can handle independently.</p>
+  <strong>Keep these habits in place</strong>
+  <p>One task per conversation. Start fresh when you switch focus.</p>
+  <p>Your CLAUDE.md runs every session. Edits take effect in the very next conversation.</p>
+  <p>Update foundation files monthly at minimum. Stale files produce stale output.</p>
+  <p>You are always in authority. Claude proposes. You decide.</p>
 </div>
 
-<p>To kick off any new automation project, paste this prompt:</p>
+<h2>08 / When You're Ready for More</h2>
 
-<div class="code-block"><span class="label">Automation kickoff prompt</span>I want to build an automation for [describe the task].
+<p class="lead">Everything below is optional, and none of it needs a guide. You just ask Claude.</p>
+
+<h4>Bring in existing brand assets</h4>
+<p>If you have past campaigns, brand guidelines, or scripts, drop them in a folder called BRAND inside your Claude folder, then paste:</p>
+<div class="code-block"><span class="label">Asset audit</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>I've added existing brand assets to my BRAND folder. Review everything in there and tell me: what's worth keeping, what patterns you notice in my voice and structure, what should be added to my foundation files, and what I should retire.</div>
+
+<h4>Use your foundation on your phone</h4>
+<div class="code-block"><span class="label">Mobile access</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>I want to use my foundation files in the Claude mobile app. Walk me through setting up a Claude Project on claude.ai with my four ABOUT ME files uploaded, step by step.</div>
+
+<h4>Back up your workspace</h4>
+<p>A free GitHub account backs up your whole workspace so it's never lost, even if your computer is. Create the account at <a href="https://github.com">github.com</a> with the same email you used for Claude, then paste:</p>
+<div class="code-block"><span class="label">GitHub backup</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>First review all files in my workspace and flag anything sensitive that shouldn't be stored online, and exclude it. Then connect my Claude folder to a new private GitHub repository and push the contents. Walk me through each step; I've never used GitHub.</div>
+
+<h4>Build your first automation</h4>
+<div class="code-block"><span class="label">Automation kickoff</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>I want to build an automation for [describe the task].
 
 Before you build anything:
 1. Read my CLAUDE.md and foundation files
 2. Create a new folder inside PROJECTS called [automation name]
-3. Draft a plan: what the automation will do, what inputs it needs from me, what it will produce, and where it will save the output
-4. Present the plan for my review before writing a single line
+3. Draft a plan: what it will do, what it needs from me, what it produces, and where it saves output
+4. Present the plan for my review before building
 
 I'll approve the plan before we proceed.</div>
 
-<p>For deeper learning on automation and what's possible with Claude, the <strong>claude101.com</strong> resource by Ruben Hassid provides structured guides for building more advanced workflows.</p>
+<div class="callout honey">
+  <strong>One rule for anything involving passwords or API keys</strong>
+  <p>Never paste a password or API key into the chat. If an automation needs a credential, tell Claude and it will help you set up a secure way to store it (a free tool called Doppler). If a key ever lands in a conversation by accident, treat it as exposed and replace it.</p>
+</div>
 
-<div class="ornament">· · ·</div>
+<div class="ornament">&middot; &middot; &middot;</div>
 
 <div class="callout honey">
   <strong>You're set up. Here's what to do next.</strong>
-  <p>Close this guide and open VS Code. Run the verification prompt from Section 08. If everything comes back accurately, start your first real task. If something is thin or missing, update the relevant file and run it again. The setup compounds — every improvement you make to your foundation files makes every future output better. That's the point.</p>
+  <p>Close this guide and open VS Code. Start a conversation and give Claude your first real task. The setup compounds: every improvement you make to your foundation files makes every future output better. That's the point.</p>
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Claude Setup Guide</strong> &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; June 2026</div>
+  <div class="footer-meta">Team True North &nbsp;&middot;&nbsp; <strong>Claude Setup Guide</strong> &nbsp;&middot;&nbsp; Version 2.0 &nbsp;&middot;&nbsp; July 2026</div>
 </div>
+
+<script>
+function copyBlock(btn) {
+  var clone = btn.parentElement.cloneNode(true);
+  var strip = clone.querySelectorAll('.label, .copy-btn');
+  for (var i = 0; i < strip.length; i++) strip[i].remove();
+  navigator.clipboard.writeText(clone.textContent.trim()).then(function () {
+    btn.textContent = 'Copied ✓';
+    setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+  });
+}
+</script>
 
 </body>
 </html>
