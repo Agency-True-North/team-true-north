@@ -454,9 +454,9 @@
 <div class="cover">
   <div class="eyebrow">Team Setup Guide</div>
   <h1>Content Multiplier<br>Skill Install</h1>
-  <div class="version">Version 1.0</div>
+  <div class="version">Version 2.0</div>
   <div class="byline">Team True North</div>
-  <div class="subtitle">Five steps, two things to copy and paste. At the end, one finished piece of content becomes your email, essay, carousel, caption, and stories on command.</div>
+  <div class="subtitle">Five steps, two things to copy and paste. At the end, one idea becomes your reel, your carousel as finished images in your own brand colors, your email, your caption, and your stories on command.</div>
   <div class="pills">
     <span class="pill sky">Claude Code</span>
     <span class="pill honey">Setup</span>
@@ -467,7 +467,8 @@
 <!-- OPENING CALLOUT -->
 <div class="callout cacao">
   <strong>What you're installing</strong>
-  <p>A "skill" is a small instruction file that lives on your computer. Claude Code reads it automatically and learns the multiplier: you hand it ONE finished piece (a reel script, an essay, an email, or a raw voice memo) and it fans that piece out into the other formats. Every output runs through your content engine's critic before you see it, so everything still sounds like you and still holds the sales structure.</p>
+  <p>A "skill" is a small set of files that lives on your computer. Claude Code reads it automatically and learns the multiplier: you hand it ONE idea or finished piece and it makes the rest. Ask for a reel and you get the full Instagram package: the reel script you film, a companion carousel or quote post rendered as finished PNG images in YOUR brand colors, and a comment reply pack written ready to paste. Hand it a finished piece and it fans out into email, essay, carousel, caption, and stories. Every output runs through your content engine's critic before you see it, so everything still sounds like you and still holds the sales structure.</p>
+  <p>New in version 2: the first time you run it, Claude interviews you about your posting cadence and your brand palette. Both get saved, and every run after that ends with a posting map built for your actual week.</p>
   <p>Everything you need to copy is in a gold-labeled box. Copy the whole box, nothing else.</p>
 </div>
 
@@ -481,13 +482,13 @@
   <h3>The Steps</h3>
   <ol>
     <li><span class="num">01</span> Before you start</li>
-    <li><span class="num">02</span> Step 1 — Open Claude Code</li>
-    <li><span class="num">03</span> Step 2 — Paste the install message</li>
-    <li><span class="num">04</span> Step 3 — Restart Claude Code</li>
-    <li><span class="num">05</span> Step 4 — Check it took</li>
-    <li><span class="num">06</span> Step 5 — Multiply your first piece</li>
+    <li><span class="num">02</span> Step 1: Open Claude Code</li>
+    <li><span class="num">03</span> Step 2: Paste the install message</li>
+    <li><span class="num">04</span> Step 3: Restart Claude Code</li>
+    <li><span class="num">05</span> Step 4: Check it took</li>
+    <li><span class="num">06</span> Step 5: Run your first piece</li>
     <li><span class="num">07</span> If something goes wrong</li>
-    <li><span class="num">08</span> Updating the skill later</li>
+    <li><span class="num">08</span> Already installed? The one-paste update</li>
   </ol>
 </div>
 
@@ -498,73 +499,78 @@
 <ul class="checklist">
   <li><span class="box"></span> <strong>Claude Code is installed and working.</strong> If it isn't, do the <a href="Claude%20Setup%20Guide.html">Claude Setup Guide</a> first, then come back here.</li>
   <li><span class="box"></span> <strong>Your Content Engine is installed AND set up.</strong> That means you ran the engine setup, approved your voice spec, and <em>/engine</em> works for you. The <a href="Content%20Engine%20Guide.html">Content Engine Guide</a> covers all of it.</li>
-  <li><span class="box"></span> <strong>You have one finished piece of content</strong> you're happy with — a reel script, an essay, an email, or even a raw voice memo transcript. That's what you'll multiply in Step 5.</li>
+  <li><span class="box"></span> <strong>You have one idea or one finished piece</strong> you're happy with. A topic you want a reel about, a quote you loved, a reel script, an essay, an email, or a raw voice memo transcript. That's what you'll run in Step 5.</li>
+  <li><span class="box"></span> <strong>Your computer has Chrome, Edge, or Brave on it.</strong> The multiplier uses one of them behind the scenes to render your carousel images. Almost every computer already has one; if yours doesn't, install Chrome first.</li>
 </ul>
 
 
 <!-- 02 -->
-<h2>02 / Step 1 — Open Claude Code</h2>
+<h2>02 / Step 1: Open Claude Code</h2>
 
 <div class="phase">
   <div class="phase-header">
     <span class="phase-badge">Step 1</span>
     <span class="phase-title">Open a Claude Code session</span>
   </div>
-  <p>Open Claude Code the way you normally do — the terminal, the desktop app, or the VS Code extension. Any folder is fine for the install. You just need a chat box you can type into.</p>
+  <p>Open Claude Code the way you normally do: the terminal, the desktop app, or the VS Code extension. Any folder is fine for the install. You just need a chat box you can type into.</p>
 </div>
 
 
 <!-- 03 -->
-<h2>03 / Step 2 — Paste the Install Message</h2>
+<h2>03 / Step 2: Paste the Install Message</h2>
 
 <div class="phase">
   <div class="phase-header">
     <span class="phase-badge">Step 2</span>
     <span class="phase-title">Copy the box below and paste it into Claude Code</span>
   </div>
-  <p>Copy everything inside the gold-labeled box — the whole thing, exactly as written. Paste it into Claude Code and press enter. Claude will download the skill file and put it in the right place. If Claude asks permission to create the file or fetch the link, approve it.</p>
+  <p>Copy everything inside the gold-labeled box, the whole thing, exactly as written. Paste it into Claude Code and press enter. The skill is three files now (the instructions, the image renderer, and a reference file), and Claude will download all three and put them in the right place. If Claude asks permission to create the files or fetch the links, approve it.</p>
 </div>
 
 <div class="cmd-card">
   <div class="cmd-label">Copy and paste this into Claude Code</div>
-  <div class="cmd">Create the file ~/.claude/skills/multiply/SKILL.md with the exact contents of https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/SKILL.md — download it, don't rewrite it. When you're done, show me the first 10 lines of the file so I can confirm it worked.</div>
+  <div class="cmd">Create the folder ~/.claude/skills/multiply/ and download these three files into it with their exact contents (download them, don't rewrite them):
+https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/SKILL.md
+https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/render-carousel.py
+https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/palette-example.json
+When you're done, show me the first 10 lines of SKILL.md and confirm all three files exist so I know it worked.</div>
 </div>
 
 <div class="callout">
   <strong>Works on Mac and Windows</strong>
-  <p>Claude figures out the right folder on your machine. You don't need to know where it is — the message above handles it on either system.</p>
+  <p>Claude figures out the right folder on your machine. You don't need to know where it is. The message above handles it on either system.</p>
 </div>
 
 <div class="callout honey">
-  <strong>Comfortable in the terminal? (Optional — Mac only)</strong>
+  <strong>Comfortable in the terminal? (Optional, Mac only)</strong>
   <p>This one-line command does the same thing without Claude's help. Skip it if Step 2 already worked:</p>
 </div>
 
 <div class="cmd-card">
-  <div class="cmd-label sky">Optional — Mac Terminal Alternative</div>
-  <div class="cmd">mkdir -p ~/.claude/skills/multiply &amp;&amp; curl -fsSL -o ~/.claude/skills/multiply/SKILL.md "https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/SKILL.md"</div>
+  <div class="cmd-label sky">Optional Mac Terminal Alternative</div>
+  <div class="cmd">mkdir -p ~/.claude/skills/multiply &amp;&amp; cd ~/.claude/skills/multiply &amp;&amp; curl -fsSL -O "https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/SKILL.md" -O "https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/render-carousel.py" -O "https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/palette-example.json"</div>
 </div>
 
 <h4>Prefer a Download Instead?</h4>
-<p>Same skill, packaged as a zip with an install README inside. Unzip it and copy the <strong>multiply</strong> folder into <strong>~/.claude/skills/</strong> — the README walks you through it.</p>
+<p>Same skill, packaged as a zip with an install README inside. Unzip it and copy the <strong>multiply</strong> folder into <strong>~/.claude/skills/</strong>. The README walks you through it.</p>
 <a class="dl-btn" href="Content%20Multiplier%20Skill.zip" download>&#8681;&nbsp; Download Skill (.zip)</a>
 <p class="dl-note">Contains multiply + install README</p>
 
 
 <!-- 04 -->
-<h2>04 / Step 3 — Restart Claude Code</h2>
+<h2>04 / Step 3: Restart Claude Code</h2>
 
 <div class="phase">
   <div class="phase-header">
     <span class="phase-badge">Step 3</span>
     <span class="phase-title">Close the session and start a fresh one</span>
   </div>
-  <p>Skills load when a session starts, so the one you just installed isn't visible to the session that installed it. End the current session and open a new one — this time in the folder where your content engine lives (the workspace with your <em>engine</em> folder in it). That's where the multiplier works.</p>
+  <p>Skills load when a session starts, so the one you just installed isn't visible to the session that installed it. End the current session and open a new one, this time in the folder where your content engine lives (the workspace with your <em>engine</em> folder in it). That's where the multiplier works.</p>
 </div>
 
 
 <!-- 05 -->
-<h2>05 / Step 4 — Check It Took</h2>
+<h2>05 / Step 4: Check It Took</h2>
 
 <div class="phase">
   <div class="phase-header">
@@ -581,32 +587,44 @@
 
 
 <!-- 06 -->
-<h2>06 / Step 5 — Multiply Your First Piece</h2>
+<h2>06 / Step 5: Run Your First Piece</h2>
 
 <div class="phase">
   <div class="phase-header">
     <span class="phase-badge">Step 5</span>
     <span class="phase-title">Hand Claude one finished piece</span>
   </div>
-  <p>Pick your best recent piece — a reel script, an essay, an email, or a raw voice memo transcript. Paste it into Claude Code using the shape below. The three context lines on top tell the multiplier what the content belongs to and where each piece should point.</p>
+  <p>The first run starts with a short interview: your posting cadence (how often you post, which days, how far one piece should stretch) and your brand palette (your colors, your fonts, your handle). If you already have brand colors somewhere, paste the hex codes or share a screenshot and Claude pulls them out. If you don't, Claude builds the palette with you, one question at a time, and renders a sample so you can see it before saying yes. Both get saved. You will not be asked again.</p>
+  <p>Then hand it something. The easiest first run is a reel:</p>
 </div>
 
 <div class="cmd-card">
-  <div class="cmd-label">Copy, fill in your piece, then paste into Claude Code</div>
+  <div class="cmd-label">Copy, fill in your topic, then paste into Claude Code</div>
+  <div class="cmd">/multiply
+
+Make me a reel about [your topic, your idea, or the quote you loved].
+Offer: [what this content belongs to, or "none this week"]
+CTA: [where it points: your offer, a freebie, follow, or none]</div>
+</div>
+
+<p>You get three pieces that feed each other: the reel script you film, a companion carousel or quote post rendered as finished PNG images in your palette (you approve the words in chat, then a mockup page of every slide, then the files land in a folder on your computer), and a comment reply pack written ready to paste. It closes with a posting map matched to your cadence.</p>
+
+<div class="cmd-card">
+  <div class="cmd-label">Or multiply a finished piece</div>
   <div class="cmd">/multiply
 
 Multiply this into an email, an essay, a carousel, a caption, and stories.
-Offer: [what this content belongs to — or "none this week"]
-CTA: [where each piece points — your offer, a freebie, follow, or none]
+Offer: [what this content belongs to, or "none this week"]
+CTA: [where each piece points: your offer, a freebie, follow, or none]
 
 [paste your finished piece or memo here]</div>
 </div>
 
-<p>Claude builds a source sheet first — your one idea plus your best lines kept word for word — then drafts each format and runs every one through your engine's critic and revise loop. You get each finished piece with its critic verdict. Your original piece never gets rewritten; it's the source of truth.</p>
+<p>Claude builds a source sheet first (your one idea plus your best lines kept word for word), then drafts each format and runs every one through your engine's critic and revise loop. You get each finished piece with its critic verdict. Your original piece never gets rewritten; it's the source of truth.</p>
 
 <div class="callout">
   <strong>Have a podcast?</strong>
-  <p>Add "and podcast episode ideas" to the first line and the multiplier will pitch 3 to 5 episodes from the same piece — titles, premises, and how you'd open each one.</p>
+  <p>Add "and podcast episode ideas" to the first line and the multiplier will pitch 3 to 5 episodes from the same piece: titles, premises, and how you'd open each one.</p>
 </div>
 
 
@@ -614,27 +632,43 @@ CTA: [where each piece points — your offer, a freebie, follow, or none]
 <h2>07 / If Something Goes Wrong</h2>
 
 <ul>
-  <li><strong>The skill isn't in the list at Step 4.</strong> Make sure you started a <em>new</em> session after installing — skills don't appear in the session that created them. If it's still missing, re-run Step 2 and check that Claude confirms the file was created.</li>
-  <li><strong>Claude says the engine is missing.</strong> The multiplier needs your content engine in the same workspace — open Claude Code in the folder that has your <em>engine</em> folder in it. If you never built one, do the <a href="Content%20Engine%20Guide.html">Content Engine Guide</a> first.</li>
-  <li><strong>Claude says it can't reach the link.</strong> Check your internet connection and paste the Step 2 message again — the link must stay on one line, exactly as written.</li>
-  <li><strong>Claude wrote its own version instead of downloading.</strong> Re-run Step 2 — the message says "download it, don't rewrite it" for exactly this reason. The file should start with three dashes and <em>name: multiply</em>.</li>
-  <li><strong>Still stuck.</strong> Bring it to the weekly call — two minutes of screen share solves what an hour of guessing won't.</li>
+  <li><strong>The skill isn't in the list at Step 4.</strong> Make sure you started a <em>new</em> session after installing; skills don't appear in the session that created them. If it's still missing, re-run Step 2 and check that Claude confirms all three files were created.</li>
+  <li><strong>Claude says the engine is missing.</strong> The multiplier needs your content engine in the same workspace, so open Claude Code in the folder that has your <em>engine</em> folder in it. If you never built one, do the <a href="Content%20Engine%20Guide.html">Content Engine Guide</a> first.</li>
+  <li><strong>Claude says it can't reach the links.</strong> Check your internet connection and paste the Step 2 message again. Each link must stay on its own line, exactly as written.</li>
+  <li><strong>Claude wrote its own version instead of downloading.</strong> Re-run Step 2; the message says "download them, don't rewrite them" for exactly this reason. SKILL.md should start with three dashes and <em>name: multiply</em>.</li>
+  <li><strong>Claude says it can't find a browser to render with.</strong> The renderer needs Chrome, Edge, or Brave installed. Install one and tell Claude to try the render again.</li>
+  <li><strong>The carousel images look wrong.</strong> Don't fix them by hand. Tell Claude what's off ("the accent color is too dark," "the headline is cramped") on the mockup page step; it adjusts and rebuilds until it looks like you.</li>
+  <li><strong>Still stuck.</strong> Bring it to the weekly call. Two minutes of screen share solves what an hour of guessing won't.</li>
 </ul>
 
 
 <!-- 08 -->
-<h2>08 / Updating the Skill Later</h2>
+<h2>08 / Already Installed? The One-Paste Update</h2>
 
-<p class="lead">When the system improves, the master file on GitHub gets updated — but your copy doesn't update itself. When you hear on a team call that the skill changed, just run Step 2 again. Same message, same box. It overwrites the old version and you're current.</p>
+<p class="lead">When the system improves, the master files on GitHub get updated, but your copy doesn't update itself. When you hear on a team call that the skill changed, updating takes one paste. You don't lose anything: your brand palette and your cadence live in your workspace, not in the skill folder, and updates never touch them.</p>
+
+<div class="cmd-card">
+  <div class="cmd-label">Copy and paste this into Claude Code</div>
+  <div class="cmd">My Content Multiplier skill has an update. Download these three files into ~/.claude/skills/multiply/ with their exact contents, overwriting what's there (download them, don't rewrite them):
+https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/SKILL.md
+https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/render-carousel.py
+https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/multiply/palette-example.json
+Don't touch my brand folder or anything else in my workspace. When you're done, tell me in plain words what changed from the version I had.</div>
+</div>
+
+<div class="callout">
+  <strong>Installed before September 2026?</strong>
+  <p>Your copy is version 1 and has one file where version 2 has three. The paste above brings you fully current in one step. Restart Claude Code afterward, and the first run will ask the new cadence and palette questions.</p>
+</div>
 
 <div class="callout cacao">
   <strong>The point of all this</strong>
-  <p>You already did the hard part: you made one piece that works. The multiplier makes sure that piece doesn't live and die in one format. One recording session becomes a week of content — in your voice, checked by your critic, with your exact lines protected. Your job stays the human part: make the one good piece, then make the call on what ships.</p>
+  <p>You already did the hard part: you made one piece that works. The multiplier makes sure that piece doesn't live and die in one format. One recording session becomes a week of content, in your voice, checked by your critic, with your exact lines protected. Your job stays the human part: make the one good piece, then make the call on what ships.</p>
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Content Multiplier Skill Install</strong> &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; July 2026</div>
+  <div class="footer-meta">Team True North &nbsp;·&nbsp; <strong>Content Multiplier Skill Install</strong> &nbsp;·&nbsp; Version 2.0 &nbsp;·&nbsp; September 2026</div>
 </div>
 
 </body>

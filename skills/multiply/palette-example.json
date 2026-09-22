@@ -1,0 +1,22 @@
+{
+  "_note": "EXAMPLE ONLY. This is Shannon's palette, shown so you can see every decision a brand palette needs. Do not copy her values; the palette interview in SKILL.md builds yours. Only the keys below _derived are required; the renderer computes the rest from them if you leave them out.",
+  "handle": "@shannonmcclintock",
+  "background": "#F5EDE3",
+  "text": "#3D2314",
+  "accent": "#C4714A",
+  "soft": "#F0DEDA",
+  "serif_font": "Georgia, serif",
+  "sans_font": "'Avenir Next', Avenir, 'Segoe UI', sans-serif",
+  "_derived": "everything below is optional — override only if the computed value looks off",
+  "accent_deep": "#A85A38",
+  "divider": "#E2D3BF",
+  "quote_border": "#D4A5A5",
+  "footer": "#7A5F4C",
+  "dark_bg": "#3D2314",
+  "dark_text": "#F5EDE3",
+  "dark_muted": "#B99F8C",
+  "cta_bg": "#C4714A",
+  "cta_text": "#FFFFFF",
+  "cta_soft": "#FFEFE4",
+  "cta_muted": "#F2D2BC"
+}
