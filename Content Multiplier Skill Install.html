@@ -327,32 +327,30 @@
   .phase ul, .phase ol { margin: 0 0 4px; }
   .phase li { font-size: 15px; }
 
-  /* COPY-PASTE CARDS */
+  /* COPY-PASTE CARDS — the black box, same as every other guide */
   .cmd-card {
-    border: 1px solid var(--rule);
+    background: var(--espresso);
     border-radius: 4px;
     overflow: hidden;
     margin: 14px 0 18px;
-    background: #FFFFFF;
   }
   .cmd-label {
+    display: block;
     font-family: 'Montserrat', sans-serif;
     font-size: 9.5px;
     font-weight: 600;
-    letter-spacing: 2.5px;
+    letter-spacing: 2.2px;
     text-transform: uppercase;
-    padding: 9px 18px;
-    background: var(--honey);
-    color: var(--cacao);
+    padding: 16px 22px 0;
+    color: var(--honey);
   }
-  .cmd-label.sky { background: var(--sky-deep); color: var(--pearl); }
+  .cmd-label.sky { color: var(--sky); }
   .cmd {
-    background: var(--pearl-deep);
-    padding: 16px 20px;
-    font-family: 'SF Mono', Menlo, Consolas, monospace;
-    font-size: 12.5px;
+    padding: 12px 22px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
     line-height: 1.7;
-    color: var(--cacao);
+    color: #ECE4D4;
     overflow-x: auto;
     white-space: pre-wrap;
     word-break: break-word;
@@ -469,12 +467,17 @@
   <strong>What you're installing</strong>
   <p>A "skill" is a small set of files that lives on your computer. Claude Code reads it automatically and learns the multiplier: you hand it ONE idea or finished piece and it makes the rest. Ask for a reel and you get the full Instagram package: the reel script you film, a companion carousel or quote post rendered as finished PNG images in YOUR brand colors, and a comment reply pack written ready to paste. Hand it a finished piece and it fans out into email, essay, carousel, caption, and stories. Every output runs through your content engine's critic before you see it, so everything still sounds like you and still holds the sales structure.</p>
   <p>New in version 2: the first time you run it, Claude interviews you about your posting cadence and your brand palette. Both get saved, and every run after that ends with a posting map built for your actual week.</p>
-  <p>Everything you need to copy is in a gold-labeled box. Copy the whole box, nothing else.</p>
+  <p>Everything you need to copy is in a black box, same as the other guides. Copy the whole box, nothing else.</p>
 </div>
 
 <div class="callout honey">
   <strong>This one has a prerequisite</strong>
   <p>The multiplier runs ON TOP of the Content Engine. It uses your voice spec, your persuasion spec, and your critic. If you haven't built your engine yet, do the <a href="Content%20Engine%20Guide.html">Content Engine Guide</a> first, then come back here. The skill will check and stop you if the engine isn't there.</p>
+</div>
+
+<div class="callout">
+  <strong>Already installed the multiplier before?</strong>
+  <p>You don't need the five steps again. Skip straight to <a href="#update">section 08, the one-paste update</a>. One box, one paste, and you're on the current version with everything you've set up untouched.</p>
 </div>
 
 <!-- TOC -->
@@ -524,7 +527,7 @@
     <span class="phase-badge">Step 2</span>
     <span class="phase-title">Copy the box below and paste it into Claude Code</span>
   </div>
-  <p>Copy everything inside the gold-labeled box, the whole thing, exactly as written. Paste it into Claude Code and press enter. The skill is three files now (the instructions, the image renderer, and a reference file), and Claude will download all three and put them in the right place. If Claude asks permission to create the files or fetch the links, approve it.</p>
+  <p>Copy everything inside the black box, the whole thing, exactly as written. Paste it into Claude Code and press enter. The skill is three files now (the instructions, the image renderer, and a reference file), and Claude will download all three and put them in the right place. If Claude asks permission to create the files or fetch the links, approve it.</p>
 </div>
 
 <div class="cmd-card">
@@ -643,7 +646,7 @@ CTA: [where each piece points: your offer, a freebie, follow, or none]
 
 
 <!-- 08 -->
-<h2>08 / Already Installed? The One-Paste Update</h2>
+<h2 id="update">08 / Already Installed? The One-Paste Update</h2>
 
 <p class="lead">When the system improves, the master files on GitHub get updated, but your copy doesn't update itself. When you hear on a team call that the skill changed, updating takes one paste. You don't lose anything: your brand palette and your cadence live in your workspace, not in the skill folder, and updates never touch them.</p>
 
