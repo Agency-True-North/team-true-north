@@ -741,6 +741,7 @@ curl -fsSL "https://agency-true-north.github.io/team-true-north/skills/connect-m
   <tr><th>What you see</th><th>What's causing it</th><th>What to do</th></tr>
   <tr><td>Claude says it has no Meta tools after the restart</td><td>Window not reloaded, or the connector prompt was dismissed</td><td>Reload Window again. When the prompt about the meta-ads server appears, choose to use it.</td></tr>
   <tr><td>The connection times out the first time</td><td>The first start can be slow on some computers</td><td>Tell Claude "run the preflight again," then Reload Window. The second start is fast.</td></tr>
+  <tr><td>On a Mac, it keeps timing out days later</td><td>Your Claude folder is in iCloud Drive, which offloads files to save space</td><td>In Finder, right-click your Claude folder and choose <strong>Keep Downloaded</strong>. Claude checks for this during setup; this is the fix if it comes back.</td></tr>
   <tr><td>"Meta rejected the App ID / App Secret pair"</td><td>One of them copied wrong</td><td>App settings &rarr; Basic. Re-copy both; click Show on the secret first.</td></tr>
   <tr><td>"Token is missing ads_management or ads_read"</td><td>Permissions not ticked when the key was generated</td><td>Generate the token again with all five permissions ticked.</td></tr>
   <tr><td>"No ad account is attached"</td><td>The Claude system user never got your ad account</td><td>Business Settings &rarr; System users &rarr; Claude &rarr; Assign assets &rarr; Ad accounts &rarr; tick yours, full control. No new key needed.</td></tr>

@@ -96,6 +96,14 @@ py -3 -m venv .claude/mcp-servers/ghl/.venv
 
 From here on, "the server's Python" means `.claude/mcp-servers/ghl/.venv/bin/python` on Mac or `.claude/mcp-servers/ghl/.venv/Scripts/python.exe` on Windows. Always use it for the scripts below, never plain `python3`.
 
+**Mac only: the iCloud check.** If their Claude folder sits inside Documents or Desktop and that folder is synced by iCloud Drive, macOS quietly removes the connector's files from the Mac to save space and re-downloads each one on first touch. That makes the server too slow to start and Claude Code gives up on it. Run this exact check:
+
+```
+for d in ~/Documents ~/Desktop; do case "$(pwd)/" in "$d"/*) xattr -p com.apple.file-provider-domain-id "$d" >/dev/null 2>&1 && echo "ICLOUD: $d";; esac; done
+```
+
+If it prints an `ICLOUD:` line, first run `brctl download .claude/mcp-servers/ghl` to pull the files down now, then cue them: "Your Claude folder lives in iCloud Drive, which offloads files to save space. One click stops that for this folder: in Finder, find your Claude folder, right-click it, and choose **Keep Downloaded**. Tell me when it's done." If it prints nothing, move on without mentioning it.
+
 Tell them: "Connector installed. Nothing for you to do yet."
 
 ---
@@ -218,6 +226,7 @@ Done. Do not create extra files. Do not run anything else.
 | No `mcp__ghl__` tools after the restart | Window not reloaded, or the server prompt was dismissed | Reload Window again. When the prompt about the `ghl` server appears, choose to use it. If no prompt ever appears, run `claude mcp list` in the terminal (if that command exists) and read the status line for `ghl`. |
 | `claude mcp list` shows `ghl` failed to connect | The server crashed on start | Run the server by hand for 5 seconds: `<the server's Python> .claude/mcp-servers/ghl/main.py` and read the first error line. "No module named fastmcp" means Step 3's install did not finish; run the pip line again. |
 | Connection times out on the very first start | Cold start too slow for the 30 second limit | Run the preflight once (it warms the server), then Reload Window again. |
+| Connection keeps timing out on a Mac, days later | iCloud Drive offloaded the connector's files again | Run `brctl download .claude/mcp-servers/ghl`, then have them right-click the Claude folder in Finder and choose Keep Downloaded (Step 3's iCloud check). Reload Window. |
 | A duplicate `ghl` server from an earlier attempt | Someone ran `claude mcp add ghl` before | `claude mcp remove ghl -s user` then Reload Window. The project's `.mcp.json` is the only copy we want. |
 | `HTTP 401` on every tool | Token wrong, revoked, or agency-level | Re-create the Private Integration inside the sub-account and redo Step 6. |
 | `HTTP 403` on one tool only | That scope was not ticked | Settings → Private Integrations → Claude → edit scopes → tick everything → save. No new token needed. |

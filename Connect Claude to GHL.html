@@ -735,6 +735,7 @@ curl -fsSL "https://agency-true-north.github.io/team-true-north/skills/connect-g
   <tr><th>What you see</th><th>What's causing it</th><th>What to do</th></tr>
   <tr><td>Claude says it has no GHL tools after the restart</td><td>Window not reloaded, or the connector prompt was dismissed</td><td>Reload Window again. When the prompt about the ghl server appears, choose to use it.</td></tr>
   <tr><td>The connection times out the first time</td><td>The first start can be slow on some computers</td><td>Tell Claude "run the preflight again," then Reload Window. The second start is fast.</td></tr>
+  <tr><td>On a Mac, it keeps timing out days later</td><td>Your Claude folder is in iCloud Drive, which offloads files to save space</td><td>In Finder, right-click your Claude folder and choose <strong>Keep Downloaded</strong>. Claude checks for this during setup; this is the fix if it comes back.</td></tr>
   <tr><td>Every request fails with 401</td><td>Token copied wrong, or created at the agency level</td><td>Create a fresh Private Integration inside the sub-account and paste it into the file again.</td></tr>
   <tr><td>One kind of request fails with 403</td><td>That permission was not ticked</td><td>Settings &rarr; Private Integrations &rarr; Claude &rarr; edit the scopes &rarr; tick everything. No new token needed.</td></tr>
   <tr><td>Claude sees someone else's contacts</td><td>Location ID copied from the wrong sub-account</td><td>Tell Claude "my Location ID is wrong." It redoes that step with you.</td></tr>

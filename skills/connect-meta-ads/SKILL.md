@@ -103,6 +103,14 @@ py -3 -m venv .claude/mcp-servers/meta-ads/.venv
 
 From here on, "the server's Python" means `.claude/mcp-servers/meta-ads/.venv/bin/python` on Mac or `.claude/mcp-servers/meta-ads/.venv/Scripts/python.exe` on Windows. Always use it for the scripts below.
 
+**Mac only: the iCloud check.** If their Claude folder sits inside Documents or Desktop and that folder is synced by iCloud Drive, macOS quietly removes the connector's files from the Mac to save space and re-downloads each one on first touch. That makes the server too slow to start and Claude Code gives up on it. Run this exact check:
+
+```
+for d in ~/Documents ~/Desktop; do case "$(pwd)/" in "$d"/*) xattr -p com.apple.file-provider-domain-id "$d" >/dev/null 2>&1 && echo "ICLOUD: $d";; esac; done
+```
+
+If it prints an `ICLOUD:` line, first run `brctl download .claude/mcp-servers/meta-ads` to pull the files down now, then cue them: "Your Claude folder lives in iCloud Drive, which offloads files to save space. One click stops that for this folder: in Finder, find your Claude folder, right-click it, and choose **Keep Downloaded**. Tell me when it's done." If it prints nothing, move on without mentioning it.
+
 ### STEP 3b: Register the connector (with blanks)
 
 ```
@@ -247,6 +255,7 @@ Path A tokens do not die. A Path B token dies after a password change or two mon
 |---|---|---|
 | No `mcp__meta-ads__` tools after the restart | Window not reloaded, or the server prompt was dismissed | Reload Window again and choose to use the `meta-ads` server when prompted. If no prompt appears, run `claude mcp list` (if that command exists) and read the status for `meta-ads`. |
 | `claude mcp list` says `meta-ads` failed to connect | Crashed on start, or cold start too slow | Run the preflight once (it warms the server and shows any error), then Reload Window again. "No module named fastmcp" means Step 3's install did not finish; run the pip line again. |
+| Connection keeps timing out on a Mac, days later | iCloud Drive offloaded the connector's files again | Run `brctl download .claude/mcp-servers/meta-ads`, then have them right-click the Claude folder in Finder and choose Keep Downloaded (Step 3's iCloud check). Reload Window. |
 | Preflight: "Meta rejected the App ID / App Secret pair" | One of them copied wrong | App settings → Basic. Re-copy both. The secret needs Show clicked first. |
 | Preflight: token missing ads_management or ads_read | Permissions not ticked when generating | Generate the token again with all five ticked (Path A step 8). |
 | Preflight: "no ad account is attached" | System user never got the ad account assigned | Path A step 5. Then run preflight again; no new token needed. |
