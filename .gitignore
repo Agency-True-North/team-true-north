@@ -1,0 +1,5 @@
+
+# Connector server folders: never commit tokens, venvs, or caches
+mcp/*/.token.json
+mcp/*/.venv/
+mcp/*/__pycache__/

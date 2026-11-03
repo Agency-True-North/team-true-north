@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect Claude to Meta Ads / Team True North</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --pearl: #FAF8F5;
+    --pearl-deep: #F2EDE5;
+    --pearl-warm: #ECE4D4;
+    --cacao: #2E1B14;
+    --cacao-soft: #4A3329;
+    --cacao-muted: #7A6359;
+    --espresso: #180D00;
+    --sky: #ABCDDD;
+    --sky-light: #DCE9F0;
+    --sky-deep: #7FA8BD;
+    --honey: #CEA435;
+    --honey-light: #F2E5BE;
+    --honey-deep: #A8851F;
+    --rule: #DDD2BF;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cacao);
+    background: var(--pearl);
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 64px 80px;
+  }
+
+  @media print {
+    body { padding: 36px; font-size: 13px; background: #fff; }
+    .no-print { display: none; }
+    h2 { page-break-before: always; }
+    .cover, h2:first-of-type { page-break-before: avoid; }
+    .step, .callout, .phase, .os-block { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 700px) {
+    body { padding: 24px 18px 60px; }
+    .cover { padding: 24px 0 16px; margin-bottom: 16px; }
+    .cover .eyebrow { font-size: 10px; letter-spacing: 3px; margin-bottom: 18px; }
+    .cover h1 { font-size: 36px; line-height: 1.1; margin-bottom: 16px; }
+    .cover .version { font-size: 9px; letter-spacing: 2.5px; margin-bottom: 18px; }
+    .cover .subtitle { font-size: 17px; margin-bottom: 18px; line-height: 1.45; }
+    .toc { padding: 22px; margin-bottom: 36px; }
+    .toc ol { columns: 1; }
+    h2 { font-size: 10px; letter-spacing: 3px; margin: 36px 0 14px; }
+    h3 { font-size: 22px; margin: 22px 0 8px; }
+    .step { gap: 12px; margin-bottom: 16px; }
+    .step-num { width: 32px; height: 32px; font-size: 13px; }
+    .callout { padding: 14px 16px; margin: 16px 0; }
+    .code-block { padding: 14px 16px; font-size: 11px; }
+    .os-tabs { flex-direction: column; gap: 0; }
+    table { font-size: 14px; }
+    th, td { padding: 10px 12px; }
+  }
+
+  /* COVER */
+  .cover {
+    text-align: center;
+    padding: 44px 0 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .cover::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: var(--sky-deep);
+    margin: 16px auto 0;
+  }
+  .cover .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 58px;
+    font-weight: 400;
+    color: var(--cacao);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .cover .version {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--honey-deep);
+    border: 1px solid var(--honey-deep);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .byline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cacao-soft);
+    margin-bottom: 22px;
+    font-weight: 500;
+  }
+  .cover .subtitle {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    color: var(--cacao-soft);
+    margin-bottom: 24px;
+    font-style: italic;
+    font-weight: 300;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  .cover .pills {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .pill {
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .pill.sky { background: var(--sky-deep); }
+  .pill.honey { background: var(--honey); color: var(--cacao); }
+
+  /* TOC */
+  .toc {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 36px;
+    margin: 0 0 48px;
+    position: relative;
+  }
+  .toc::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    width: 60px;
+    height: 3px;
+    background: var(--sky);
+  }
+  .toc h3 {
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--sky-deep);
+    text-transform: uppercase;
+    letter-spacing: 3.5px;
+    font-weight: 600;
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .toc li {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    color: var(--cacao);
+    margin-bottom: 6px;
+    line-height: 1.4;
+    display: flex;
+    gap: 14px;
+    break-inside: avoid;
+  }
+  .toc li .num {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--honey-deep);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    min-width: 26px;
+    padding-top: 3px;
+  }
+
+  /* TYPOGRAPHY */
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin: 48px 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+  }
+  h3 {
+    font-family: 'Forum', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--cacao);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+  h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cacao);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 18px 0 8px;
+  }
+  p {
+    margin-bottom: 12px;
+    color: var(--cacao);
+    font-size: 16px;
+  }
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li {
+    margin-bottom: 6px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cacao);
+  }
+  strong { color: var(--cacao); font-weight: 600; }
+  em { color: var(--cacao-soft); font-style: italic; }
+  a { color: var(--sky-deep); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    background: var(--pearl-deep);
+    padding: 2px 8px;
+    border-radius: 3px;
+    color: var(--honey-deep);
+    font-weight: 500;
+  }
+
+  /* LEAD */
+  .lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cacao);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 22px;
+    padding-left: 22px;
+    border-left: 2px solid var(--sky);
+  }
+
+  /* STEPS */
+  .steps { margin: 18px 0; }
+  .step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--cacao);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .step-num.sky { background: var(--sky-deep); }
+  .step-num.honey { background: var(--honey); color: var(--cacao); }
+  .step-body { flex: 1; }
+  .step-body h4 { margin-top: 0; margin-bottom: 6px; }
+  .step-body p { margin-bottom: 8px; font-size: 15px; }
+  .step-body .action {
+    background: var(--sky-light);
+    border-left: 2px solid var(--sky-deep);
+    padding: 12px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12.5px;
+    color: var(--cacao-soft);
+    border-radius: 0 4px 4px 0;
+    margin-top: 10px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .step-body .action strong {
+    display: block;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--sky-deep);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 2px solid var(--sky-deep);
+    background: var(--sky-light);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.honey {
+    border-left-color: var(--honey-deep);
+    background: var(--honey-light);
+  }
+  .callout.cacao {
+    border-left-color: var(--cacao);
+    background: var(--pearl-deep);
+  }
+  .callout > strong:first-child {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sky-deep);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .callout.honey > strong:first-child { color: var(--honey-deep); }
+  .callout.cacao > strong:first-child { color: var(--cacao); }
+  .callout p { margin: 0; font-size: 15px; line-height: 1.65; font-family: 'Cormorant Garamond', serif; }
+  .callout p + p { margin-top: 10px; }
+  .callout ul { margin: 8px 0 0; padding-left: 22px; }
+  .callout li { font-size: 14px; margin-bottom: 4px; }
+
+  /* PHASE BLOCKS */
+  .phase {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    background: #FFFFFF;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .phase-badge {
+    background: var(--sky-deep);
+    color: var(--pearl);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 13px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .phase-badge.honey { background: var(--honey); color: var(--cacao); }
+  .phase-badge.cacao { background: var(--cacao); color: var(--pearl); }
+  .phase-title {
+    font-family: 'Forum', serif;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--cacao);
+    letter-spacing: 0.3px;
+  }
+  .phase p { font-size: 15px; color: var(--cacao-soft); margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; }
+  .phase ul, .phase ol { margin: 0; }
+  .phase li { font-size: 15px; }
+
+  /* OS BLOCKS */
+  .os-tabs {
+    display: flex;
+    gap: 16px;
+    margin: 18px 0;
+    align-items: stretch;
+  }
+  .os-block {
+    flex: 1;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #FFFFFF;
+  }
+  .os-block-header {
+    padding: 10px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .os-block-header.mac { background: var(--cacao); color: var(--pearl); }
+  .os-block-header.pc { background: var(--sky-deep); color: var(--pearl); }
+  .os-block-body { padding: 16px 18px; }
+  .os-block-body ol { margin: 0; padding-left: 20px; }
+  .os-block-body li { font-size: 14px; margin-bottom: 7px; line-height: 1.6; }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--espresso);
+    color: #ECE4D4;
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .code-block .label {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: var(--honey);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .code-block .comment { color: #8B7E70; font-style: italic; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 22px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+  }
+  th {
+    background: var(--cacao);
+    color: var(--pearl);
+    padding: 13px 18px;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.6;
+    background: #FFFFFF;
+  }
+  tr:nth-child(even) td { background: var(--pearl-deep); }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--rule); margin: 36px 0; }
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--sky-deep);
+    font-family: 'Forum', serif;
+    font-size: 22px;
+    letter-spacing: 14px;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .footer-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cacao-muted);
+    margin-top: 10px;
+  }
+  .footer-meta strong { color: var(--sky-deep); font-weight: 600; }
+
+  /* COPY BUTTON */
+  .code-block { position: relative; }
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--honey);
+    color: var(--cacao);
+    border: none;
+    border-radius: 100px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { background: var(--honey-light); }
+  @media print { .copy-btn { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Team Training Guide</div>
+  <h1>Connect Claude<br>to Meta Ads</h1>
+  <div class="version">Version 1.0</div>
+  <div class="byline">Team True North</div>
+  <div class="subtitle">Give your Claude a direct line into your own Meta ad account. You paste one box. Claude installs the connector, walks you through Meta's screens one click at a time, and tests it with you.</div>
+  <div class="pills">
+    <span class="pill sky">Claude Code</span>
+    <span class="pill honey">Meta Ads</span>
+    <span class="pill">About 25 Minutes</span>
+  </div>
+</div>
+
+<!-- OPENING CALLOUT -->
+<div class="callout cacao">
+  <strong>Read this first</strong>
+  <p>This guide is not for you to follow. It is for Claude to follow. Your part is pasting one box, then clicking through three short things inside Meta while Claude tells you what each click is for. Meta's screens are the slow part, which is exactly why Claude is driving.</p>
+  <p>It connects <em>your</em> Claude to <em>your</em> ad account with a key you create and own. Nothing is shared with the team or with Shannon. Works with whichever Claude model you have selected; Opus is the better pick if your plan offers it.</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>What's Inside</h3>
+  <ol>
+    <li><span class="num">01</span> What this gives you</li>
+    <li><span class="num">02</span> Before you start</li>
+    <li><span class="num">03</span> The one thing you paste</li>
+    <li><span class="num">04</span> What Claude will ask you for</li>
+    <li><span class="num">05</span> The restart</li>
+    <li><span class="num">06</span> What to ask Claude now</li>
+    <li><span class="num">07</span> Rules that keep your ad account safe</li>
+    <li><span class="num">08</span> Troubleshooting</li>
+  </ol>
+</div>
+
+<h2>01 / What This Gives You</h2>
+
+<p class="lead">Ads Manager was built for agencies with a full-time person staring at it. You have twenty minutes between dinner and bedtime. After this, you ask Claude how the ads did and it reads the numbers for you.</p>
+
+<p>Spend, leads, cost per lead, which ad set is winning and which one is quietly eating the budget. Claude pulls it live from your account and tells you in plain words. When you are ready to build, it drafts the copy in your voice and walks you through the launch step by step, inside your existing campaign where Meta has already learned who to show it to.</p>
+
+<p>Under the hood, this installs a small connector on your computer, the same one Shannon runs. It renews its own key, retries when Meta is being Meta, and translates Meta's error codes into sentences a human can act on.</p>
+
+<h2>02 / Before You Start</h2>
+
+<p>Three things, then you are ready.</p>
+
+<div class="steps">
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <h4>Your Claude workspace is set up</h4>
+    <p>You finished the <a href="Claude%20Setup%20Guide.html">Claude Setup Guide</a>, so you have a Claude folder open in VS Code with a CLAUDE.md file in it. If not, do that first.</p>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <h4>Your ad account lives inside a Meta Business Portfolio</h4>
+    <p>That is the business.facebook.com side of Meta, with your ad account and your page inside it. The <a href="Meta%20Ads%20Setup%20Guide.html">Meta Ads Setup Guide</a> builds it in sections 02 and 03. Claude asks about this first and sends you there if you need it.</p>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <h4>Twenty-five uninterrupted minutes and your Facebook password</h4>
+    <p>Meta asks for your password at two points along the way. Have it handy. Claude waits for you at every click, but Meta logs you out if you wander off too long.</p>
+  </div>
+</div>
+</div>
+
+<h2>03 / The One Thing You Paste</h2>
+
+<p>Click the Claude icon in the VS Code sidebar, start a new conversation, and paste this whole box. That is your entire install.</p>
+
+<div class="code-block"><span class="label">Paste this into Claude (use the Copy button)</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>Connect my Claude to my own Meta ad account. Follow these steps exactly.
+
+1. Download my team's connection runbook by running this command:
+
+curl -fsSL "https://agency-true-north.github.io/team-true-north/skills/connect-meta-ads/SKILL.md" --create-dirs -o ".claude/skills/connect-meta-ads/SKILL.md"
+
+2. Read the file .claude/skills/connect-meta-ads/SKILL.md and follow it exactly, step by step, starting now. The rules at the top of that file apply to this whole conversation.</div>
+
+<div class="callout">
+  <strong>Claude will ask your permission as it works</strong>
+  <p>When Claude downloads a file or runs a command, a small prompt asks you to allow it. Click Yes or Allow. That is the approval system doing its job.</p>
+</div>
+
+<div class="callout honey">
+  <strong>Closed the laptop halfway through?</strong>
+  <p>Paste the same box again in a new conversation. Claude checks what is already done and picks up at the next step. Already connected GHL? This adds alongside it without touching that connection.</p>
+</div>
+
+<h2>04 / What Claude Will Ask You For</h2>
+
+<p>Three things live inside Meta that only you can do. Claude cues each one when it is time, one click per message, and explains what each one is for. This section is here so none of it surprises you.</p>
+
+<div class="steps">
+<div class="step">
+  <div class="step-num sky">1</div>
+  <div class="step-body">
+    <h4>Create a private Meta app</h4>
+    <p>Meta only lets software into an ad account through something it calls an app. Yours is private, just a door with your name on it. Nobody else ever sees it, and it never needs to be published or reviewed.</p>
+    <div class="action"><strong>The clicks Claude will walk you through</strong>developers.facebook.com &rarr; My Apps &rarr; Create App &rarr; choose the option about Marketing API or managing ads &rarr; name it Claude Ads &rarr; pick your Business Portfolio &rarr; Create app.</div>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num sky">2</div>
+  <div class="step-body">
+    <h4>Copy the App ID and App Secret</h4>
+    <p>Both sit on one screen: App settings &rarr; Basic. The App ID is a long number and is not secret; you paste it into the chat. The App Secret is hidden behind a Show button and is secret; it goes into a file, never the chat.</p>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num sky">3</div>
+  <div class="step-body">
+    <h4>Generate a key that never expires</h4>
+    <p>In Business Settings you add a "system user" named Claude, give it your app, your ad account, and your page, and generate a token set to Never expire. One time, and you never think about it again.</p>
+    <div class="action"><strong>The clicks Claude will walk you through</strong>business.facebook.com/settings &rarr; Users &rarr; System users &rarr; Add &rarr; name Claude, role Admin &rarr; Assign assets (app, ad account, page) &rarr; Generate new token &rarr; app Claude Ads &rarr; expiration Never &rarr; tick ads_management, ads_read, business_management, pages_show_list, pages_read_engagement &rarr; Generate.</div>
+  </div>
+</div>
+</div>
+
+<div class="callout honey">
+  <strong>Secrets go into a file, never into the chat</strong>
+  <p>Claude has already made a file in your Claude folder called <code>.mcp.json</code> with blank spots labeled PASTE_YOUR_APP_SECRET_HERE and PASTE_YOUR_ACCESS_TOKEN_HERE. You click that file in VS Code, paste over those words (keep the quote marks on both sides), and save. Claude checks the blanks are filled without ever reading them out loud. That file stays on your computer and is kept out of any backups.</p>
+</div>
+
+<div class="callout">
+  <strong>If Meta won't offer "Never"</strong>
+  <p>Some portfolios have to be verified before Meta allows a never-expiring key. Claude switches you to the backup route: a personal key from Meta's Graph API Explorer. The connector trades it for a two-month key and renews it every week while you use it. The only things that kill it are a Facebook password change or two months of not using it, and renewing takes two minutes with Claude.</p>
+</div>
+
+<h2>05 / The Restart</h2>
+
+<p>Before the restart, Claude runs a check that proves your key is valid, has the ad permissions, and can see your ad account by name. Only after that passes does it ask you to do this:</p>
+
+<div class="steps">
+<div class="step">
+  <div class="step-num honey">1</div>
+  <div class="step-body">
+    <h4>Reload the window</h4>
+    <p>Press Cmd+Shift+P on Mac or Ctrl+Shift+P on Windows, type <strong>Reload Window</strong>, press Enter.</p>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num honey">2</div>
+  <div class="step-body">
+    <h4>Approve the connector</h4>
+    <p>Open the Claude panel. A small prompt may say a new MCP server named <strong>meta-ads</strong> was found in this project. Choose the option that uses it.</p>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num honey">3</div>
+  <div class="step-body">
+    <h4>Paste the box once more</h4>
+    <p>Start a new conversation and paste the Section 03 box again. Claude sees the setup is finished, runs the live test, and tells you the name of the ad account it is connected to.</p>
+  </div>
+</div>
+</div>
+
+<h2>06 / What to Ask Claude Now</h2>
+
+<p>Talk to it like the ads person you never hired. A few starters:</p>
+
+<div class="code-block"><span class="label">The weekly read</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>How did my ads do in the last 7 days? Spend, leads, cost per lead, and which ad set is winning. Change nothing, just tell me.</div>
+
+<div class="code-block"><span class="label">Where the money is going</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>Which of my ads is spending the most for the fewest leads? Should I turn it off? Give me your recommendation and wait for my yes.</div>
+
+<div class="code-block"><span class="label">New copy for the winner</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>Read my best-performing ad, then write three new versions of the primary text in my voice. Open each one by naming exactly who it's for.</div>
+
+<div class="code-block"><span class="label">Launch with a guide</span><button class="copy-btn" onclick="copyBlock(this)">Copy</button>I want to test a new audience. Walk me through adding an ad set inside my existing campaign, with its own budget, one step at a time. Confirm every setting with me before you create anything.</div>
+
+<h2>07 / Rules That Keep Your Ad Account Safe</h2>
+
+<p>This connection can spend real money. Claude follows these, and you should hold it to them.</p>
+
+<div class="phase">
+  <div class="phase-header"><span class="phase-badge">Rule 1</span><span class="phase-title">Reading is free. Changing needs a yes.</span></div>
+  <p>Claude never creates, edits, pauses, launches, or changes a budget unless you say yes to that exact action in that conversation. Before it touches a budget it says the dollar amount back to you.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header"><span class="phase-badge honey">Rule 2</span><span class="phase-title">One campaign. New ad sets inside it.</span></div>
+  <p>Meta learns who to show your ads to inside a campaign. Starting a new campaign for every test throws that learning away. Claude adds ad sets to the campaign you already have, each with its own budget, so a new test never starves the one that is working.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header"><span class="phase-badge cacao">Rule 3</span><span class="phase-title">The key is yours. Treat it like a password.</span></div>
+  <p>It lives in one file on your computer and nowhere else. If you ever think it leaked, go to Business Settings, open the Claude system user, and revoke the token. Then paste the box again and Claude helps you make a new one.</p>
+</div>
+
+<h2>08 / Troubleshooting</h2>
+
+<p>Claude has this same table and will work through it with you. Check here before assuming anything is broken.</p>
+
+<table>
+  <tr><th>What you see</th><th>What's causing it</th><th>What to do</th></tr>
+  <tr><td>Claude says it has no Meta tools after the restart</td><td>Window not reloaded, or the connector prompt was dismissed</td><td>Reload Window again. When the prompt about the meta-ads server appears, choose to use it.</td></tr>
+  <tr><td>The connection times out the first time</td><td>The first start can be slow on some computers</td><td>Tell Claude "run the preflight again," then Reload Window. The second start is fast.</td></tr>
+  <tr><td>"Meta rejected the App ID / App Secret pair"</td><td>One of them copied wrong</td><td>App settings &rarr; Basic. Re-copy both; click Show on the secret first.</td></tr>
+  <tr><td>"Token is missing ads_management or ads_read"</td><td>Permissions not ticked when the key was generated</td><td>Generate the token again with all five permissions ticked.</td></tr>
+  <tr><td>"No ad account is attached"</td><td>The Claude system user never got your ad account</td><td>Business Settings &rarr; System users &rarr; Claude &rarr; Assign assets &rarr; Ad accounts &rarr; tick yours, full control. No new key needed.</td></tr>
+  <tr><td>Your ad account shows "disabled"</td><td>Meta restricted the ad account itself</td><td>Not a connection problem. Open Ads Manager and follow Meta's notice, usually payment or policy.</td></tr>
+  <tr><td>"AUTH FAILED (code 190)" weeks later</td><td>A backup-route key died (password change or two months unused)</td><td>Tell Claude "my Meta key expired." It walks you through a new one in two minutes.</td></tr>
+  <tr><td>The download step fails</td><td>A hiccup reaching the team site</td><td>Tell Claude: "Try the downloads again, and if they still fail, use raw.githubusercontent.com/Agency-True-North/team-true-north/main/ instead of the team site address."</td></tr>
+</table>
+
+<div class="callout">
+  <strong>Still stuck after two tries</strong>
+  <p>Send Shannon a screenshot of what Claude last said and what your Meta screen shows. One message with both beats five messages with neither.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-meta">Team True North &nbsp;&middot;&nbsp; <strong>Connect Claude to Meta Ads</strong> &nbsp;&middot;&nbsp; Version 1.0 &nbsp;&middot;&nbsp; November 2026</div>
+</div>
+
+<script>
+function copyBlock(btn) {
+  var clone = btn.parentElement.cloneNode(true);
+  var strip = clone.querySelectorAll('.label, .copy-btn');
+  for (var i = 0; i < strip.length; i++) strip[i].remove();
+  navigator.clipboard.writeText(clone.textContent.trim()).then(function () {
+    btn.textContent = 'Copied ✓';
+    setTimeout(function () { btn.textContent = 'Copy'; }, 1600);
+  });
+}
+</script>
+
+</body>
+</html>
