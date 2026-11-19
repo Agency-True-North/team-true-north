@@ -483,6 +483,8 @@
     <li><span class="num">06</span> Step 5 — Run setup, then your first DM</li>
     <li><span class="num">07</span> If something goes wrong</li>
     <li><span class="num">08</span> Updating the skill later</li>
+    <li><span class="num">09</span> Use it on your phone</li>
+    <li><span class="num">10</span> Coaching a teammate's thread</li>
   </ol>
 </div>
 
@@ -615,6 +617,82 @@ Her: [her latest message]</div>
 <h2>08 / Updating the Skill Later</h2>
 
 <p class="lead">When the system improves, the master file on GitHub gets updated — but your copy doesn't update itself. When you hear on a team call that the skill changed, just run Step 2 again. Same message, same box. It overwrites the old version and you're current.</p>
+
+<!-- 09 -->
+<h2>09 / Use It on Your Phone</h2>
+
+<p class="lead">DMs happen on your phone, so the skill should live there too. Claude Code's skills are files on your computer and don't travel. The Claude app's Projects do: anything you set up in a Project on your desktop shows up in the Claude app on your phone a minute later. This takes about ten minutes, once.</p>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Phone 1</span>
+    <span class="phase-title">Download the phone version of the skill</span>
+  </div>
+  <p>It is the same skill, rewritten so the profile is a Project file and the logs live in Claude Docs instead of folders on your Mac. Open the link below, then save the page as a file named <strong>DM Messenger - Claude App Version.md</strong> somewhere you can find it (File, Save As, or right-click and Save). Or paste the box below into Claude Code and let it download the file for you.</p>
+</div>
+
+<div class="cmd-card">
+  <div class="cmd-label">Copy and paste this into Claude Code</div>
+  <div class="cmd">Download https://raw.githubusercontent.com/Agency-True-North/team-true-north/main/skills/dm-messenger/CLAUDE-APP-VERSION.md and save it to my Desktop as "DM Messenger - Claude App Version.md". Don't rewrite it. Tell me when it's there.</div>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Phone 2</span>
+    <span class="phase-title">Make the Project in the Claude app (chat side, not Code)</span>
+  </div>
+  <p>Open the Claude desktop app, the one where you normally talk to Claude. In the left sidebar click <strong>Projects</strong>, then <strong>New project</strong>. Name it <strong>DM Messenger</strong>. Open it. On the right side you'll see Instructions, Context, and Memory.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Phone 3</span>
+    <span class="phase-title">Instructions: click Add, paste this one line, save</span>
+  </div>
+</div>
+
+<div class="cmd-card">
+  <div class="cmd-label">Paste into the Project's Instructions</div>
+  <div class="cmd">Follow the file "DM Messenger - Claude App Version.md" in this project for every message. Run its setup interview if there is no profile.md in the project files yet.</div>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Phone 4</span>
+    <span class="phase-title">Context: click Add, upload two files</span>
+  </div>
+  <p>Context is where files go. Upload <strong>DM Messenger - Claude App Version.md</strong> (the file from Phone 1). Then upload your ICP file if you have one, for example the dossier from the ICP Builder skill. Setup reads it and skips every question the file already answers. No ICP file is fine; setup builds the short version with you.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Phone 5</span>
+    <span class="phase-title">Run setup, then save the profile</span>
+  </div>
+  <p>In the Project's chat box type <strong>run setup</strong>. Answer one question at a time: your ads (or whether Meta is connected), your story, your class link, a few texts you've sent a friend. At the end Claude hands you the finished profile. Copy that text into a plain text file named <strong>profile.md</strong> and upload it under Context the same way. That's the last time you do this.</p>
+</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <span class="phase-badge">Phone 6</span>
+    <span class="phase-title">Check your phone</span>
+  </div>
+  <p>Open the Claude app on your phone and look under Projects for <strong>DM Messenger</strong>. If it's there, you're done. From now on: screenshot the DM, open the Project, drop the screenshot in, and ask "what do I say back?" You get the next message, text or voice note, and the reason.</p>
+</div>
+
+<div class="callout honey">
+  <strong>Two small things</strong>
+  <p>Memory on that panel means the Project remembers across chats on its own, so your profile and scoreboard get a second home there automatically. And check which model the Project is set to. Sonnet is fine to start. If the replies feel flat, switch to Opus. Reading people is the whole job and the bigger model does it better.</p>
+</div>
+
+<!-- 10 -->
+<h2>10 / Coaching a Teammate's Thread</h2>
+
+<p class="lead">If you lead a team, people will send you their DM threads and ask what to say. Their person is not your person, so the skill never uses your profile for someone else's thread.</p>
+
+<p>In Claude Code: say whose thread it is ("this is Heather's thread"). The first time it hears a new name it runs a two-minute mini setup for that person, or you can say "skip" and it works from the thread alone. The reply is written in her voice, taken from her side of the thread, and the output is labeled <strong>Coaching: Heather</strong> so the wrong voice never lands in the wrong DM.</p>
+
+<p>On your phone, the cleaner way is a second Project called <strong>DM Coach</strong>: same skill file under Context, same one-line instruction, and no profile.md. In that Project the skill always asks whose thread it is. Keep your own DM Messenger Project for your conversations.</p>
 
 <div class="callout cacao">
   <strong>The point of all this</strong>

@@ -82,6 +82,8 @@ Also create `dm-messenger/conversations/` for per-person logs and `dm-messenger/
 
 ## Every run after setup: the input
 
+If this is someone else's thread, say so first (see Coaching someone else's conversation).
+
 Accept any of these, in any mix:
 
 - **A pasted thread.** Her messages and yours. If it's unclear who said what, ask once.
@@ -181,6 +183,21 @@ Decide this every message and say why.
 - **Never:** "what's your biggest struggle," "are you open to," "I have an opportunity," "hey girl," the company or product name unless she asks for it straight out (then one line, see Direct questions), a number for the price in a DM, "spots," "only taking a few," two unanswered messages in a row.
 - **If she asks directly** about the company, MLM, or price, use the Direct questions section below. Short, honest, and she picks where it goes next.
 - **Never message first.** This skill is for people who messaged you. If asked to write a cold opener, decline and say why: the inbound-only promise is the integrity of this path.
+
+---
+
+## Coaching someone else's conversation (team leaders)
+
+If you lead a team, people will send you their threads and ask "what do I say back?" Their person is not your person and their story is not yours, so the skill never uses your profile for someone else's thread.
+
+How it works:
+- Say whose conversation it is. "This is Heather's thread" or "coaching Heather." The skill then uses `dm-messenger/profiles/heather.md` instead of your own `profile.md`.
+- First time for a new name, it runs a two-minute mini setup, one question at a time: her ICP in two sentences, her role and years, kids, her breaking point in one line, what she calls the class, voice notes yes or no. Or say "skip" and it works off the thread alone, flagging anything it had to guess.
+- Her texting voice comes from her side of the thread you pasted. The reply is written to sound like her, not you.
+- Logs go under her name in `dm-messenger/conversations/`, and the scoreboard keeps a column per person, so the review can say "Heather's conversations die at Phase 2, Kelly's at Phase 5" instead of mixing them.
+- The output adds one line at the top: **Coaching: Heather.** So you never paste the wrong voice into the wrong DM.
+
+With no name given and a `profile.md` present, the thread is yours.
 
 ---
 
