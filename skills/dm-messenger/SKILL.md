@@ -36,9 +36,13 @@ If a document exists, read it fully. Then ask only about what it is missing from
 
 ### Step 1b. The ads
 
-Ask: "Send me the ads these DMs come from. Screenshots of the statics, the copy, and the video script or a description if there's a video. All of them." Read every one. For each ad, write into the profile: the hook line, the emotion it leads with, what it promises or implies, and what someone would know about you after seeing it (usually one sentence, sometimes nothing).
+First ask: "Is your Meta ad account connected to Claude? If you did the Connect Claude to Meta Ads guide, it is." (The guide: https://agency-true-north.github.io/team-true-north/Connect%20Claude%20to%20Meta%20Ads.html)
 
-Why this matters: the ad is the first message of the conversation, and you didn't send it in the DM. If the static says "I took medical leave just to get a week with my kids," she's arriving mid-feeling and the opener should meet that feeling, not restart from zero. If there are several ads running, the skill asks once per new conversation which one she came from, or reads it from the thread if Instagram shows it. Each conversation gets logged with its ad so you learn which ad brings which kind of person.
+**If yes:** go get the ads yourself. Use the Meta tools (search the deferred tool list for them first; they do not appear until fetched) to pull every active ad and its creative: the image or video, the primary text, the headline, the CTA. Also pull the numbers: results, cost per result, messaging conversations started per ad, spend. Read every ad the way you'd read a DM. Confirm the list with her in one message ("I see these four running, is that all of them?") and skip the screenshot ask. Read-only, always. This skill never pauses, edits, launches, or changes a budget. If she asks it to, point her to the ads report she already uses.
+
+**If no:** ask: "Send me the ads these DMs come from. Screenshots of the statics, the copy, and the video script or a description if there's a video. All of them." Mention once that connecting Meta lets the skill see the ads and the numbers itself, with the guide link, and move on. Read every one. For each ad, write into the profile: the hook line, the emotion it leads with, what it promises or implies, and what someone would know about you after seeing it (usually one sentence, sometimes nothing).
+
+Why this matters: the ad is the first message of the conversation, and you didn't send it in the DM. If the static says "I took medical leave just to get a week with my kids," she's arriving mid-feeling and the opener should meet that feeling, not restart from zero. If there are several ads running, the skill asks once per new conversation which one she came from, or reads it from the thread if Instagram shows it. Each conversation gets logged with its ad so you learn which ad brings which kind of person. When Meta is connected, the review (see Learning) puts the ad numbers next to the DM numbers: an ad can be cheap per conversation and still bring people who die at Phase 2, and that is the ad's problem, not hers.
 
 When she adds or changes an ad later, she pastes it and says "new ad." Update the profile.
 
@@ -70,7 +74,7 @@ Then ask: "Do you send voice notes to people? Comfortable with them or not reall
 
 ### Step 5. Write the profile
 
-Save everything to `dm-messenger/profile.md` with these sections: ICP, The Ads, Story Card, Funnel Facts, Texting Voice, Voice Notes (yes/no). Show her the file and ask if anything's wrong. Fix it. Then say: "Setup's done. From now on, paste any DM and I'll give you the next message."
+Save everything to `dm-messenger/profile.md` with these sections: ICP, The Ads (and whether Meta is connected), Story Card, Funnel Facts, Texting Voice, Voice Notes (yes/no). Show her the file and ask if anything's wrong. Fix it. Then say: "Setup's done. From now on, paste any DM and I'll give you the next message."
 
 Also create `dm-messenger/conversations/` for per-person logs and `dm-messenger/patterns.md` for the running scoreboard (see Learning, below).
 
@@ -294,7 +298,7 @@ Every ten logged rows, or when she asks "what's working," read patterns.md and g
 - What has enough data to call, and the call. ("Text openers: 14 sent, 11 replied. That's solid. Keep it.")
 - What's too early to call, with the count. ("Voice at Phase 3: 4 sent, 1 replied. Need six more.")
 - Where conversations die most often, and one change to try there.
-- Which ad brings the people who get furthest, if there's enough data.
+- Which ad brings the people who get furthest, if there's enough data. When Meta is connected, pull fresh numbers first and show cost per conversation next to how far those conversations got.
 - One of her own lines that outperformed the skill's, if there is one. Suggest making it a saved reply.
 
 Explain each call in one or two sentences she could repeat to someone else. The goal is that she understands why, not that she takes the skill's word for it.
